@@ -1,0 +1,38 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- 왼쪽에 배치될 첫 번째 텍스트뷰 -->
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="113dp"
+        android:layout_height="93dp"
+        android:paddingBottom="4dp"
+        android:text='공모전 포스터'
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation='vertical'>
+
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='공모전 이름' />
+
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='마감 기한' />
+
+    </LinearLayout>
+</LinearLayout>
