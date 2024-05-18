@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_items"
+        android:name="com.example.amap_teamproject.ui.items.ItemFragment"
+        android:label="@string/title_items"
+        tools:layout="@layout/fragment_item_list" />
+
+    <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.amap_teamproject.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
