@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "564145474463",
+    "project_id": "amap-teamproject",
+    "storage_bucket": "amap-teamproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564145474463:android:9ab0719a08ef9b34c18baa",
+        "android_client_info": {
+          "package_name": "com.example.a24amapteamproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-IP2HnUwnKZ0dpOJcVJEx3_1JN6FKxZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564145474463:android:846b4a16e8f9047ac18baa",
+        "android_client_info": {
+          "package_name": "com.example.amap_teamproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-IP2HnUwnKZ0dpOJcVJEx3_1JN6FKxZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
