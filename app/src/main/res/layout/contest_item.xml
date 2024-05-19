@@ -1,38 +1,31 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- 왼쪽에 배치될 첫 번째 텍스트뷰 -->
     <TextView
-        android:id="@+id/title_text_view"
-        android:layout_width="113dp"
-        android:layout_height="93dp"
-        android:paddingBottom="4dp"
-        android:text='공모전 포스터'
+        android:id="@+id/contest_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:text="Contest Title" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/contest_organization"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation='vertical'>
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Contest Organization" />
 
-        <TextView
-            android:id="@+id/description_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text='공모전 이름' />
+    <TextView
+        android:id="@+id/contest_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:text="Contest Link" />
 
-        <TextView
-            android:id="@+id/date_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text='마감 기한' />
-
-    </LinearLayout>
 </LinearLayout>
