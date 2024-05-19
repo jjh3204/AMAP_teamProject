@@ -15,6 +15,7 @@ recyclerview = "1.3.0"
 googleServices = "4.4.1"
 firebaseFirestore = "25.0.0"
 firebaseDatabase = "21.0.0"
+googleGmsGoogleServices = "4.4.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,4 +36,5 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

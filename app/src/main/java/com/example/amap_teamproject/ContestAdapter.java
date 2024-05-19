@@ -1,5 +1,8 @@
 package com.example.amap_teamproject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +31,15 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
     @Override
     public void onBindViewHolder(@NonNull ContestViewHolder holder, int position) {
         Contest contest = contestList.get(position);
-        holder.titleTextView.setText(contest.title);
-        holder.descriptionTextView.setText(contest.description);
-        holder.dateTextView.setText(contest.date);
+        holder.titleTextView.setText(contest.getTitle());
+        holder.organizationTextView.setText(contest.getOrganization());
+        holder.linkTextView.setText(contest.getLink());
+
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(contest.getLink()));
+            context.startActivity(browserIntent);
+        });
     }
 
     @Override
@@ -38,16 +47,16 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
         return contestList.size();
     }
 
-    public static class ContestViewHolder extends RecyclerView.ViewHolder {
+    static class ContestViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
-        TextView descriptionTextView;
-        TextView dateTextView;
+        TextView organizationTextView;
+        TextView linkTextView;
 
-        public ContestViewHolder(View itemView) {
+        ContestViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.title_text_view);
-            descriptionTextView = itemView.findViewById(R.id.description_text_view);
-            dateTextView = itemView.findViewById(R.id.date_text_view);
+            titleTextView = itemView.findViewById(R.id.contest_title);
+            organizationTextView = itemView.findViewById(R.id.contest_organization);
+            linkTextView = itemView.findViewById(R.id.contest_link);
         }
     }
 }
