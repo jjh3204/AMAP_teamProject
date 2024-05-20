@@ -1,5 +1,5 @@
 package com.example.amap_teamproject.ui.items;
-
+// RecyclerView
 import android.content.Context;
 import android.os.Bundle;
 
