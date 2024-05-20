@@ -42,7 +42,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         contestList = new ArrayList<>();
-        contestAdapter = new ContestAdapter(contestList);
+        contestAdapter = new ContestAdapter(contestList, this);
         recyclerView.setAdapter(contestAdapter);
 
         searchEditText = findViewById(R.id.search_edit_text_again);

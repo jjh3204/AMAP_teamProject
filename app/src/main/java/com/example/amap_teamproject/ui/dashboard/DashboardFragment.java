@@ -9,12 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amap_teamproject.Contest;
+import com.example.amap_teamproject.ContestAdapter;
 import com.example.amap_teamproject.databinding.FragmentDashboardBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
+    private RecyclerView recyclerView;
+    private ContestAdapter contestAdapter;
+    private List<Contest> contestList;
+    private FirebaseFirestore db;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -26,7 +39,34 @@ public class DashboardFragment extends Fragment {
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        recyclerView = binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        contestList = new ArrayList<>();
+        contestAdapter = new ContestAdapter(contestList, getContext());
+        recyclerView.setAdapter(contestAdapter);
+
+        db = FirebaseFirestore.getInstance();
+        loadFavorites();
+
         return root;
+    }
+
+    private void loadFavorites() {
+        db.collection("favorites")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        contestList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Contest contest = document.toObject(Contest.class);
+                            contestList.add(contest);
+                        }
+                        contestAdapter.notifyDataSetChanged();
+                    } else {
+                        // Handle the error
+                    }
+                });
     }
 
     @Override
