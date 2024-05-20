@@ -1,5 +1,6 @@
 package com.example.a24amapteamproject;
 
+import android.content.Intent; // 변경된 부분: RegisterActivity로 이동을 위해 추가된 import 문
 import android.os.Bundle;
 //gpt로 추가한 코드
 import android.view.View;
@@ -53,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAccount(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                // RegisterActivity로 이동
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                // 변경된 부분: RegisterActivity로 이동하는 Intent
+                startActivity(intent); // 변경된 부분: RegisterActivity 시작
+                //createAccount(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                //회원가입 창을 만들면서 삭제한 코드
             }
         });
 

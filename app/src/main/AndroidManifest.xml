@@ -23,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 변경된 부분: RegisterActivity 추가 -->
+        <activity android:name=".RegisterActivity" android:exported="false">
+        </activity>
+        <!-- 변경된 부분 끝 -->
+
     </application>
 
 </manifest>
