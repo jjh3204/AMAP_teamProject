@@ -1,4 +1,4 @@
-package com.example.amap_teamproject;
+package com.example.amap_teamproject.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.amap_teamproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,15 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activiy_register);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
+        nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        // confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         registerButton = findViewById(R.id.registerButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -98,22 +99,24 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                    Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                    // 변경된 부분: RegisterActivity로 이동하는 Intent
                                                     startActivity(intent);
-                                                    finish(); // Close activity after successful registration
+                                                    finish();
+                                                }
+                                                else {
+                                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Profile update failed.";
+                                                    Log.e("RegisterActivity", "Profile Update Failed: " + errorMessage);
+                                                    Toast.makeText(RegisterActivity.this, "Profile Update Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
                             } // if(user != null) 부터 모두 추가된 부분이다.
-                            //Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_SHORT).show();
-                            //finish(); // Close activity after successful registration
                         } else {
-                            // If sign in fails, display a message to the user.
-                            String errorMessage = task.getException().getMessage();
+                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed.";
                             Log.e("RegisterActivity", "Registration Failed: " + errorMessage); // 추가된 부분: 로그 출력
-                            Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show(); // 추가된 부분: 오류 메시지 표시
-                            //Toast.makeText(RegisterActivity.this, "Registration Failed.", Toast.LENGTH_SHORT).show(); // 윗줄이랑 겹쳐서 해당 코드 삭제
+                            Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

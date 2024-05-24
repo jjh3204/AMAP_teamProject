@@ -25,11 +25,9 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.amap_teamproject.ui.notifications.NotificationsFragment"
+        android:name="com.example.amap_teamproject.ui.MyPage.MyPageFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_my_page" />
 
-    <fragment
-        android:id="@+id/navigation_career"
-        android:name="com.example.amap_teamproject."
+
 </navigation>

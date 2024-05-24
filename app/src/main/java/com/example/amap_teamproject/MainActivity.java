@@ -1,5 +1,6 @@
 package com.example.amap_teamproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +8,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import com.example.amap_teamproject.R; // 문유화가 추가한 코드
+
+import com.example.amap_teamproject.Login.RegisterActivity;
 
 import com.example.amap_teamproject.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
     }
+
 
     //private boolean showToolbar2(boolean show)
 

@@ -9,16 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.amap_teamproject.MainActivity;
 import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.SearchResultsActivity;
+import com.example.amap_teamproject.SearchPage.SearchResultsActivity;
 import com.example.amap_teamproject.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {

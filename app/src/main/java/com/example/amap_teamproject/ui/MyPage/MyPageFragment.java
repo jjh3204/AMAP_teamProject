@@ -1,4 +1,4 @@
-package com.example.amap_teamproject.ui.notifications;
+package com.example.amap_teamproject.ui.MyPage;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,22 +11,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.databinding.FragmentNotificationsBinding;
+import com.example.amap_teamproject.databinding.FragmentMyPageBinding;
 
-public class NotificationsFragment extends Fragment {
+public class MyPageFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentMyPageBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        MyPageViewModel myPageViewModel =
+                new ViewModelProvider(this).get(MyPageViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentMyPageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        myPageViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

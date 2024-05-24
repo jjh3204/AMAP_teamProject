@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.amap_teamproject.Contest;
-import com.example.amap_teamproject.ContestAdapter;
+import com.example.amap_teamproject.SearchPage.Contest;
+import com.example.amap_teamproject.SearchPage.ContestAdapter;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.FragmentDashboardBinding;
 import com.google.firebase.firestore.FirebaseFirestore;

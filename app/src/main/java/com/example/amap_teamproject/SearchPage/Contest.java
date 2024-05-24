@@ -1,4 +1,4 @@
-package com.example.amap_teamproject;
+package com.example.amap_teamproject.SearchPage;
 
 public class Contest {
     private String title;
