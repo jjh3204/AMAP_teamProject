@@ -32,7 +32,17 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailEditText, passwordEditText;
     private Button registerButton, loginButton;
+    private FirebaseUser currentUser;
 
+    protected void onStart(){
+        super.onStart();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            Intent it = new Intent(this, MainActivity.class);
+            startActivity(it);
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
