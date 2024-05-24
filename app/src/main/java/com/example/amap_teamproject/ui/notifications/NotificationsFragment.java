@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
@@ -27,6 +28,11 @@ public class NotificationsFragment extends Fragment {
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    public void onResume() {
+        super.onResume();
+        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("MY");
     }
 
     @Override

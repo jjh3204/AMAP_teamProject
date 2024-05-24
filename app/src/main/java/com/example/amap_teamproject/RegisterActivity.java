@@ -1,6 +1,6 @@
 package com.example.amap_teamproject;
-import com.example.amap_teamproject.RegisterActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.amap_teamproject.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,15 +28,15 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
+        // nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+        // confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         registerButton = findViewById(R.id.registerButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                    startActivity(intent);
                                                     finish(); // Close activity after successful registration
                                                 }
                                             }
