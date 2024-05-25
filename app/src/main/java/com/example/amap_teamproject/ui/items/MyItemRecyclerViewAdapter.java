@@ -52,7 +52,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mIdView = binding.itemNumber;
             mContentView = binding.content;
         }
-
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";

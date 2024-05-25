@@ -35,7 +35,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchPage.SearchResultsActivity" />
-        <activity android:name=".SearchPage.ContestDetailActivity" />
     </application>
 
 </manifest>
