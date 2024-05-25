@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Title"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/detail_organization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Organization"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/detail_award_scale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Award Scale"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_contest_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contest Field"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detail"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Homepage"
+        android:textSize="18sp"
+        android:autoLink="web"
+        android:paddingBottom="8dp"/>
+
+    <ImageView
+        android:id="@+id/detail_img_src"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_notice_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notice URL"
+        android:textSize="18sp"
+        android:autoLink="web"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participants"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_sub_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submission Period"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/detail_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timestamp"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+</LinearLayout>
