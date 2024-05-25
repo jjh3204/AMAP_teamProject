@@ -19,7 +19,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,6 +27,14 @@
         <activity android:name=".RegisterActivity" android:exported="false">
         </activity>
         <!-- 변경된 부분 끝 -->
+
+        <!-- 변경된 부분: ProfileActivity 추가 -->
+        <activity android:name=".ProfileActivity" android:exported="false">
+        </activity>
+        <!-- 변경된 부분 끝 -->
+
+        <activity android:name=".CareerManagementActivity">
+        </activity>
 
     </application>
 

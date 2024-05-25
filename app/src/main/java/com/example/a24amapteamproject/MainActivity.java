@@ -23,11 +23,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot; // 사용자 이름 출력
+import com.google.firebase.firestore.FirebaseFirestore; // 사용자 이름 출력
+
 
 public class MainActivity extends AppCompatActivity {
 
     //firebase 관련으로 gpt 추가 코드
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db; // Firestore 인스턴스 추가 , 사용자이름 출력
     private EditText emailEditText, passwordEditText;
     private Button registerButton, loginButton;
 
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance(); // Firestore 인스턴스 초기화 , 사용자이름추가
 
         //로그인 회원가입
         emailEditText = findViewById(R.id.emailEditText);
@@ -95,10 +100,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "Login Success.", Toast.LENGTH_SHORT).show();
-                            // Update UI with the signed-in user's information
+                            if (user != null) {
+                                db.collection("users").document(user.getUid()) // Firestore에서 사용자 정보 가져오기
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful() && task.getResult() != null) {
+                                                    String name = task.getResult().getString("name"); // Firestore에서 이름 가져오기
+                                                    Toast.makeText(MainActivity.this, "Login Success.", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                                    intent.putExtra("USER_NAME", name); // 변경된 부분: 이름 전달
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(MainActivity.this, "Failed to fetch user data.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Login Failed.", Toast.LENGTH_SHORT).show();

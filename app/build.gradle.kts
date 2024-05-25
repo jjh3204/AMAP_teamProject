@@ -49,6 +49,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.firebase:firebase-database:21.0.0") // 이 코드는 쓰지 않아도 된다고 한다
     implementation("com.google.android.gms:play-services-auth:21.1.1") // MainActivity.java 오류 해결
+    implementation ("com.google.firebase:firebase-firestore:25.0.0") // 마이페이지에 사용자 이름 표시
 
     /*implementation(libs.firebaseAnalytics) // 변경됨
     implementation(libs.firebaseAuth) // 변경됨
