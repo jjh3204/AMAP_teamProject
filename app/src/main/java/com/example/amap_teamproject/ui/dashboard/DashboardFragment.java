@@ -16,6 +16,8 @@ import com.example.amap_teamproject.SearchPage.Contest;
 import com.example.amap_teamproject.SearchPage.ContestAdapter;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.FragmentDashboardBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -54,7 +56,17 @@ public class DashboardFragment extends Fragment {
     }
 
     private void loadFavorites() {
-        db.collection("favorites")
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            // 사용자 인증이 되어 있지 않으면 처리
+            // 예: 로그인 화면으로 이동 또는 오류 메시지 표시
+            return;
+        }
+
+        String userId = user.getUid();
+
+        db.collection("users").document(userId).collection("favorites")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -65,15 +77,17 @@ public class DashboardFragment extends Fragment {
                         }
                         contestAdapter.notifyDataSetChanged();
                     } else {
-                        // Handle the error
+                        // 오류 처리
                     }
                 });
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("스크랩");
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

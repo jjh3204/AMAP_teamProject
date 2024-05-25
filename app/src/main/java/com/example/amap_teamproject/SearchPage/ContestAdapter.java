@@ -2,18 +2,21 @@ package com.example.amap_teamproject.SearchPage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -23,8 +26,8 @@ import java.util.List;
 
 public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestViewHolder> {
 
-    private List<Contest> contestList;
-    private Context context;
+    private final List<Contest> contestList;
+    private final Context context;
 
     public ContestAdapter(List<Contest> contestList, Context context) {
         this.contestList = contestList;
@@ -41,15 +44,29 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
     @Override
     public void onBindViewHolder(@NonNull ContestViewHolder holder, int position) {
         Contest contest = contestList.get(position);
+
+        // Set the text for each TextView in the ViewHolder
         holder.titleTextView.setText(contest.getTitle());
         holder.organizationTextView.setText(contest.getOrganization());
-        holder.linkTextView.setText(contest.getLink());
 
         holder.itemView.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(contest.getLink()));
-            context.startActivity(browserIntent);
+            Intent detailIntent = new Intent(context, ContestDetailActivity.class);
+            detailIntent.putExtra("title", contest.getTitle());
+            detailIntent.putExtra("organization", contest.getOrganization());
+            detailIntent.putExtra("link", contest.getLink());
+            detailIntent.putExtra("awardScale", contest.getAwardScale());
+            detailIntent.putExtra("contestField", contest.getContestField());
+            detailIntent.putExtra("detail", contest.getDetail());
+            detailIntent.putExtra("homepage", contest.getHomepage());
+            detailIntent.putExtra("imgSrc", contest.getImgSrc());
+            detailIntent.putExtra("noticeUrl", contest.getNoticeUrl());
+            detailIntent.putExtra("participants", contest.getParticipants());
+            detailIntent.putExtra("subPeriod", contest.getSubPeriod());
+            detailIntent.putExtra("timestamp", contest.getTimestamp());
+            context.startActivity(detailIntent);
         });
 
+        // Set the OnClickListener for the action button to toggle favorite
         holder.actionButton.setOnClickListener(v -> toggleFavorite(contest));
     }
 
@@ -61,27 +78,34 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
     static class ContestViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView organizationTextView;
-        TextView linkTextView;
         Button actionButton;
 
         ContestViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.contest_title);
             organizationTextView = itemView.findViewById(R.id.contest_organization);
-            linkTextView = itemView.findViewById(R.id.contest_link);
             actionButton = itemView.findViewById(R.id.action_button);
         }
     }
 
+
+
     private void toggleFavorite(Contest contest) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = user.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection("favorites").whereEqualTo("title", contest.getTitle());
+        Query query = db.collection("users").document(userId).collection("favorites").whereEqualTo("title", contest.getTitle());
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().isEmpty()) {
                     // 데이터가 존재하지 않으면 추가
-                    db.collection("favorites")
+                    db.collection("users").document(userId).collection("favorites")
                             .add(contest)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
