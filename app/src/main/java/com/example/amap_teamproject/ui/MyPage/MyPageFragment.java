@@ -29,12 +29,12 @@ public class MyPageFragment extends Fragment {
         myPageViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-/*
+
     public void onResume() {
         super.onResume();
         ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("MY");
     }
-*/
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
