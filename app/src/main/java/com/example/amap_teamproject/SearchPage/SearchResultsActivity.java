@@ -1,4 +1,4 @@
-package com.example.amap_teamproject;
+package com.example.amap_teamproject.SearchPage;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amap_teamproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;

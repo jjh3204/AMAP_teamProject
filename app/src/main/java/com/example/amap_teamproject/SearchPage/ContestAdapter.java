@@ -1,4 +1,4 @@
-package com.example.amap_teamproject;
+package com.example.amap_teamproject.SearchPage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amap_teamproject.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;

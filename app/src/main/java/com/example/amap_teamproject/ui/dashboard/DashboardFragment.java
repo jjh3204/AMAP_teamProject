@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.amap_teamproject.Contest;
-import com.example.amap_teamproject.ContestAdapter;
+import com.example.amap_teamproject.SearchPage.Contest;
+import com.example.amap_teamproject.SearchPage.ContestAdapter;
+import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.FragmentDashboardBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -69,6 +70,10 @@ public class DashboardFragment extends Fragment {
                 });
     }
 
+    public void onResume() {
+        super.onResume();
+        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("스크랩");
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

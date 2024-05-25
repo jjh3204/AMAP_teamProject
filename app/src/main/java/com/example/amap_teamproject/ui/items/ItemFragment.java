@@ -3,6 +3,9 @@ package com.example.amap_teamproject.ui.items;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.amap_teamproject.MainActivity;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.placeholder.PlaceholderContent;
 
@@ -68,5 +73,11 @@ public class ItemFragment extends Fragment {
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
         }
         return view;
+    }
+
+    public void onResume() {
+        super.onResume();
+        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("목록");
+        // ((MainActivity) getActivity()).showToolbar2(true);
     }
 }

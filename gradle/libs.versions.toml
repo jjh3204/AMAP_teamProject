@@ -16,6 +16,8 @@ googleServices = "4.4.1"
 firebaseFirestore = "25.0.0"
 firebaseDatabase = "21.0.0"
 googleGmsGoogleServices = "4.4.1"
+firebaseAuth = "23.0.0"
+annotation = "1.6.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -33,6 +35,8 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
