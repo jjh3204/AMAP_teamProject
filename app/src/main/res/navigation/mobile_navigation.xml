@@ -22,7 +22,7 @@
         android:name="com.example.amap_teamproject.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
-s
+
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.example.amap_teamproject.ui.MyPage.MyPageFragment"
