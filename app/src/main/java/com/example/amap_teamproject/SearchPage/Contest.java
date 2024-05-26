@@ -1,5 +1,7 @@
 package com.example.amap_teamproject.SearchPage;
 
+import com.google.firebase.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 public class Contest {
@@ -9,18 +11,18 @@ public class Contest {
     private String awardScale;     // 상금 규모
     private String contestField;   // 공모 분야
     private String detail;         // 상세 정보
-    private String homepage;       // 홈페이지
+    private List<String> homepage; // 홈페이지 (리스트 형태)
     private String imgSrc;         // 이미지 소스
     private String noticeUrl;      // 공지 URL
     private String participants;   // 참가 대상
     private String subPeriod;      // 제출 기간
-    private String timestamp;      // 타임스탬프
+    private Timestamp timestamp;   // 타임스탬프
 
     // Firestore에 필요한 기본 생성자
     public Contest() {
     }
 
-    public Contest(String title, String link, String organization, String awardScale, String contestField, String detail, String homepage, String imgSrc, String noticeUrl, String participants, String subPeriod, String timestamp) {
+    public Contest(String title, String link, String organization, String awardScale, String contestField, String detail, List<String> homepage, String imgSrc, String noticeUrl, String participants, String subPeriod, Timestamp timestamp) {
         this.title = title;
         this.link = link;
         this.organization = organization;
@@ -34,6 +36,8 @@ public class Contest {
         this.subPeriod = subPeriod;
         this.timestamp = timestamp;
     }
+
+    // Getter와 Setter
 
     public String getTitle() {
         return title;
@@ -83,11 +87,11 @@ public class Contest {
         this.detail = detail;
     }
 
-    public String getHomepage() {
+    public List<String> getHomepage() {
         return homepage;
     }
 
-    public void setHomepage(String homepage) {
+    public void setHomepage(List<String> homepage) {
         this.homepage = homepage;
     }
 
@@ -123,11 +127,11 @@ public class Contest {
         this.subPeriod = subPeriod;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -140,12 +144,12 @@ public class Contest {
                 ", awardScale='" + awardScale + '\'' +
                 ", contestField='" + contestField + '\'' +
                 ", detail='" + detail + '\'' +
-                ", homepage='" + homepage + '\'' +
+                ", homepage=" + homepage +
                 ", imgSrc='" + imgSrc + '\'' +
                 ", noticeUrl='" + noticeUrl + '\'' +
                 ", participants='" + participants + '\'' +
                 ", subPeriod='" + subPeriod + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", timestamp=" + timestamp +
                 '}';
     }
 
