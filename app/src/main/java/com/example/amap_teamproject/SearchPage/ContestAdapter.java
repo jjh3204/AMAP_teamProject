@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestViewHolder> {
 
@@ -57,12 +57,12 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
             detailIntent.putExtra("awardScale", contest.getAwardScale());
             detailIntent.putExtra("contestField", contest.getContestField());
             detailIntent.putExtra("detail", contest.getDetail());
-            detailIntent.putExtra("homepage", contest.getHomepage());
+            detailIntent.putExtra("homepage", contest.getHomepage().toArray(new String[0]));
             detailIntent.putExtra("imgSrc", contest.getImgSrc());
             detailIntent.putExtra("noticeUrl", contest.getNoticeUrl());
             detailIntent.putExtra("participants", contest.getParticipants());
             detailIntent.putExtra("subPeriod", contest.getSubPeriod());
-            detailIntent.putExtra("timestamp", contest.getTimestamp());
+            detailIntent.putExtra("timestamp", contest.getTimestamp().toDate().toString());
             context.startActivity(detailIntent);
         });
 
@@ -88,8 +88,6 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
         }
     }
 
-
-
     private void toggleFavorite(Contest contest) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -105,8 +103,22 @@ public class ContestAdapter extends RecyclerView.Adapter<ContestAdapter.ContestV
             if (task.isSuccessful()) {
                 if (task.getResult().isEmpty()) {
                     // 데이터가 존재하지 않으면 추가
+                    Map<String, Object> favoriteData = new HashMap<>();
+                    favoriteData.put("title", contest.getTitle());
+                    favoriteData.put("link", contest.getLink());
+                    favoriteData.put("organization", contest.getOrganization());
+                    favoriteData.put("awardScale", contest.getAwardScale());
+                    favoriteData.put("contestField", contest.getContestField());
+                    favoriteData.put("detail", contest.getDetail());
+                    favoriteData.put("homepage", contest.getHomepage());
+                    favoriteData.put("imgSrc", contest.getImgSrc());
+                    favoriteData.put("noticeUrl", contest.getNoticeUrl());
+                    favoriteData.put("participants", contest.getParticipants());
+                    favoriteData.put("subPeriod", contest.getSubPeriod());
+                    favoriteData.put("timestamp", contest.getTimestamp());
+
                     db.collection("users").document(userId).collection("favorites")
-                            .add(contest)
+                            .add(favoriteData)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                             })
