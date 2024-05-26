@@ -4,6 +4,9 @@
     <!-- 인터넷 사용 권한 부여 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 인터넷 사용 권한 부여 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -38,6 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchPage.SearchResultsActivity" />
+        <activity android:name=".SearchPage.ContestDetailActivity" />
     </application>
 
 </manifest>

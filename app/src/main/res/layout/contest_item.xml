@@ -32,13 +32,6 @@
                 android:textSize="16sp"
                 android:text="Contest Organization" />
 
-            <TextView
-                android:id="@+id/contest_link"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/holo_blue_dark"
-                android:text="Contest Link" />
         </LinearLayout>
 
         <Button

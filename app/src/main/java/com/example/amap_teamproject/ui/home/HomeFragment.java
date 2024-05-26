@@ -4,7 +4,6 @@ package com.example.amap_teamproject.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -28,31 +27,28 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private FirebaseFirestore db;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private Handler handler;
     private Runnable runnable;
-    private ImageView imageView;
+    private ViewFlipper viewFlipper;
     private List<String> imageUrls = new ArrayList<>();
     private int currentImageIndex = 0;
     private final int delay = 5000; // 5초 간격
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        //  final TextView textView = binding.textHome;
-        //  homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
 
         final EditText searchEditText = binding.searchId;
         Button searchButton = binding.searchButtonId;
-        imageView = binding.imageView;
+        viewFlipper = binding.viewFlipper;
 
         db = FirebaseFirestore.getInstance();
         handler = new Handler();
@@ -66,7 +62,14 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // 애니메이션 설정
+        viewFlipper.setInAnimation(getContext(), R.anim.slide_in_right);
+        viewFlipper.setOutAnimation(getContext(), R.anim.slide_out_left);
+
         fetchLatestImages();
+
+
 
         return root;
     }
@@ -101,9 +104,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 if (!imageUrls.isEmpty()) {
+                    // Load image into the next ImageView in ViewFlipper
+                    ImageView nextImageView = (ImageView) viewFlipper.getChildAt((viewFlipper.getDisplayedChild() + 1) % viewFlipper.getChildCount());
                     Glide.with(HomeFragment.this)
                             .load(imageUrls.get(currentImageIndex))
-                            .into(imageView);
+                            .placeholder(nextImageView.getDrawable()) // Use current image as placeholder
+                            .into(nextImageView);
+
+                    // Show the next image
+                    viewFlipper.showNext();
+
+                    // Update the index
                     currentImageIndex = (currentImageIndex + 1) % imageUrls.size();
                     handler.postDelayed(this, delay);
                 }
@@ -114,10 +125,12 @@ public class HomeFragment extends Fragment {
         handler.post(runnable);
     }
 
+
     public void onResume() {
         super.onResume();
         ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("홈");
     }
+
 
     @Override
     public void onDestroyView() {
