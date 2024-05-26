@@ -21,7 +21,7 @@ public class EventFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static EventFragment newInstance(String title, List<Event> events) {
+    public static EventFragment newInstance(List<Event> events) {
         EventFragment fragment = new EventFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_EVENTS, new ArrayList<>(events));
@@ -40,10 +40,19 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new EventAdapter(eventList));
         return view;
     }
+
+    public void updateData(List<Event> events) {
+        this.eventList = events;
+        if (getView() != null) {
+            RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
+            recyclerView.setAdapter(new EventAdapter(eventList));
+        }
+    }
 }
+

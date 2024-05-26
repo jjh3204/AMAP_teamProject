@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
 import java.util.List;
 
@@ -33,7 +34,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.title.setText(event.getTitle());
         holder.organization.setText(event.getOrganization());
         holder.deadline.setText(event.getDeadline());
-        holder.imageView.setImageResource(event.getImageResourceId());
+        holder.description.setText(event.getDescription());
+
+        // Glide를 사용하여 이미지 로드
+        Glide.with(holder.itemView.getContext())
+                .load(event.getPosterUrl())
+                .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
@@ -51,6 +57,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         TextView title;
         TextView organization;
         TextView deadline;
+        TextView description;
         ImageView imageView;
 
         ViewHolder(View view) {
@@ -58,9 +65,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             title = view.findViewById(R.id.event_title);
             organization = view.findViewById(R.id.event_organization);
             deadline = view.findViewById(R.id.event_deadline);
+            description = view.findViewById(R.id.event_description);
             imageView = view.findViewById(R.id.event_image);
         }
     }
 }
+
 
 

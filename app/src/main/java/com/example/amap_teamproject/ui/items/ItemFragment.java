@@ -1,5 +1,4 @@
 package com.example.amap_teamproject.ui.items;
-// RecyclerView
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,9 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.amap_teamproject.MainActivity;
 import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.placeholder.PlaceholderContent;
 import com.example.amap_teamproject.menu.Event;
 import com.example.amap_teamproject.menu.EventAdapter;
 import java.util.ArrayList;
@@ -65,7 +62,6 @@ public class ItemFragment extends Fragment {
 
         // Load event data
         eventList = new ArrayList<>();
-        loadSampleData();
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -76,48 +72,9 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
             recyclerView.setAdapter(new EventAdapter(eventList));
         }
         return view;
-    }
-
-    private void loadSampleData() {
-        // 공모전 예시 데이터
-        eventList.add(new Event("아동 양성평등 공모전", "동작이수사회복지관", "D-13", R.drawable.sample_image_1, "아동 양성평등 서포터즈는 ...", "공모전"));
-        eventList.add(new Event("청소년 사진PG '인생내컷' 공모전", "광장종합사회복지관", "D-5", R.drawable.sample_image_2, "청소년 사진PG '인생내컷' 활동가는 ...", "공모전"));
-        eventList.add(new Event("자원봉사 공모전", "초록우산 경북지역본부", "D-1", R.drawable.sample_image_3, "일일자원봉사자는 ...", "공모전"));
-        eventList.add(new Event("중학생 꿈찾기 공모전", "인천장애인재활협회", "D-6", R.drawable.sample_image_4, "중학생 꿈찾기 및 학습멘토링은 ...", "공모전"));
-        eventList.add(new Event("아동 양성평등 공모전2", "동작이수사회복지관", "D-13", R.drawable.sample_image_1, "아동 양성평등 서포터즈는 ...", "공모전"));
-        eventList.add(new Event("청소년 사진PG '인생내컷' 공모전2", "광장종합사회복지관", "D-5", R.drawable.sample_image_2, "청소년 사진PG '인생내컷' 활동가는 ...", "공모전"));
-        eventList.add(new Event("자원봉사 공모전2", "초록우산 경북지역본부", "D-1", R.drawable.sample_image_3, "일일자원봉사자는 ...", "공모전"));
-        eventList.add(new Event("중학생 꿈찾기 공모전2", "인천장애인재활협회", "D-6", R.drawable.sample_image_4, "중학생 꿈찾기 및 학습멘토링은 ...", "공모전"));
-        eventList.add(new Event("아동 양성평등 공모전3", "동작이수사회복지관", "D-13", R.drawable.sample_image_1, "아동 양성평등 서포터즈는 ...", "공모전"));
-        eventList.add(new Event("청소년 사진PG '인생내컷' 공모전3", "광장종합사회복지관", "D-5", R.drawable.sample_image_2, "청소년 사진PG '인생내컷' 활동가는 ...", "공모전"));
-        eventList.add(new Event("자원봉사 공모전3", "초록우산 경북지역본부", "D-1", R.drawable.sample_image_3, "일일자원봉사자는 ...", "공모전"));
-        eventList.add(new Event("중학생 꿈찾기 공모전3", "인천장애인재활협회", "D-6", R.drawable.sample_image_4, "중학생 꿈찾기 및 학습멘토링은 ...", "공모전"));
-        eventList.add(new Event("아동 양성평등 공모전4", "동작이수사회복지관", "D-13", R.drawable.sample_image_1, "아동 양성평등 서포터즈는 ...", "공모전"));
-        eventList.add(new Event("청소년 사진PG '인생내컷' 공모전4", "광장종합사회복지관", "D-5", R.drawable.sample_image_2, "청소년 사진PG '인생내컷' 활동가는 ...", "공모전"));
-        eventList.add(new Event("자원봉사 공모전4", "초록우산 경북지역본부", "D-1", R.drawable.sample_image_3, "일일자원봉사자는 ...", "공모전"));
-        eventList.add(new Event("중학생 꿈찾기 공모전4", "인천장애인재활협회", "D-6", R.drawable.sample_image_4, "중학생 꿈찾기 및 학습멘토링은 ...", "공모전"));
-
-        // 대외활동 예시 데이터
-        eventList.add(new Event("아동 돌봄 대외활동", "사랑의복지관", "D-10", R.drawable.sample_image_1, "아동 돌봄 자원봉사는 ...", "대외활동"));
-        eventList.add(new Event("청소년 리더십 캠프", "청소년리더십센터", "D-20", R.drawable.sample_image_2, "청소년 리더십 캠프는 ...", "대외활동"));
-        eventList.add(new Event("해외 봉사단 모집", "글로벌봉사단", "D-30", R.drawable.sample_image_3, "해외 봉사단은 ...", "대외활동"));
-        eventList.add(new Event("환경 보호 서포터즈", "환경재단", "D-15", R.drawable.sample_image_4, "환경 보호 서포터즈는 ...", "대외활동"));
-        eventList.add(new Event("아동 돌봄 대외활동2", "사랑의복지관", "D-10", R.drawable.sample_image_1, "아동 돌봄 자원봉사는 ...", "대외활동"));
-        eventList.add(new Event("청소년 리더십 캠프2", "청소년리더십센터", "D-20", R.drawable.sample_image_2, "청소년 리더십 캠프는 ...", "대외활동"));
-        eventList.add(new Event("해외 봉사단 모집2", "글로벌봉사단", "D-30", R.drawable.sample_image_3, "해외 봉사단은 ...", "대외활동"));
-        eventList.add(new Event("환경 보호 서포터즈2", "환경재단", "D-15", R.drawable.sample_image_4, "환경 보호 서포터즈는 ...", "대외활동"));
-        eventList.add(new Event("아동 돌봄 대외활동3", "사랑의복지관", "D-10", R.drawable.sample_image_1, "아동 돌봄 자원봉사는 ...", "대외활동"));
-        eventList.add(new Event("청소년 리더십 캠프3", "청소년리더십센터", "D-20", R.drawable.sample_image_2, "청소년 리더십 캠프는 ...", "대외활동"));
-        eventList.add(new Event("해외 봉사단 모집3", "글로벌봉사단", "D-30", R.drawable.sample_image_3, "해외 봉사단은 ...", "대외활동"));
-        eventList.add(new Event("환경 보호 서포터즈3", "환경재단", "D-15", R.drawable.sample_image_4, "환경 보호 서포터즈는 ...", "대외활동"));
-        eventList.add(new Event("아동 돌봄 대외활동4", "사랑의복지관", "D-10", R.drawable.sample_image_1, "아동 돌봄 자원봉사는 ...", "대외활동"));
-        eventList.add(new Event("청소년 리더십 캠프4", "청소년리더십센터", "D-20", R.drawable.sample_image_2, "청소년 리더십 캠프는 ...", "대외활동"));
-        eventList.add(new Event("해외 봉사단 모집4", "글로벌봉사단", "D-30", R.drawable.sample_image_3, "해외 봉사단은 ...", "대외활동"));
-        eventList.add(new Event("환경 보호 서포터즈4", "환경재단", "D-15", R.drawable.sample_image_4, "환경 보호 서포터즈는 ...", "대외활동"));
     }
 
     @Override
@@ -129,6 +86,17 @@ public class ItemFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("목록");
         }
     }
+
+    // 이벤트 데이터 업데이트 메서드 추가
+    public void updateData(List<Event> events) {
+        this.eventList.clear();
+        this.eventList.addAll(events);
+        if (getView() != null) {
+            RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
 }
+
 
 
