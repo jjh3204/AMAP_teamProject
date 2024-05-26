@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
 
+import java.util.Arrays;
+
 public class ContestDetailActivity extends AppCompatActivity {
 
     @Override
@@ -35,7 +37,15 @@ public class ContestDetailActivity extends AppCompatActivity {
         awardScaleTextView.setText(intent.getStringExtra("awardScale"));
         contestFieldTextView.setText(intent.getStringExtra("contestField"));
         detailTextView.setText(intent.getStringExtra("detail"));
-        homepageTextView.setText(intent.getStringExtra("homepage"));
+
+        // homepage는 배열 형태이므로, 이를 문자열로 변환하여 표시
+        String[] homepageArray = intent.getStringArrayExtra("homepage");
+        if (homepageArray != null) {
+            homepageTextView.setText(Arrays.toString(homepageArray));
+        } else {
+            homepageTextView.setText("");
+        }
+
         noticeUrlTextView.setText(intent.getStringExtra("noticeUrl"));
         participantsTextView.setText(intent.getStringExtra("participants"));
         subPeriodTextView.setText(intent.getStringExtra("subPeriod"));
