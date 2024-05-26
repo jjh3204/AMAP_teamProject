@@ -20,11 +20,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest; // 회원가입창에 name을 추가하면서 추가한 코드
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore; // Firestore import 추가하여 사용자이름 표시
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private Button registerButton;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db; // Firestore 인스턴스 추가
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance(); // Firestore 인스턴스 초기화
 
         nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
         emailEditText = findViewById(R.id.emailEditText);
@@ -83,7 +87,84 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+
         mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(name)
+                                        .build();
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Firestore에 사용자 정보 저장
+                                                    DocumentReference docRef = db.collection("users").document(user.getUid());
+                                                    docRef.set(new User(name, email))
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_SHORT).show();
+                                                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                                        //intent.putExtra("USER_NAME", name); // 회원가입을 완료하고 로그인창으로 넘어가는 기능 구현하면서 삭제
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    } else {
+                                                                        Toast.makeText(RegisterActivity.this, "Failed to save user data.", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            String errorMessage = task.getException().getMessage();
+                            Log.e("RegisterActivity", "Registration Failed: " + errorMessage);
+                            Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+}
+
+class User {
+    private String name;
+    private String email;
+
+    public User() {}
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    // Getter and Setter methods
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+        /*mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -121,4 +202,4 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-}
+}*/

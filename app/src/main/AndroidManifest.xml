@@ -28,9 +28,8 @@
         </activity>
         <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Login.LoginActivity" />
-        <activity
-            android:name=".Splash"
-            android:exported="true">
+        <activity android:name=".ui.MyPage.MyPage" />
+        <activity android:name=".Splash" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
