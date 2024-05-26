@@ -4,6 +4,7 @@ package com.example.amap_teamproject.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -32,7 +34,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private FirebaseFirestore db;
-    private Handler handler;
+    private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable runnable;
     private ImageView imageView;
     private List<String> imageUrls = new ArrayList<>();
@@ -45,8 +47,8 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //  final TextView textView = binding.textHome;
+        //  homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         final EditText searchEditText = binding.searchId;
         Button searchButton = binding.searchButtonId;
@@ -78,7 +80,7 @@ public class HomeFragment extends Fragment {
                     if (task.isSuccessful() && task.getResult() != null) {
                         imageUrls.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String imgSrc = document.getString("img_src");
+                            String imgSrc = document.getString("poster_url");
                             if (imgSrc != null) {
                                 imageUrls.add(imgSrc);
                             }

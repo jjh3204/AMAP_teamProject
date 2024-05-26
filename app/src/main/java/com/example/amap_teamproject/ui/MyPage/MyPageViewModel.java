@@ -4,16 +4,37 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MyPageViewModel extends ViewModel {
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
 
-    private final MutableLiveData<String> mText;
+public class MyPageViewModel extends ViewModel {
+    private String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    private final MutableLiveData<String> text;
+    private final FirebaseFirestore db;
 
     public MyPageViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        text = new MutableLiveData<>();
+        db = FirebaseFirestore.getInstance();
+        loadUserName();
     }
 
     public LiveData<String> getText() {
-        return mText;
+        return text;
+    }
+
+    private void loadUserName() {
+        DocumentReference docRef = db.collection("users").document(user_id); // USER_ID를 실제 사용자 ID로 변경
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String name = documentSnapshot.getString("name");
+                text.setValue(name);
+            } else {
+                text.setValue("No name found");
+            }
+        }).addOnFailureListener(e -> {
+            text.setValue("Error getting name");
+        });
     }
 }

@@ -20,19 +20,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest; // 회원가입창에 name을 추가하면서 추가한 코드
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private Button registerButton;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiy_register);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         nameEditText = findViewById(R.id.nameEditText); // 추가된 부분
         emailEditText = findViewById(R.id.emailEditText);
@@ -99,26 +102,63 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_LONG).show();
-                                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                    // 변경된 부분: RegisterActivity로 이동하는 Intent
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                                else {
-                                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Profile update failed.";
-                                                    Log.e("RegisterActivity", "Profile Update Failed: " + errorMessage);
-                                                    Toast.makeText(RegisterActivity.this, "Profile Update Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                    // Firestore에 사용자 정보 저장
+                                                    DocumentReference docRef = db.collection("users").document(user.getUid());
+                                                    docRef.set(new User(name, email))
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_LONG).show();
+                                                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    } else {
+                                                                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Profile update failed.";
+                                                                        Log.e("RegisterActivity", "Profile Update Failed: " + errorMessage);
+                                                                        Toast.makeText(RegisterActivity.this, "Profile Update Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                } else {
+                                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed.";
+                                                    Log.e("RegisterActivity", "Registration Failed: " + errorMessage); // 추가된 부분: 로그 출력
+                                                    Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
-                            } // if(user != null) 부터 모두 추가된 부분이다.
-                        } else {
-                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed.";
-                            Log.e("RegisterActivity", "Registration Failed: " + errorMessage); // 추가된 부분: 로그 출력
-                            Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
+    }
+    class User {
+        private String name;
+        private String email;
+
+        public User() {
+        }
+
+        public User(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+
+        // Getter and Setter methods
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
     }
 }
