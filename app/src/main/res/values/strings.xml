@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AMAP_teamProject</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_my_page">My</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_items">Items</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,7 +11,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be &gt;5 characters</string>
+    <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -104,11 +102,4 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="event_image">Event Image</string>
-    <string name="event_title">Event Title</string>
-    <string name="event_organization">Organization</string>
-    <string name="event_deadline">Deadline</string>
-    <string name="event_description">Description</string>
-    <string name="event_image_desc">Event Image Description</string>
 </resources>
-
