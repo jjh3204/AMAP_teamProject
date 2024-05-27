@@ -24,7 +24,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_item_activity, parent, false);
         return new ViewHolder(view);
     }
 
@@ -33,8 +33,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         Activity activity = activities.get(position);
         holder.title.setText(activity.getTitle());
         holder.organization.setText(activity.getOrganization());
-        holder.actPeriod.setText(activity.getActPeriod());
-        holder.detail.setText(activity.getDetail());
+        holder.subPeriod.setText(activity.getSubPeriod());
 
         // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
@@ -56,20 +55,16 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView organization;
-        TextView actPeriod;
-        TextView detail;
+        TextView subPeriod;
         ImageView imageView;
 
         ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.event_title);
-            organization = view.findViewById(R.id.event_organization);
-            actPeriod = view.findViewById(R.id.event_deadline);
-            detail = view.findViewById(R.id.event_description);
-            imageView = view.findViewById(R.id.event_image);
+            title = view.findViewById(R.id.activity_title);
+            organization = view.findViewById(R.id.activity_organization);
+            subPeriod = view.findViewById(R.id.activity_sub_period);
+            imageView = view.findViewById(R.id.activity_image);
         }
     }
 }
-
-
 

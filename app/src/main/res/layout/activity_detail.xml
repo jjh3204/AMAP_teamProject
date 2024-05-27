@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 공모전 이미지 -->
+        <!-- 공통 이미지 -->
         <ImageView
             android:id="@+id/event_image"
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:contentDescription="@string/event_image_desc"
             android:scaleType="centerCrop" />
 
-        <!-- 공모전 제목 -->
+        <!-- 공통 제목 -->
         <TextView
             android:id="@+id/event_title"
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:textSize="20sp"
             android:paddingTop="8dp" />
 
-        <!-- 공모전 조직 -->
+        <!-- 공통 조직 -->
         <TextView
             android:id="@+id/event_organization"
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:textSize="16sp"
             android:paddingTop="4dp" />
 
-        <!-- 공모전 기간/마감일 -->
+        <!-- 공통 기간/마감일 -->
         <TextView
             android:id="@+id/event_deadline"
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:textSize="14sp"
             android:paddingTop="4dp" />
 
-        <!-- 공모전 설명/상세 -->
+        <!-- 공통 설명/상세 -->
         <TextView
             android:id="@+id/event_description"
             android:layout_width="wrap_content"
@@ -58,119 +58,97 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/event_contest_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/event_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/event_notice_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/event_participants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/event_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
-        <!-- 대외활동 이미지 -->
-        <ImageView
-            android:id="@+id/activity_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:contentDescription="@string/event_image_desc"
-            android:scaleType="centerCrop" />
-
-        <!-- 대외활동 제목 -->
-        <TextView
-            android:id="@+id/activity_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:paddingTop="8dp" />
-
-        <!-- 대외활동 조직 -->
-        <TextView
-            android:id="@+id/activity_organization"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:paddingTop="4dp" />
-
-        <!-- 대외활동 기간/마감일 -->
+        <!-- 대외활동 전용 필드 -->
         <TextView
             android:id="@+id/activity_act_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
-        <!-- 대외활동 설명/상세 -->
-        <TextView
-            android:id="@+id/activity_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:paddingTop="4dp" />
-
-        <!-- 대외활동 전용 필드 -->
         <TextView
             android:id="@+id/activity_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/activity_interest_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/activity_notice_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/activity_participants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/activity_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>
