@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- 포스터 이미지 -->
-    <ImageView
-        android:id="@+id/activity_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/activity_image_desc" />
-
-    <!-- 대외활동 정보 레이아웃 -->
+    <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- 대외활동 제목 -->
+        <!-- 제목 -->
         <TextView
             android:id="@+id/activity_title"
             android:layout_width="wrap_content"
@@ -28,18 +22,28 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <!-- 주최 기관 -->
+        <!-- 조직 이름 -->
         <TextView
             android:id="@+id/activity_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
-        <!-- 개최 기간 -->
+        <!-- 기간 -->
         <TextView
             android:id="@+id/activity_sub_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
     </LinearLayout>
+
+    <!-- 이미지 -->
+    <ImageView
+        android:id="@+id/activity_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/activity_image_desc"
+        android:scaleType="centerCrop" />
 </LinearLayout>

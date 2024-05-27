@@ -1,6 +1,7 @@
 package com.example.amap_teamproject.menu;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.organization.setText(event.getOrganization());
         holder.subPeriod.setText(event.getSubPeriod());
 
+        // 이미지 로드 디버깅
+        Log.d("EventAdapter", "Loading image from URL: " + event.getImgSrc());
+
         // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
                 .load(event.getImgSrc())
@@ -67,3 +71,4 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
     }
 }
+

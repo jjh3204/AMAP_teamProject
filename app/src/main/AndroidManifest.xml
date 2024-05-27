@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AMAP_teamProject"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config"> <!-- 네트워크 보안 설정 추가 -->
         <activity
             android:name=".Career.MyCareerActivity"
             android:exported="true"
