@@ -46,6 +46,11 @@ public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.Vi
         holder.itemView.setOnClickListener(v -> listener.onItemClick(careerItem));
     }
 
+    public void updateData(List<CareerItem> newCareerList) {
+        careerList = newCareerList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount(){
         return careerList.size();

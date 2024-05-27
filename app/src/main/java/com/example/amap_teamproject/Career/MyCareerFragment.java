@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -56,14 +57,11 @@ public class MyCareerFragment extends Fragment {
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-        pageViewModel.setIndex(index);
+        // pageViewModel.setIndex(index);
     }
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMycareerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         binding.titleTextView.setLayoutManager(new LinearLayoutManager(getContext())); // titleTextView는 RecyclerView
@@ -74,136 +72,37 @@ public class MyCareerFragment extends Fragment {
             startActivity(intent);
         });
         binding.titleTextView.setAdapter(careerItemAdapter);
-        db = FirebaseFirestore.getInstance();
 
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        pageViewModel.setUserId(userId);
+        pageViewModel.loadCareerItems(getArguments().getInt(ARG_SECTION_NUMBER));
 
-        assert getArguments() != null;
-        loadCareerItems(getArguments().getInt(ARG_SECTION_NUMBER));
+        pageViewModel.getCareerListLiveData().observe(getViewLifecycleOwner(), new Observer<List<CareerItem>>() {
+            @Override
+            public void onChanged(List<CareerItem> careerItems) {
+                careerItemAdapter.updateData(careerItems);
+            }
+        });
         return root;
     }
 
-    private void loadCareerItems(int section) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        int section = getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : 1;
+        pageViewModel.loadCareerItems(section);
 
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        registration = db.collection("users").document(userId).collection("career")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Toast.makeText(getContext(), "Error while loading!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (queryDocumentSnapshots != null) {
-                            careerList.clear();
-                            for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                                CareerItem careerItem = dc.getDocument().toObject(CareerItem.class);
-                                careerItem.setDocumentId(dc.getDocument().getId());
-                                if (section == 1 ||
-                                        (section == 2 && "대외활동".equals(careerItem.getCategory())) ||
-                                        (section == 3 && "공모전".equals(careerItem.getCategory()))) {
-                                    switch (dc.getType()) {
-                                        case ADDED:
-                                            if (dc.getNewIndex() <= careerList.size()) {
-                                                careerList.add(dc.getNewIndex(), careerItem);
-                                                careerItemAdapter.notifyItemInserted(dc.getNewIndex());
-                                            } else {
-                                                careerList.add(careerItem); // Fallback to add at the end
-                                                careerItemAdapter.notifyItemInserted(careerList.size() - 1);
-                                            }
-                                            break;
-                                        case MODIFIED:
-                                            if (dc.getOldIndex() < careerList.size()) {
-                                                careerList.set(dc.getOldIndex(), careerItem);
-                                                careerItemAdapter.notifyItemChanged(dc.getOldIndex());
-                                                if (dc.getOldIndex() != dc.getNewIndex()) {
-                                                    if (dc.getNewIndex() < careerList.size()) {
-                                                        careerList.add(dc.getNewIndex(), careerList.remove(dc.getOldIndex()));
-                                                        careerItemAdapter.notifyItemMoved(dc.getOldIndex(), dc.getNewIndex());
-                                                    } else {
-                                                        careerList.remove(dc.getOldIndex());
-                                                        careerList.add(careerItem);
-                                                        careerItemAdapter.notifyItemRemoved(dc.getOldIndex());
-                                                        careerItemAdapter.notifyItemInserted(careerList.size() - 1);
-                                                    }
-                                                }
-                                            } else {
-                                                careerList.add(dc.getNewIndex(), careerItem);
-                                                careerItemAdapter.notifyItemInserted(dc.getNewIndex());
-                                            }
-                                            // updateCareerItem(dc.getDocument());
-                                            break;
-                                        case REMOVED:
-                                            if (dc.getOldIndex() < careerList.size()) {
-                                                careerList.remove(dc.getOldIndex());
-                                                careerItemAdapter.notifyItemRemoved(dc.getOldIndex());
-                                            }
-                                            // removeCareerItem(dc.getDocument());
-                                            break;
-                                    }
-                                }
-                            }
-                            careerItemAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-    }
-
-    private void updateCareerItem(DocumentSnapshot document) {
-        String docId = document.getId();
-        for (int i = 0; i < careerList.size(); i++) {
-            if (careerList.get(i).getDocumentId().equals(docId)) {
-                careerList.set(i, document.toObject(CareerItem.class));
-                careerItemAdapter.notifyItemChanged(i);
-                break;
+        pageViewModel.getCareerListLiveData().observe(getViewLifecycleOwner(), new Observer<List<CareerItem>>() {
+            @Override
+            public void onChanged(List<CareerItem> careerItems) {
+                careerItemAdapter.updateData(careerItems);
             }
-        }
+        });
     }
-
-    private void removeCareerItem(DocumentSnapshot document) {
-        String docId = document.getId();
-        for (int i = 0; i < careerList.size(); i++) {
-            if (careerList.get(i).getDocumentId().equals(docId)) {
-                careerList.remove(i);
-                careerItemAdapter.notifyItemRemoved(i);
-                break;
-            }
-        }
-    }
-    /*
-    // 파이어스토어에서 section 값에 따라 필터링된 데이터 가져오기
-    private void fetchFirestoreData(int section) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId).collection("career")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        dataList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            CareerItem careerItem = document.toObject(CareerItem.class);
-                            careerItem.setDocumentId(document.getId());
-                            if (section == 1 ||
-                                    (section == 2 && "대외활동".equals(careerItem.getCategory())) ||
-                                    (section == 3 && "공모전".equals(careerItem.getCategory()))) {
-                                dataList.add(careerItem);
-                            }
-                        }
-                        careerItemAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.w("MyCareerFragment", "Error getting documents.", task.getException());
-                    }
-                });
-    }
-
-     */
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        if(registration != null)
-            registration.remove();
     }
 }

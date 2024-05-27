@@ -19,7 +19,8 @@
         <activity
             android:name=".Career.MyCareerActivity"
             android:exported="true"
-            android:label="@string/title_activity_my_career" >
+            android:label="@string/title_activity_my_career"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name=".MainActivity"

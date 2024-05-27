@@ -23,8 +23,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a MyCareerFragment.
         return MyCareerFragment.newInstance(position + 1);
     }
 
