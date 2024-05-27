@@ -12,27 +12,25 @@ import com.example.amap_teamproject.R;
 
 import java.util.List;
 public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.ViewHolder> {
-    private List<CareerItem> mData;
-    private Context mContext;
-    private OnItemClickListener onItemClickListener;
+    private List<CareerItem> careerList;
+    private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(CareerItem data);
+        void onItemClick(CareerItem careerItem);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView titleTextView;
+        public TextView careerTitle;
 
         public ViewHolder(View view){
             super(view);
-            titleTextView = view.findViewById(R.id.titleTextView);
+            careerTitle = view.findViewById(R.id.career_title);
         }
     }
 
-    public CareerItemAdapter(List<CareerItem> data, Context context, OnItemClickListener listener){
-        mData = data;
-        mContext = context;
-        onItemClickListener = listener;
+    public CareerItemAdapter(List<CareerItem> careerList, OnItemClickListener listener){
+        this.careerList = careerList;
+        this.listener = listener;
     }
 
     @Override
@@ -43,13 +41,13 @@ public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        CareerItem data = mData.get(position);
-        holder.titleTextView.setText(data.getTitle());
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(data));
+        CareerItem careerItem = careerList.get(position);
+        holder.careerTitle.setText(careerItem.getTitle());
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(careerItem));
     }
 
     @Override
     public int getItemCount(){
-        return mData.size();
+        return careerList.size();
     }
 }

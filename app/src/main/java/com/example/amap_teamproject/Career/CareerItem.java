@@ -1,26 +1,19 @@
 package com.example.amap_teamproject.Career;
 
 public class CareerItem {
-    private String id;
     private String title;
     private String content;
-    private String field;
+    private String category;
+    private String documentId;
 
     public CareerItem() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public CareerItem(String title, String content) {
+    public CareerItem(String title, String content, String category) {
         this.title = title;
         this.content = content;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.category = category;
     }
 
     public String getTitle() {
@@ -39,7 +32,19 @@ public class CareerItem {
         this.content = content;
     }
 
-    public String getField() { return field; }
+    public String getCategory() {
+        return category;
+    }
 
-    public void setField(String field) { this.field = field; }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 }
