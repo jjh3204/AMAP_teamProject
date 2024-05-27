@@ -37,12 +37,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mItem = event;
         holder.mTitleView.setText(event.getTitle());
         holder.mOrganizationView.setText(event.getOrganization());
-        holder.mDeadlineView.setText(event.getDeadline());
-        holder.mDescriptionView.setText(event.getDescription());
+        holder.mDeadlineView.setText(event.getSubPeriod());
+        holder.mDescriptionView.setText(event.getDetail());
 
         // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
-                .load(event.getPosterUrl())
+                .load(event.getImgSrc())
                 .into(holder.mImageView);
     }
 
@@ -63,8 +63,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             super(view);
             mTitleView = view.findViewById(R.id.event_title);
             mOrganizationView = view.findViewById(R.id.event_organization);
-            mDeadlineView = view.findViewById(R.id.event_deadline);
-            mDescriptionView = view.findViewById(R.id.event_description);
+            mDeadlineView = view.findViewById(R.id.event_sub_period);
+            mDescriptionView = view.findViewById(R.id.event_detail);
             mImageView = view.findViewById(R.id.event_image);
         }
     }

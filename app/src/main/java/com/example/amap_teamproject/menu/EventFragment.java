@@ -8,50 +8,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.amap_teamproject.R;
-
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventFragment extends Fragment {
 
-    private static final String ARG_EVENTS = "events";
+    private RecyclerView recyclerView;
+    private EventAdapter adapter;
     private List<Event> eventList;
+    private FirebaseFirestore db;
 
     public EventFragment() {
         // Required empty public constructor
     }
 
-    public static EventFragment newInstance(List<Event> events) {
-        EventFragment fragment = new EventFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_EVENTS, new ArrayList<>(events));
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            eventList = getArguments().getParcelableArrayList(ARG_EVENTS);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_event, container, false);
+
+        recyclerView = view.findViewById(R.id.recycler_view_event);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new EventAdapter(eventList));
+
+        eventList = new ArrayList<>();
+        adapter = new EventAdapter(eventList);
+        recyclerView.setAdapter(adapter);
+
+        db = FirebaseFirestore.getInstance();
+
+        loadEvents();
+
         return view;
     }
 
-    public void updateData(List<Event> events) {
-        this.eventList = events;
-        if (getView() != null) {
-            RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
-            recyclerView.setAdapter(new EventAdapter(eventList));
-        }
+    private void loadEvents() {
+        db.collection("events")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    eventList.clear();
+                    eventList.addAll(queryDocumentSnapshots.toObjects(Event.class));
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle the error
+                });
     }
 }

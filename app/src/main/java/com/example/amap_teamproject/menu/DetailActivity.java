@@ -23,12 +23,17 @@ public class DetailActivity extends AppCompatActivity {
             if (event != null) {
                 ((TextView) findViewById(R.id.event_title)).setText(event.getTitle());
                 ((TextView) findViewById(R.id.event_organization)).setText(event.getOrganization());
-                ((TextView) findViewById(R.id.event_deadline)).setText(event.getDeadline());
-                ((TextView) findViewById(R.id.event_description)).setText(event.getDescription());
+                ((TextView) findViewById(R.id.event_sub_period)).setText(event.getSubPeriod());
+                ((TextView) findViewById(R.id.event_detail)).setText(event.getDetail());
+                ((TextView) findViewById(R.id.event_award_scale)).setText(event.getAwardScale());
+                ((TextView) findViewById(R.id.event_contest_field)).setText(event.getContestField());
+                ((TextView) findViewById(R.id.event_homepage)).setText(event.getHomepage().toString());
+                ((TextView) findViewById(R.id.event_notice_url)).setText(event.getNoticeUrl());
+                ((TextView) findViewById(R.id.event_participants)).setText(event.getParticipants());
 
                 ImageView imageView = findViewById(R.id.event_image);
                 Glide.with(this)
-                        .load(event.getPosterUrl())
+                        .load(event.getImgSrc())
                         .into(imageView);
             }
         }
@@ -38,8 +43,8 @@ public class DetailActivity extends AppCompatActivity {
             if (activity != null) {
                 ((TextView) findViewById(R.id.event_title)).setText(activity.getTitle());
                 ((TextView) findViewById(R.id.event_organization)).setText(activity.getOrganization());
-                ((TextView) findViewById(R.id.event_deadline)).setText(activity.getActPeriod());
-                ((TextView) findViewById(R.id.event_description)).setText(activity.getDetail());
+                ((TextView) findViewById(R.id.event_sub_period)).setText(activity.getActPeriod());
+                ((TextView) findViewById(R.id.event_detail)).setText(activity.getDetail());
 
                 ImageView imageView = findViewById(R.id.event_image);
                 Glide.with(this)
@@ -49,6 +54,3 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 }
-
-
-
