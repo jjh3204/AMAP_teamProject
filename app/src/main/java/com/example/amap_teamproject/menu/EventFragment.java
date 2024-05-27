@@ -55,4 +55,3 @@ public class EventFragment extends Fragment {
         }
     }
 }
-

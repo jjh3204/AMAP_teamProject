@@ -1,18 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- res/layout/fragment_item_list.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="8dp"
-    tools:context=".menu.EventFragment">
+    tools:context=".ui.items.ItemFragment">
 
-    <!-- RecyclerView -->
+    <LinearLayout
+        android:id="@+id/filterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/allButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체" />
+
+        <Button
+            android:id="@+id/contestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공모전" />
+
+        <Button
+            android:id="@+id/activityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="대외활동" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_item" />
-</LinearLayout>
+        android:layout_below="@id/filterContainer"
+        android:padding="16dp" />
+
+</RelativeLayout>

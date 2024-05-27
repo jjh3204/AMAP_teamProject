@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- 이벤트 이미지 -->
+    <!-- 이미지 -->
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="50dp"
@@ -15,14 +15,14 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/event_image_desc" />
 
-    <!-- 이벤트 정보 레이아웃 -->
+    <!-- 정보 레이아웃 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- 이벤트 제목 -->
+        <!-- 제목 -->
         <TextView
             android:id="@+id/event_title"
             android:layout_width="wrap_content"
@@ -30,21 +30,21 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <!-- 이벤트 조직 -->
+        <!-- 조직 -->
         <TextView
             android:id="@+id/event_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
-        <!-- 이벤트 마감일 -->
+        <!-- 마감일/기간 -->
         <TextView
             android:id="@+id/event_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
 
-        <!-- 이벤트 설명 -->
+        <!-- 설명/상세 -->
         <TextView
             android:id="@+id/event_description"
             android:layout_width="wrap_content"

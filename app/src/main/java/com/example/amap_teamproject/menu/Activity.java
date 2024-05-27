@@ -3,34 +3,36 @@ package com.example.amap_teamproject.menu;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Event implements Parcelable {
+import java.util.List;
+
+public class Activity implements Parcelable {
     private String title;
     private String organization;
-    private String deadline;
-    private String description;
+    private String actPeriod;
+    private String detail;
     private String posterUrl;
 
-    public Event() {
+    public Activity() {
         // Firestore는 빈 생성자가 필요합니다.
     }
 
-    protected Event(Parcel in) {
+    protected Activity(Parcel in) {
         title = in.readString();
         organization = in.readString();
-        deadline = in.readString();
-        description = in.readString();
+        actPeriod = in.readString();
+        detail = in.readString();
         posterUrl = in.readString();
     }
 
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
+    public static final Creator<Activity> CREATOR = new Creator<Activity>() {
         @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
+        public Activity createFromParcel(Parcel in) {
+            return new Activity(in);
         }
 
         @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
+        public Activity[] newArray(int size) {
+            return new Activity[size];
         }
     };
 
@@ -43,8 +45,8 @@ public class Event implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(organization);
-        dest.writeString(deadline);
-        dest.writeString(description);
+        dest.writeString(actPeriod);
+        dest.writeString(detail);
         dest.writeString(posterUrl);
     }
 
@@ -57,18 +59,16 @@ public class Event implements Parcelable {
         return organization;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getActPeriod() {
+        return actPeriod;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDetail() {
+        return detail;
     }
 
     public String getPosterUrl() {
         return posterUrl;
     }
 }
-
-
 

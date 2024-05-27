@@ -12,12 +12,12 @@ import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
 import java.util.List;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
-    private final List<Event> events;
+    private final List<Activity> activities;
 
-    public EventAdapter(List<Event> events) {
-        this.events = events;
+    public ActivityAdapter(List<Activity> activities) {
+        this.activities = activities;
     }
 
     @NonNull
@@ -30,44 +30,46 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Event event = events.get(position);
-        holder.title.setText(event.getTitle());
-        holder.organization.setText(event.getOrganization());
-        holder.deadline.setText(event.getDeadline());
-        holder.description.setText(event.getDescription());
+        Activity activity = activities.get(position);
+        holder.title.setText(activity.getTitle());
+        holder.organization.setText(activity.getOrganization());
+        holder.actPeriod.setText(activity.getActPeriod());
+        holder.detail.setText(activity.getDetail());
 
         // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
-                .load(event.getPosterUrl())
+                .load(activity.getPosterUrl())
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_EVENT, event);
+            intent.putExtra(DetailActivity.EXTRA_ACTIVITY, activity);
             holder.itemView.getContext().startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return activities.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView organization;
-        TextView deadline;
-        TextView description;
+        TextView actPeriod;
+        TextView detail;
         ImageView imageView;
 
         ViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.event_title);
             organization = view.findViewById(R.id.event_organization);
-            deadline = view.findViewById(R.id.event_deadline);
-            description = view.findViewById(R.id.event_description);
+            actPeriod = view.findViewById(R.id.event_deadline);
+            detail = view.findViewById(R.id.event_description);
             imageView = view.findViewById(R.id.event_image);
         }
     }
 }
+
+
 
