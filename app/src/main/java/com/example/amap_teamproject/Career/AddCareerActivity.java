@@ -1,14 +1,21 @@
 package com.example.amap_teamproject.Career;
 
 import android.os.Bundle;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+
+import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityAddCareerBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +40,9 @@ public class AddCareerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddCareerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         titleEditText = binding.titleEditText;
         contentEditText = binding.contentEditText;
@@ -76,8 +86,13 @@ public class AddCareerActivity extends AppCompatActivity {
     }
 
     private void setEditable(boolean isEditable) {  // 수정가능 여부
-        titleEditText.setEnabled(isEditable);
-        contentEditText.setEnabled(isEditable);
+        if (isEditable) {
+            titleEditText.setKeyListener(new EditText(this).getKeyListener());
+            contentEditText.setKeyListener(new EditText(this).getKeyListener());
+        } else {
+            contentEditText.setKeyListener(null);
+            titleEditText.setKeyListener(null);
+        }
         radioCompetition.setEnabled(isEditable);
         radioActivity.setEnabled(isEditable);
         saveButton.setVisibility(isEditable ? View.VISIBLE : View.GONE);
@@ -90,7 +105,7 @@ public class AddCareerActivity extends AppCompatActivity {
         String category = radioCompetition.isChecked() ? "공모전" : "대외활동";
 
         if (title.isEmpty() || content.isEmpty() || radioGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "모든 항목을 기입해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -98,10 +113,10 @@ public class AddCareerActivity extends AppCompatActivity {
         db.collection("users").document(userId).collection("career")
                 .add(careerItem)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Career item added", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(this, "저장되었습니다", Toast.LENGTH_SHORT).show();
+                    setEditable(false);
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error adding career item", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "저장에 실패했습니다", Toast.LENGTH_SHORT).show());
     }
 
     private void loadCareerItem(String documentId) {
@@ -122,7 +137,7 @@ public class AddCareerActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error loading career item", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "정보를 불러오는데 실패했습니다", Toast.LENGTH_SHORT).show());
     }
 
     // 수정 예정
@@ -132,7 +147,7 @@ public class AddCareerActivity extends AppCompatActivity {
         String category = radioCompetition.isChecked() ? "공모전" : "대외활동";
 
         if (title.isEmpty() || content.isEmpty() || radioGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "모든 항목을 기입해야합니다", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -140,9 +155,58 @@ public class AddCareerActivity extends AppCompatActivity {
         db.collection("users").document(userId).collection("career").document(documentId)
                 .set(careerItem)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Career item updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "수정되었습니다", Toast.LENGTH_SHORT).show();
                     setEditable(false);
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error updating career item", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_add_career, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (item.getItemId() == R.id.action_delete) {
+            showDeleteConfirmationDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("알림")
+                .setMessage("이 항목을 삭제하시겠습니까?")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCareerItem();
+                    }
+                })
+                .setNegativeButton("취소", null)
+                .show();
+    }
+
+    private void deleteCareerItem() {
+        if (documentId != null) {
+            db.collection("users").document(userId).collection("career").document(documentId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(AddCareerActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(AddCareerActivity.this, "삭제 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

@@ -17,17 +17,21 @@
         android:theme="@style/Theme.AMAP_teamProject"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
             android:name=".Career.MyCareerActivity"
             android:exported="true"
             android:label="@string/title_activity_my_career"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:name=".Career.AddCareerActivity"
+            android:label="@string/title_activity_add_career"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Login.LoginActivity" />
         <activity
@@ -41,7 +45,6 @@
         </activity>
         <activity android:name=".SearchPage.SearchResultsActivity" />
         <activity android:name=".SearchPage.ContestDetailActivity" />
-        <activity android:name=".Career.AddCareerActivity" />
     </application>
 
 </manifest>

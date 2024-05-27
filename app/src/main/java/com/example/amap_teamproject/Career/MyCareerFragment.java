@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,11 +21,6 @@ import java.util.ArrayList;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.ListenerRegistration;
 
 public class MyCareerFragment extends Fragment {
@@ -38,6 +30,7 @@ public class MyCareerFragment extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentMycareerBinding binding;
     private List<CareerItem> careerList = new ArrayList<CareerItem>();
+    private TextView emptyMessageTextView;
     private ListenerRegistration registration;
     private FirebaseFirestore db;
 
@@ -72,6 +65,7 @@ public class MyCareerFragment extends Fragment {
             startActivity(intent);
         });
         binding.titleTextView.setAdapter(careerItemAdapter);
+        emptyMessageTextView = binding.emptyMessageTextView;
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         pageViewModel.setUserId(userId);
@@ -96,6 +90,13 @@ public class MyCareerFragment extends Fragment {
             @Override
             public void onChanged(List<CareerItem> careerItems) {
                 careerItemAdapter.updateData(careerItems);
+                if (careerItems.isEmpty()) {
+                    emptyMessageTextView.setVisibility(View.VISIBLE);
+                    binding.titleTextView.setVisibility(View.GONE);
+                } else {
+                    emptyMessageTextView.setVisibility(View.GONE);
+                    binding.titleTextView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
