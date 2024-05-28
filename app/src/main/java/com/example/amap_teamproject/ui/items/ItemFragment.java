@@ -29,8 +29,7 @@ public class ItemFragment extends Fragment {
     private ActivityAdapter activityAdapter;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
-    private Button contestButton;
-    private Button activityButton;
+    private Button contestButton, activityButton;
 
     public ItemFragment() {
     }
@@ -50,26 +49,28 @@ public class ItemFragment extends Fragment {
 
         eventAdapter = new EventAdapter(eventList);
         activityAdapter = new ActivityAdapter(activityList);
-        recyclerView.setAdapter(eventAdapter); // 기본적으로 이벤트 어댑터로 설정
 
         contestButton = view.findViewById(R.id.contestButton);
         activityButton = view.findViewById(R.id.activityButton);
 
-        // 디폴트로 공모전 버튼을 클릭된 상태로 설정
-        contestButton.setSelected(true);
-        fetchEvents();
-
         contestButton.setOnClickListener(v -> {
             contestButton.setSelected(true);
             activityButton.setSelected(false);
+            recyclerView.setAdapter(eventAdapter);
             fetchEvents();
         });
 
         activityButton.setOnClickListener(v -> {
             contestButton.setSelected(false);
             activityButton.setSelected(true);
+            recyclerView.setAdapter(activityAdapter);
             fetchActivities();
         });
+
+        // 초기 화면을 공모전 리스트로 설정
+        contestButton.setSelected(true);
+        recyclerView.setAdapter(eventAdapter);
+        fetchEvents();
 
         return view;
     }
@@ -84,8 +85,9 @@ public class ItemFragment extends Fragment {
                             Event event = document.toObject(Event.class);
                             eventList.add(event);
                         }
-                        recyclerView.setAdapter(eventAdapter);
                         eventAdapter.notifyDataSetChanged();
+                    } else {
+                        // 오류 처리
                     }
                 });
     }
@@ -100,13 +102,10 @@ public class ItemFragment extends Fragment {
                             Activity activity = document.toObject(Activity.class);
                             activityList.add(activity);
                         }
-                        recyclerView.setAdapter(activityAdapter);
                         activityAdapter.notifyDataSetChanged();
+                    } else {
+                        // 오류 처리
                     }
                 });
     }
 }
-
-
-
-

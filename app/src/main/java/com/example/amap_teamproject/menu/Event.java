@@ -11,7 +11,7 @@ public class Event implements Parcelable {
     private String subPeriod;
     private String detail;
     private String awardScale;
-    private String contestField;
+    private List<String> contestField;
     private List<String> homepage;
     private String imgSrc;
     private String noticeUrl;
@@ -27,7 +27,7 @@ public class Event implements Parcelable {
         subPeriod = in.readString();
         detail = in.readString();
         awardScale = in.readString();
-        contestField = in.readString();
+        contestField = in.createStringArrayList();
         homepage = in.createStringArrayList();
         imgSrc = in.readString();
         noticeUrl = in.readString();
@@ -58,7 +58,7 @@ public class Event implements Parcelable {
         dest.writeString(subPeriod);
         dest.writeString(detail);
         dest.writeString(awardScale);
-        dest.writeString(contestField);
+        dest.writeStringList(contestField);
         dest.writeStringList(homepage);
         dest.writeString(imgSrc);
         dest.writeString(noticeUrl);
@@ -86,7 +86,7 @@ public class Event implements Parcelable {
         return awardScale;
     }
 
-    public String getContestField() {
+    public List<String> getContestField() {
         return contestField;
     }
 

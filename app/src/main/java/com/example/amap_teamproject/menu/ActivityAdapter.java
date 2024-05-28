@@ -33,7 +33,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         Activity activity = activities.get(position);
         holder.title.setText(activity.getTitle());
         holder.organization.setText(activity.getOrganization());
-        holder.subPeriod.setText(activity.getSubPeriod());
+        holder.subPeriod.setText(activity.getActPeriod());
 
         // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
@@ -41,8 +41,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_ACTIVITY, activity);
+            Intent intent = new Intent(holder.itemView.getContext(), ActivityDetailActivity.class);
+            intent.putExtra(ActivityDetailActivity.EXTRA_ACTIVITY, activity);
             holder.itemView.getContext().startActivity(intent);
         });
     }
@@ -67,7 +67,4 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 }
-
-
-
 

@@ -40,8 +40,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_EVENT, event);
+            Intent intent = new Intent(holder.itemView.getContext(), EventDetailActivity.class);
+            intent.putExtra(EventDetailActivity.EXTRA_EVENT, event);
             holder.itemView.getContext().startActivity(intent);
         });
     }

@@ -108,4 +108,7 @@
     <string name="tab_text_2">대외활동</string>
     <string name="tab_text_3">공모전</string>
     <string name="tab_text_4">기타</string>
+    <string name="title_activity_add_career">아직 작성되지 않은 요소입니다</string>
+    <string name="activity_image_desc">Activity image</string>
+    <string name="event_image_desc">Event image</string>
 </resources>
