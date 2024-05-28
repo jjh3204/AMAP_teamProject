@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MyPage.MyPage">
+    tools:context=".ProfileActivity">
 
     <!-- 프로필 사진 -->
     <ImageView
@@ -33,13 +33,13 @@
         app:layout_constraintHorizontal_bias="0.5" />
     <!--android:layout_width="34dp"-->
 
-    <!-- 회원정보 수정 버튼 -->
+    <!-- 회원 탈퇴 버튼 -->
     <Button
-        android:id="@+id/updateInfoButton"
+        android:id="@+id/deleteUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="회원정보 수정"
+        android:text="회원 탈퇴"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="32dp"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="로그아웃"
-        app:layout_constraintTop_toBottomOf="@id/updateInfoButton"
+        app:layout_constraintTop_toBottomOf="@id/deleteUserButton"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="32dp"
         app:layout_constraintStart_toStartOf="parent"
