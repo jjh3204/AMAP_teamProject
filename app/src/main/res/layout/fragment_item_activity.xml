@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/background_item"> <!-- 배경색 설정 -->
 
     <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
@@ -40,10 +42,11 @@
     <!-- 이미지 -->
     <ImageView
         android:id="@+id/activity_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/activity_image_desc"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 </LinearLayout>

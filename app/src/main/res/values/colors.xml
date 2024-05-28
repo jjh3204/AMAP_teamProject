@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="transparent_sky_blue">#4034b9f2</color> <!-- 더 연한 하늘색 -->
+    <color name="transparent_sky_blue_dark">#6034b9f2</color> <!-- 선택된 상태의 하늘색 -->
 </resources>

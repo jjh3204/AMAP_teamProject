@@ -17,40 +17,46 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        TextView title = findViewById(R.id.detail_title);
+        ImageView image = findViewById(R.id.detail_image);
+        TextView organization = findViewById(R.id.detail_organization);
+        TextView period = findViewById(R.id.detail_period);
+        TextView participants = findViewById(R.id.detail_participants);
+        TextView homepage = findViewById(R.id.detail_homepage);
+        TextView detail = findViewById(R.id.detail_detail);
+
         // Event 객체를 처리
         if (getIntent().hasExtra(EXTRA_EVENT)) {
             Event event = getIntent().getParcelableExtra(EXTRA_EVENT);
             if (event != null) {
-                ((TextView) findViewById(R.id.event_title)).setText(event.getTitle());
-                ((TextView) findViewById(R.id.event_organization)).setText(event.getOrganization());
-                ((TextView) findViewById(R.id.event_sub_period)).setText(event.getSubPeriod());
-                ((TextView) findViewById(R.id.event_detail)).setText(event.getDetail());
-                ((TextView) findViewById(R.id.event_award_scale)).setText(event.getAwardScale());
-                ((TextView) findViewById(R.id.event_contest_field)).setText(event.getContestField());
-                ((TextView) findViewById(R.id.event_homepage)).setText(event.getHomepage().toString());
-                ((TextView) findViewById(R.id.event_notice_url)).setText(event.getNoticeUrl());
-                ((TextView) findViewById(R.id.event_participants)).setText(event.getParticipants());
+                title.setText(event.getTitle());
+                organization.setText(event.getOrganization());
+                period.setText(event.getSubPeriod());
+                participants.setText(event.getParticipants());
+                homepage.setText(event.getHomepage().toString());
+                detail.setText(event.getDetail());
 
-                ImageView imageView = findViewById(R.id.event_image);
                 Glide.with(this)
                         .load(event.getImgSrc())
-                        .into(imageView);
+                        .into(image);
             }
         }
         // Activity 객체를 처리
         else if (getIntent().hasExtra(EXTRA_ACTIVITY)) {
             Activity activity = getIntent().getParcelableExtra(EXTRA_ACTIVITY);
             if (activity != null) {
-                ((TextView) findViewById(R.id.event_title)).setText(activity.getTitle());
-                ((TextView) findViewById(R.id.event_organization)).setText(activity.getOrganization());
-                ((TextView) findViewById(R.id.event_sub_period)).setText(activity.getActPeriod());
-                ((TextView) findViewById(R.id.event_detail)).setText(activity.getDetail());
+                title.setText(activity.getTitle());
+                organization.setText(activity.getOrganization());
+                period.setText(activity.getActPeriod());
+                participants.setText(activity.getParticipants());
+                homepage.setText(activity.getHomepage().toString());
+                detail.setText(activity.getDetail());
 
-                ImageView imageView = findViewById(R.id.event_image);
                 Glide.with(this)
                         .load(activity.getPosterUrl())
-                        .into(imageView);
+                        .into(image);
             }
         }
     }
 }
+

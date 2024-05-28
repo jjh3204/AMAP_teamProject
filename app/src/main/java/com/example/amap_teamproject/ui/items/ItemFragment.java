@@ -29,6 +29,8 @@ public class ItemFragment extends Fragment {
     private ActivityAdapter activityAdapter;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
+    private Button contestButton;
+    private Button activityButton;
 
     public ItemFragment() {
     }
@@ -50,21 +52,26 @@ public class ItemFragment extends Fragment {
         activityAdapter = new ActivityAdapter(activityList);
         recyclerView.setAdapter(eventAdapter); // 기본적으로 이벤트 어댑터로 설정
 
-        Button allButton = view.findViewById(R.id.allButton);
-        Button contestButton = view.findViewById(R.id.contestButton);
-        Button activityButton = view.findViewById(R.id.activityButton);
+        contestButton = view.findViewById(R.id.contestButton);
+        activityButton = view.findViewById(R.id.activityButton);
 
-        allButton.setOnClickListener(v -> fetchAll());
-        contestButton.setOnClickListener(v -> fetchEvents());
-        activityButton.setOnClickListener(v -> fetchActivities());
-
-        fetchAll();
-        return view;
-    }
-
-    private void fetchAll() {
+        // 디폴트로 공모전 버튼을 클릭된 상태로 설정
+        contestButton.setSelected(true);
         fetchEvents();
-        fetchActivities();
+
+        contestButton.setOnClickListener(v -> {
+            contestButton.setSelected(true);
+            activityButton.setSelected(false);
+            fetchEvents();
+        });
+
+        activityButton.setOnClickListener(v -> {
+            contestButton.setSelected(false);
+            activityButton.setSelected(true);
+            fetchActivities();
+        });
+
+        return view;
     }
 
     private void fetchEvents() {
@@ -99,6 +106,7 @@ public class ItemFragment extends Fragment {
                 });
     }
 }
+
 
 
 

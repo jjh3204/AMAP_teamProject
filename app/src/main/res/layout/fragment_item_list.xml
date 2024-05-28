@@ -1,4 +1,3 @@
-<!-- res/layout/fragment_item_list.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,22 +12,24 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/allButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전체" />
-
-        <Button
             android:id="@+id/contestButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="공모전" />
+            android:layout_weight="1"
+            android:text="공모전"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/black"
+            android:stateListAnimator="@null" />
 
         <Button
             android:id="@+id/activityButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="대외활동" />
+            android:layout_weight="1"
+            android:text="대외활동"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/black"
+            android:stateListAnimator="@null" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,3 +40,4 @@
         android:padding="16dp" />
 
 </RelativeLayout>
+

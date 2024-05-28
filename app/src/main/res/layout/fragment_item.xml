@@ -5,17 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:layout_marginBottom="5dp"
+    android:background="#8034b9f2">
 
-    <!-- 이미지 -->
-    <ImageView
-        android:id="@+id/event_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/event_image_desc" />
-
-    <!-- 정보 레이아웃 -->
+    <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -30,26 +24,36 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <!-- 조직 -->
+        <!-- 조직 이름 -->
         <TextView
             android:id="@+id/event_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
-        <!-- 마감일/기간 -->
+        <!-- 기간 -->
         <TextView
-            android:id="@+id/event_deadline"
+            android:id="@+id/event_sub_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
 
-        <!-- 설명/상세 -->
+        <!-- 세부 설명 -->
         <TextView
-            android:id="@+id/event_description"
+            android:id="@+id/event_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
     </LinearLayout>
-</LinearLayout>
 
+    <!-- 이미지 -->
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/event_image_desc"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
+</LinearLayout>
