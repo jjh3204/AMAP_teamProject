@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">AMAP_teamProject</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">홈</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_my_page">My</string>
     <string name="title_items">Items</string>
+    <string name="title_my_career">내 활동</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -13,9 +14,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="event_image_desc">Event Image Description</string>
-    <string name="title_my_career">My Career</string>
-    <string name="title_activity_my_career">My Career Activity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -105,8 +103,9 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_activity_my_career">MyCareerActivity</string>
     <string name="tab_text_1">전체</string>
     <string name="tab_text_2">대외활동</string>
     <string name="tab_text_3">공모전</string>
-    <string name="activity_image_desc">이미지 desc</string>
+    <string name="tab_text_4">기타</string>
 </resources>

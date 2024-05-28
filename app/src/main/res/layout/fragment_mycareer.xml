@@ -5,6 +5,13 @@
     android:orientation="vertical"
     tools:context=".Career.MyCareerFragment">
 
+    <TextView
+        android:id="@+id/emptyMessageTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="작성된 글이 없습니다"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/titleTextView"
