@@ -1,6 +1,5 @@
 package com.example.amap_teamproject.ui.home;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,22 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.bumptech.glide.Glide;
+import androidx.viewpager2.widget.ViewPager2;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.SearchPage.SearchResultsActivity;
 import com.example.amap_teamproject.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +27,11 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db;
     private Handler handler;
     private Runnable runnable;
-    private ViewFlipper viewFlipper;
+    private ViewPager2 viewPager;
+    private ImagePagerAdapter adapter;
     private List<String> imageUrls = new ArrayList<>();
-    private int currentImageIndex = 0;
-    private final int delay = 5000; // 5초 간격
+    private final int delay = 7000;
+    private boolean isAutoSlideActive = true; //자동 슬라이드 활성 상태
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,10 +39,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
         final EditText searchEditText = binding.searchId;
         Button searchButton = binding.searchButtonId;
-        viewFlipper = binding.viewFlipper;
+        viewPager = binding.viewPager;
 
         db = FirebaseFirestore.getInstance();
         handler = new Handler();
@@ -63,13 +56,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // 애니메이션 설정
-        viewFlipper.setInAnimation(getContext(), R.anim.slide_in_right);
-        viewFlipper.setOutAnimation(getContext(), R.anim.slide_out_left);
-
         fetchLatestImages();
-
-
 
         return root;
     }
@@ -77,7 +64,7 @@ public class HomeFragment extends Fragment {
     private void fetchLatestImages() {
         db.collection("activities")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(5)
+                .limit(9)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -88,9 +75,11 @@ public class HomeFragment extends Fragment {
                                 imageUrls.add(imgSrc);
                             }
                         }
-                        // Start the image slideshow
+                        // Update the ViewPager adapter
                         if (!imageUrls.isEmpty()) {
-                            startImageSlideshow();
+                            adapter = new ImagePagerAdapter(getActivity(), imageUrls);
+                            viewPager.setAdapter(adapter);
+                            startAutoSlide();
                         }
                     } else {
                         // 실패 처리
@@ -98,43 +87,41 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private void startImageSlideshow() {
-        // Runnable 정의
+    private void startAutoSlide() {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (!imageUrls.isEmpty()) {
-                    // Load image into the next ImageView in ViewFlipper
-                    ImageView nextImageView = (ImageView) viewFlipper.getChildAt((viewFlipper.getDisplayedChild() + 1) % viewFlipper.getChildCount());
-                    Glide.with(HomeFragment.this)
-                            .load(imageUrls.get(currentImageIndex))
-                            .placeholder(nextImageView.getDrawable()) // Use current image as placeholder
-                            .into(nextImageView);
-
-                    // Show the next image
-                    viewFlipper.showNext();
-
-                    // Update the index
-                    currentImageIndex = (currentImageIndex + 1) % imageUrls.size();
+                if (adapter != null && adapter.getItemCount() > 0 && isAutoSlideActive) {
+                    int currentItem = viewPager.getCurrentItem();
+                    int nextItem = (currentItem + 1) % adapter.getItemCount();
+                    viewPager.setCurrentItem(nextItem, true);
                     handler.postDelayed(this, delay);
                 }
             }
         };
-
-        // 첫 실행
-        handler.post(runnable);
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, delay);
     }
 
-
+    @Override
     public void onResume() {
         super.onResume();
         ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("홈");
+        isAutoSlideActive = true;
+        handler.postDelayed(runnable, delay); // Resume auto-slide when returning to the fragment
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        isAutoSlideActive = false;
+        handler.removeCallbacks(runnable); // Stop auto-slide when leaving the fragment
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handler.removeCallbacks(runnable);
         binding = null;
     }
 }
