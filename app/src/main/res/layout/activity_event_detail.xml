@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".menu.EventDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,23 +15,23 @@
             android:id="@+id/detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:paddingBottom="8dp" />
 
         <ImageView
             android:id="@+id/detail_image"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:paddingBottom="8dp" />
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/notice_image"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/detail_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:paddingBottom="4dp" />
 
         <TextView
@@ -40,12 +42,6 @@
 
         <TextView
             android:id="@+id/detail_participants"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/detail_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp" />
@@ -63,10 +59,13 @@
             android:paddingBottom="4dp" />
 
         <TextView
-            android:id="@+id/detail_notice_url"
+            android:id="@+id/detail_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp" />
+            android:paddingBottom="4dp"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:textColor="@android:color/holo_blue_dark" />
 
         <TextView
             android:id="@+id/detail_detail"
@@ -76,4 +75,3 @@
 
     </LinearLayout>
 </ScrollView>
-

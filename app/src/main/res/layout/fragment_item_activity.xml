@@ -22,21 +22,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="활동 제목" />
 
         <!-- 조직 이름 -->
         <TextView
             android:id="@+id/activity_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="주최 기관" />
+
+        <!-- 활동 기간 -->
+        <TextView
+            android:id="@+id/activity_act_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="활동 기간" />
 
         <!-- 기간 -->
         <TextView
             android:id="@+id/activity_sub_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="서브 기간" />
     </LinearLayout>
 
     <!-- 이미지 -->
@@ -46,7 +57,8 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
-        android:contentDescription="@string/activity_image_desc"
+        android:contentDescription="활동 이미지"
         android:scaleType="fitCenter"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        tools:src="@drawable/ic_launcher_foreground" />
 </LinearLayout>
