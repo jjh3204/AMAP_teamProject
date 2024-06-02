@@ -1,49 +1,40 @@
 package com.example.amap_teamproject.ui.items;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.menu.Event;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.amap_teamproject.placeholder.PlaceholderContent.PlaceholderItem;
+import com.example.amap_teamproject.databinding.FragmentItemBinding;
 
 import java.util.List;
 
+/**
+ * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
+ * TODO: Replace the implementation with code for your data type.
+ */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Event> mValues;
+    private final List<PlaceholderItem> mValues;
 
-    public MyItemRecyclerViewAdapter(List<Event> items) {
+    public MyItemRecyclerViewAdapter(List<PlaceholderItem> items) {
         mValues = items;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Event event = mValues.get(position);
-        holder.mItem = event;
-        holder.mTitleView.setText(event.getTitle());
-        holder.mOrganizationView.setText(event.getOrganization());
-        holder.mDeadlineView.setText(event.getSubPeriod());
-        holder.mDescriptionView.setText(event.getDetail());
-
-        // Glide를 사용하여 이미지 로드
-        Glide.with(holder.itemView.getContext())
-                .load(event.getImgSrc())
-                .into(holder.mImageView);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.mItem = mValues.get(position);
+        holder.mIdView.setText(mValues.get(position).id);
+        holder.mContentView.setText(mValues.get(position).content);
     }
 
     @Override
@@ -51,21 +42,20 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return mValues.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mTitleView;
-        public final TextView mOrganizationView;
-        public final TextView mDeadlineView;
-        public final TextView mDescriptionView;
-        public final ImageView mImageView;
-        public Event mItem;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public final TextView mIdView;
+        public final TextView mContentView;
+        public PlaceholderItem mItem;
 
-        public ViewHolder(View view) {
-            super(view);
-            mTitleView = view.findViewById(R.id.event_title);
-            mOrganizationView = view.findViewById(R.id.event_organization);
-            mDeadlineView = view.findViewById(R.id.event_sub_period);
-            mDescriptionView = view.findViewById(R.id.event_detail);
-            mImageView = view.findViewById(R.id.event_image);
+        public ViewHolder(FragmentItemBinding binding) {
+            super(binding.getRoot());
+            mIdView = binding.itemNumber;
+            mContentView = binding.content;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
 }

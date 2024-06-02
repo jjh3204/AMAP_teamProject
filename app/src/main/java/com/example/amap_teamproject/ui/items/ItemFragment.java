@@ -1,111 +1,83 @@
 package com.example.amap_teamproject.ui.items;
-
+// RecyclerView
+import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.amap_teamproject.MainActivity;
 import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.menu.Activity;
-import com.example.amap_teamproject.menu.ActivityAdapter;
-import com.example.amap_teamproject.menu.Event;
-import com.example.amap_teamproject.menu.EventAdapter;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.example.amap_teamproject.placeholder.PlaceholderContent;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * A fragment representing a list of Items.
+ */
 public class ItemFragment extends Fragment {
 
-    private List<Event> eventList = new ArrayList<>();
-    private List<Activity> activityList = new ArrayList<>();
-    private EventAdapter eventAdapter;
-    private ActivityAdapter activityAdapter;
-    private FirebaseFirestore db;
-    private RecyclerView recyclerView;
-    private Button contestButton, activityButton;
+    // TODO: Customize parameter argument names
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    // TODO: Customize parameters
+    private int mColumnCount = 1;
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
     public ItemFragment() {
+    }
+
+    // TODO: Customize parameter initialization
+    @SuppressWarnings("unused")
+    public static ItemFragment newInstance(int columnCount) {
+        ItemFragment fragment = new ItemFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = FirebaseFirestore.getInstance();
+
+        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        eventAdapter = new EventAdapter(eventList);
-        activityAdapter = new ActivityAdapter(activityList);
-
-        contestButton = view.findViewById(R.id.contestButton);
-        activityButton = view.findViewById(R.id.activityButton);
-
-        contestButton.setOnClickListener(v -> {
-            contestButton.setSelected(true);
-            activityButton.setSelected(false);
-            recyclerView.setAdapter(eventAdapter);
-            fetchEvents();
-        });
-
-        activityButton.setOnClickListener(v -> {
-            contestButton.setSelected(false);
-            activityButton.setSelected(true);
-            recyclerView.setAdapter(activityAdapter);
-            fetchActivities();
-        });
-
-        // 초기 화면을 공모전 리스트로 설정
-        contestButton.setSelected(true);
-        recyclerView.setAdapter(eventAdapter);
-        fetchEvents();
-
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
+        }
         return view;
     }
 
-    private void fetchEvents() {
-        db.collection("contests")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        eventList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Event event = document.toObject(Event.class);
-                            eventList.add(event);
-                        }
-                        eventAdapter.notifyDataSetChanged();
-                    } else {
-                        // 오류 처리
-                    }
-                });
-    }
-
-    private void fetchActivities() {
-        db.collection("activities")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        activityList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Activity activity = document.toObject(Activity.class);
-                            activityList.add(activity);
-                        }
-                        activityAdapter.notifyDataSetChanged();
-                    } else {
-                        // 오류 처리
-                    }
-                });
+    public void onResume() {
+        super.onResume();
+        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("목록");
+        // ((MainActivity) getActivity()).showToolbar2(true);
     }
 }

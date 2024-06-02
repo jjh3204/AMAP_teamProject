@@ -1,43 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RecylcerViewLayout -->
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:id="@+id/list"
+    android:name="com.example.amap_teamproject.ItemFragment"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".ui.items.ItemFragment">
-
-    <LinearLayout
-        android:id="@+id/filterContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/contestButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="공모전"
-            android:background="@drawable/button_background"
-            android:textColor="@android:color/black"
-            android:stateListAnimator="@null" />
-
-        <Button
-            android:id="@+id/activityButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="대외활동"
-            android:background="@drawable/button_background"
-            android:textColor="@android:color/black"
-            android:stateListAnimator="@null" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/filterContainer"
-        android:padding="16dp" />
-
-</RelativeLayout>
-
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:layoutManager="LinearLayoutManager"
+    tools:context=".ui.items.ItemFragment"
+    tools:listitem="@layout/fragment_item" />
