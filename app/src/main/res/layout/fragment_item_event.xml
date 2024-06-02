@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:layout_marginBottom="5dp"
-    android:background="#8034b9f2">
+    android:background="@drawable/background_item"> <!-- 배경색 설정 -->
 
     <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
@@ -37,13 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
-
-        <!-- 세부 설명 -->
-        <TextView
-            android:id="@+id/event_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp" />
     </LinearLayout>
 
     <!-- 이미지 -->
@@ -53,7 +46,8 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
-        android:contentDescription="check"
+        android:contentDescription="@string/event_image_desc"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true" />
 </LinearLayout>
+
