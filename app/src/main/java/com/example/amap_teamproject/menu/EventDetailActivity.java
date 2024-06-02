@@ -28,7 +28,7 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView detail = findViewById(R.id.detail_detail);
         TextView awardScale = findViewById(R.id.detail_award_scale);
         TextView contestField = findViewById(R.id.detail_contest_field);
-        TextView noticeUrl = findViewById(R.id.detail_notice_url);
+        // Removed duplicate noticeUrl TextView
 
         if (getIntent().hasExtra(EXTRA_EVENT)) {
             Event event = getIntent().getParcelableExtra(EXTRA_EVENT);
@@ -40,9 +40,9 @@ public class EventDetailActivity extends AppCompatActivity {
                 setBoldText(participants, "참가대상: ", event.getParticipants());
 
                 if (event.getHomepage() != null && !event.getHomepage().isEmpty()) {
-                    setBoldText(homepage, "공지 URL: ", event.getHomepage().get(0));
+                    setBoldText(homepage, "홈페이지: ", event.getHomepage().get(0));
                 } else {
-                    setBoldText(homepage, "공지 URL: ", "N/A");
+                    setBoldText(homepage, "홈페이지: ", "N/A");
                 }
 
                 setBoldText(awardScale, "시상 내역: ", event.getAwardScale());
@@ -53,9 +53,6 @@ public class EventDetailActivity extends AppCompatActivity {
                     setBoldText(contestField, "공모 분야: ", "N/A");
                 }
 
-                setBoldText(noticeUrl, "공지 URL: ", event.getNoticeUrl());
-
-                // Replace \n with actual newlines
                 setBoldText(detail, "상세정보:\n", event.getDetail().replaceAll("\\\\n", "\n"));
 
                 if (event.getImgSrc() != null && !event.getImgSrc().isEmpty()) {
@@ -75,3 +72,4 @@ public class EventDetailActivity extends AppCompatActivity {
         textView.setText(spannableString);
     }
 }
+

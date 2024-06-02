@@ -2,19 +2,38 @@ package com.example.amap_teamproject.menu;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import com.google.firebase.firestore.PropertyName;
 import java.util.List;
 
 public class Event implements Parcelable {
+    @PropertyName("title")
     private String title;
+
+    @PropertyName("organization")
     private String organization;
+
+    @PropertyName("sub_period")
     private String subPeriod;
+
+    @PropertyName("detail")
     private String detail;
+
+    @PropertyName("award_scale")
     private String awardScale;
+
+    @PropertyName("contest_field")
     private List<String> contestField;
+
+    @PropertyName("homepage")
     private List<String> homepage;
+
+    @PropertyName("img_src")
     private String imgSrc;
+
+    @PropertyName("notice_url")
     private String noticeUrl;
+
+    @PropertyName("participants")
     private String participants;
 
     public Event() {
