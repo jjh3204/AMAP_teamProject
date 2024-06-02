@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:layout_marginBottom="5dp"
-    android:background="#8034b9f2">
+    android:background="@drawable/background_item"> <!-- 배경색 설정 -->
 
     <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
@@ -18,7 +18,7 @@
 
         <!-- 제목 -->
         <TextView
-            android:id="@+id/event_title"
+            android:id="@+id/activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -26,21 +26,14 @@
 
         <!-- 조직 이름 -->
         <TextView
-            android:id="@+id/event_organization"
+            android:id="@+id/activity_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
         <!-- 기간 -->
         <TextView
-            android:id="@+id/event_sub_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp" />
-
-        <!-- 세부 설명 -->
-        <TextView
-            android:id="@+id/event_detail"
+            android:id="@+id/activity_sub_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp" />
@@ -48,12 +41,12 @@
 
     <!-- 이미지 -->
     <ImageView
-        android:id="@+id/event_image"
+        android:id="@+id/activity_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
-        android:contentDescription="check"
+        android:contentDescription="@string/activity_image_desc"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true" />
 </LinearLayout>
