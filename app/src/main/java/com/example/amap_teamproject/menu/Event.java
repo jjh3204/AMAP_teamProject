@@ -6,34 +6,20 @@ import com.google.firebase.firestore.PropertyName;
 import java.util.List;
 
 public class Event implements Parcelable {
-    @PropertyName("title")
     private String title;
-
-    @PropertyName("organization")
     private String organization;
-
     @PropertyName("sub_period")
     private String subPeriod;
-
-    @PropertyName("detail")
     private String detail;
-
     @PropertyName("award_scale")
     private String awardScale;
-
     @PropertyName("contest_field")
     private List<String> contestField;
-
-    @PropertyName("homepage")
     private List<String> homepage;
-
     @PropertyName("img_src")
     private String imgSrc;
-
     @PropertyName("notice_url")
     private String noticeUrl;
-
-    @PropertyName("participants")
     private String participants;
 
     public Event() {
@@ -93,6 +79,7 @@ public class Event implements Parcelable {
         return organization;
     }
 
+    @PropertyName("sub_period")
     public String getSubPeriod() {
         return subPeriod;
     }
@@ -101,10 +88,12 @@ public class Event implements Parcelable {
         return detail;
     }
 
+    @PropertyName("award_scale")
     public String getAwardScale() {
         return awardScale;
     }
 
+    @PropertyName("contest_field")
     public List<String> getContestField() {
         return contestField;
     }
@@ -113,10 +102,12 @@ public class Event implements Parcelable {
         return homepage;
     }
 
+    @PropertyName("img_src")
     public String getImgSrc() {
         return imgSrc;
     }
 
+    @PropertyName("notice_url")
     public String getNoticeUrl() {
         return noticeUrl;
     }

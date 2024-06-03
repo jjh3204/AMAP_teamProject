@@ -32,11 +32,89 @@
             android:stateListAnimator="@null" />
     </LinearLayout>
 
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filterContainer"
+        android:paddingTop="8dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/filterButtonsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/allButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="전체"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="사진/영상/UCC"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="디자인/순수미술/공예"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="분야 3"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="분야 4"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/filterContainer"
+        android:layout_below="@id/filterScrollView"
         android:padding="16dp" />
 
 </RelativeLayout>
+
