@@ -8,15 +8,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import com.example.amap_teamproject.Login.LoginActivity;
 import com.example.amap_teamproject.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private ActivityMainBinding binding;
 
@@ -31,12 +26,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        if (user == null) {
-            Intent it = new Intent(this, LoginActivity.class);
-            startActivity(it);
-            finish();
-        }
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_items, R.id.navigation_dashboard, R.id.navigation_my_page)
@@ -46,5 +35,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
     }
+
+
+    //private boolean showToolbar2(boolean show)
 
 }

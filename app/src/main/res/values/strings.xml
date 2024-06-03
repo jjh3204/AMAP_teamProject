@@ -109,6 +109,13 @@
     <string name="tab_text_2">대외활동</string>
     <string name="tab_text_3">공모전</string>
     <string name="tab_text_4">기타</string>
-    <string name="activity_image_desc">Activity image</string>
-    <string name="event_image_desc">Event image</string>
+    <string name="event_image">Event Image</string>
+    <string name="notice_image">Notice Image</string>
+
+    <string-array name="filter_array">
+        <item>전체</item>
+        <item>사진/영상/UCC</item>
+        <item>디자인/순수미술/공예</item>
+        <!-- Add more filter options as needed -->
+    </string-array>
 </resources>
