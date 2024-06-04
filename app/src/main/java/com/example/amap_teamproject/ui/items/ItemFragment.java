@@ -1,5 +1,6 @@
 package com.example.amap_teamproject.ui.items;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.menu.Activity;
 import com.example.amap_teamproject.menu.ActivityAdapter;
@@ -29,7 +31,8 @@ public class ItemFragment extends Fragment {
     private ActivityAdapter activityAdapter;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
-    private Button contestButton, activityButton;
+    private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4;
+    private LinearLayout filterButtonsContainer;
 
     public ItemFragment() {
     }
@@ -47,17 +50,54 @@ public class ItemFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Add padding to the bottom of the RecyclerView
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                int position = parent.getChildAdapterPosition(view);
+                if (position == state.getItemCount() - 1) {
+                    outRect.bottom = getResources().getDimensionPixelSize(R.dimen.bottom_padding);
+                }
+            }
+        });
+
         eventAdapter = new EventAdapter(eventList);
         activityAdapter = new ActivityAdapter(activityList);
 
         contestButton = view.findViewById(R.id.contestButton);
         activityButton = view.findViewById(R.id.activityButton);
+        allButton = view.findViewById(R.id.allButton);
+        categoryButton1 = view.findViewById(R.id.categoryButton1);
+        categoryButton2 = view.findViewById(R.id.categoryButton2);
+        categoryButton3 = view.findViewById(R.id.categoryButton3);
+        categoryButton4 = view.findViewById(R.id.categoryButton4);
+
+        View.OnClickListener filterClickListener = v -> {
+            resetFilterButtonColors();
+            v.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue_dark));
+            if (v == allButton) {
+                if (contestButton.isSelected()) {
+                    fetchEvents();
+                } else {
+                    fetchActivities();
+                }
+            } else {
+                String category = ((Button) v).getText().toString();
+                if (contestButton.isSelected()) {
+                    fetchEventsByCategory(category);
+                } else {
+                    fetchActivitiesByCategory(category);
+                }
+            }
+        };
 
         contestButton.setOnClickListener(v -> {
             contestButton.setSelected(true);
             activityButton.setSelected(false);
             recyclerView.setAdapter(eventAdapter);
             fetchEvents();
+            updateFilterButtons("contest");
         });
 
         activityButton.setOnClickListener(v -> {
@@ -65,18 +105,47 @@ public class ItemFragment extends Fragment {
             activityButton.setSelected(true);
             recyclerView.setAdapter(activityAdapter);
             fetchActivities();
+            updateFilterButtons("activity");
         });
+
+        allButton.setOnClickListener(filterClickListener);
+        categoryButton1.setOnClickListener(filterClickListener);
+        categoryButton2.setOnClickListener(filterClickListener);
+        categoryButton3.setOnClickListener(filterClickListener);
+        categoryButton4.setOnClickListener(filterClickListener);
 
         // 초기 화면을 공모전 리스트로 설정
         contestButton.setSelected(true);
         recyclerView.setAdapter(eventAdapter);
         fetchEvents();
+        updateFilterButtons("contest");
+
+        // 초기 필터링 버튼 상태 설정
+        allButton.performClick();
 
         return view;
     }
 
     private void fetchEvents() {
         db.collection("contests")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        eventList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Event event = document.toObject(Event.class);
+                            eventList.add(event);
+                        }
+                        eventAdapter.notifyDataSetChanged();
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    private void fetchEventsByCategory(String category) {
+        db.collection("contests")
+                .whereArrayContains("contest_field", category)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -108,4 +177,47 @@ public class ItemFragment extends Fragment {
                     }
                 });
     }
+
+    private void fetchActivitiesByCategory(String category) {
+        db.collection("activities")
+                .whereArrayContains("interest_field", category)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        activityList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Activity activity = document.toObject(Activity.class);
+                            activityList.add(activity);
+                        }
+                        activityAdapter.notifyDataSetChanged();
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    private void updateFilterButtons(String type) {
+        if (type.equals("contest")) {
+            allButton.setText("전체");
+            categoryButton1.setText("사진/영상/UCC");
+            categoryButton2.setText("디자인/순수미술/공예");
+            categoryButton3.setText("분야 3");
+            categoryButton4.setText("분야 4");
+        } else {
+            allButton.setText("전체");
+            categoryButton1.setText("경영/경제");
+            categoryButton2.setText("사회과학");
+            categoryButton3.setText("자연과학");
+            categoryButton4.setText("공학");
+        }
+    }
+
+    private void resetFilterButtonColors() {
+        allButton.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton1.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton2.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton3.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton4.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+    }
 }
+
