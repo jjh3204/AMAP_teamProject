@@ -101,15 +101,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     // 데이터가 존재하지 않으면 추가
                     Map<String, Object> favoriteData = new HashMap<>();
                     favoriteData.put("title", event.getTitle());
-                    favoriteData.put("organization", event.getOrganization());
-                    favoriteData.put("subPeriod", event.getSubPeriod());
-                    favoriteData.put("detail", event.getDetail());
-                    favoriteData.put("awardScale", event.getAwardScale());
-                    favoriteData.put("contestField", event.getContestField());
-                    favoriteData.put("homepage", event.getHomepage());
-                    favoriteData.put("imgSrc", event.getImgSrc());
-                    favoriteData.put("noticeUrl", event.getNoticeUrl());
-                    favoriteData.put("participants", event.getParticipants());
+                    favoriteData.put("contest_field", event.getContestField());
+
 
                     db.collection("users").document(userId).collection("favorites_event")
                             .add(favoriteData)

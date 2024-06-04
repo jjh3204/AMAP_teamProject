@@ -101,13 +101,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     // 데이터가 존재하지 않으면 추가
                     Map<String, Object> favoriteData = new HashMap<>();
                     favoriteData.put("title", activity.getTitle());
-                    favoriteData.put("organization", activity.getOrganization());
-                    favoriteData.put("actPeriod", activity.getActPeriod());
-                    favoriteData.put("subPeriod", activity.getSubPeriod());
-                    favoriteData.put("detail", activity.getDetail());
-                    favoriteData.put("posterurl", activity.getPosterUrl());
-                    favoriteData.put("participants", activity.getParticipants());
-                    favoriteData.put("homepage", activity.getHomepage());
+                    favoriteData.put("interst_field", activity.getInterestField());
 
                     db.collection("users").document(userId).collection("favorites_activity")
                             .add(favoriteData)
