@@ -1,0 +1,23 @@
+<resources>
+    <!-- 기존 스타일들이 여기에 있을 것입니다. -->
+
+    <!-- 새로운 스타일 추가 -->
+    <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemTextAppearanceActive">@style/BottomNavigationViewActiveText</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavigationViewInactiveText</item>
+    </style>
+
+    <style name="BottomNavigationViewActiveText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">30sp</item> <!-- 원하는 텍스트 크기 -->
+        <item name="android:gravity">center</item> <!-- 텍스트 중앙 정렬 -->
+        <item name="android:textColor">@android:color/black</item> <!-- 텍스트 색상 검은색 -->
+
+    </style>
+
+    <style name="BottomNavigationViewInactiveText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">30sp</item> <!-- 원하는 텍스트 크기 -->
+        <item name="android:gravity">center</item> <!-- 텍스트 중앙 정렬 -->
+        <item name="android:textColor">@android:color/black</item> <!-- 텍스트 색상 검은색 -->
+
+    </style>
+</resources>

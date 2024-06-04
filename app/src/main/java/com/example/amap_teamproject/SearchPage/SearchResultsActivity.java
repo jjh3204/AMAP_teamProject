@@ -1,110 +1,63 @@
 package com.example.amap_teamproject.SearchPage;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.example.amap_teamproject.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity {
+    private EditText editTextSearch;
+    private Button buttonSearch;
 
-    private RecyclerView recyclerView;
-    private ContestAdapter contestAdapter;
-    private List<Contest> contestList;
-    private EditText searchEditText;
-    private Button searchButton;
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contestList = new ArrayList<>();
-        contestAdapter = new ContestAdapter(contestList, this);
-        recyclerView.setAdapter(contestAdapter);
+        editTextSearch = findViewById(R.id.search_edit_text_again);
+        buttonSearch = findViewById(R.id.search_button_again);
 
-        searchEditText = findViewById(R.id.search_edit_text_again);
-        searchButton = findViewById(R.id.search_button_again);
-
-        String query = getIntent().getStringExtra("query");
-        if (query != null && !query.isEmpty()) {
-            searchContests(query);
+        // HomeFragment로부터 전달된 검색 텍스트를 가져옵니다.
+        Intent intent = getIntent();
+        String initialSearchText = intent.getStringExtra("searchText");
+        if (initialSearchText != null) {
+            editTextSearch.setText(initialSearchText);
         }
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        // Fragment에 검색 텍스트를 전달합니다.
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("searchText", initialSearchText);
+            Fragment fragment = new SR_Fragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+        }
+
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performSearch();
+                String searchText = editTextSearch.getText().toString();
+
+                // Fragment에 검색 텍스트를 전달합니다.
+                Bundle bundle = new Bundle();
+                bundle.putString("searchText", searchText);
+                Fragment fragment = new SR_Fragment();
+                fragment.setArguments(bundle);
+
+                // Fragment를 추가합니다.
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
             }
         });
-
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                        actionId == EditorInfo.IME_ACTION_DONE ||
-                        event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                    if (event == null || !event.isShiftPressed()) {
-                        performSearch();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
-    private void performSearch() {
-        String query = searchEditText.getText().toString();
-        Intent intent = new Intent(SearchResultsActivity.this, SearchResultsActivity.class);
-        intent.putExtra("query", query);
-        startActivity(intent);
-    }
-
-    private void searchContests(String query) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("contests")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            contestList.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Contest contest = document.toObject(Contest.class);
-                                if (contest.getTitle().toLowerCase().contains(query.toLowerCase())) {
-                                    contestList.add(contest);
-                                }
-                            }
-                            contestAdapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(SearchResultsActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 }
