@@ -2,17 +2,29 @@ package com.example.amap_teamproject.menu;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.List;
 
 public class Activity implements Parcelable {
     private String title;
     private String organization;
+    @PropertyName("act_period")
     private String actPeriod;
-    private String subPeriod; // 추가
+    @PropertyName("sub_period")
+    private String subPeriod;
     private String detail;
+    @PropertyName("poster_url")
     private String posterUrl;
     private String participants;
+    @PropertyName("act_field")
+    private List<String> actField;
+    @PropertyName("act_region")
+    private List<String> actRegion;
+    @PropertyName("interest_field")
+    private List<String> interestField;
+    @PropertyName("notice_url")
+    private String noticeUrl;
     private List<String> homepage;
 
     public Activity() {
@@ -23,10 +35,14 @@ public class Activity implements Parcelable {
         title = in.readString();
         organization = in.readString();
         actPeriod = in.readString();
-        subPeriod = in.readString(); // 추가
+        subPeriod = in.readString();
         detail = in.readString();
         posterUrl = in.readString();
         participants = in.readString();
+        actField = in.createStringArrayList();
+        actRegion = in.createStringArrayList();
+        interestField = in.createStringArrayList();
+        noticeUrl = in.readString();
         homepage = in.createStringArrayList();
     }
 
@@ -52,10 +68,14 @@ public class Activity implements Parcelable {
         dest.writeString(title);
         dest.writeString(organization);
         dest.writeString(actPeriod);
-        dest.writeString(subPeriod); // 추가
+        dest.writeString(subPeriod);
         dest.writeString(detail);
         dest.writeString(posterUrl);
         dest.writeString(participants);
+        dest.writeStringList(actField);
+        dest.writeStringList(actRegion);
+        dest.writeStringList(interestField);
+        dest.writeString(noticeUrl);
         dest.writeStringList(homepage);
     }
 
@@ -68,11 +88,13 @@ public class Activity implements Parcelable {
         return organization;
     }
 
+    @PropertyName("act_period")
     public String getActPeriod() {
         return actPeriod;
     }
 
-    public String getSubPeriod() { // 추가
+    @PropertyName("sub_period")
+    public String getSubPeriod() {
         return subPeriod;
     }
 
@@ -80,12 +102,33 @@ public class Activity implements Parcelable {
         return detail;
     }
 
+    @PropertyName("poster_url")
     public String getPosterUrl() {
         return posterUrl;
     }
 
     public String getParticipants() {
         return participants;
+    }
+
+    @PropertyName("act_field")
+    public List<String> getActField() {
+        return actField;
+    }
+
+    @PropertyName("act_region")
+    public List<String> getActRegion() {
+        return actRegion;
+    }
+
+    @PropertyName("interest_field")
+    public List<String> getInterestField() {
+        return interestField;
+    }
+
+    @PropertyName("notice_url")
+    public String getNoticeUrl() {
+        return noticeUrl;
     }
 
     public List<String> getHomepage() {
