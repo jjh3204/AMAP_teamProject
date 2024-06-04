@@ -91,4 +91,5 @@ public class Activity implements Parcelable {
     public List<String> getHomepage() {
         return homepage;
     }
+
 }

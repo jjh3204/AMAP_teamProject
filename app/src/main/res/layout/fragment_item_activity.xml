@@ -61,4 +61,11 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         tools:src="@drawable/ic_launcher_foreground" />
+
+    <android.widget.Button
+        android:id="@+id/action_button"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:text="찜" />
+
 </LinearLayout>

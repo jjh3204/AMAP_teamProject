@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AMAP_teamProject</string>
     <string name="title_home">홈</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">스크랩</string>
     <string name="title_my_page">My</string>
     <string name="title_items">Items</string>
     <string name="title_my_career">내 활동</string>
