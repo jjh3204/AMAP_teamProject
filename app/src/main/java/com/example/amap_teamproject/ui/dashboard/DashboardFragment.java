@@ -1,5 +1,6 @@
 package com.example.amap_teamproject.ui.dashboard;
 
+import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -100,19 +101,18 @@ public class DashboardFragment extends Fragment {
             contestButton.setSelected(true);
             activityButton.setSelected(false);
             recyclerView.setAdapter(eventAdapter);
-            fetchEvents();
+            allButton.performClick();
             updateFilterButtons("contest");
-
         });
 
         activityButton.setOnClickListener(v -> {
             contestButton.setSelected(false);
             activityButton.setSelected(true);
             recyclerView.setAdapter(activityAdapter);
-            fetchActivities();
+            allButton.performClick();
             updateFilterButtons("activity");
-
         });
+
         allButton.setOnClickListener(filterClickListener);
         categoryButton1.setOnClickListener(filterClickListener);
         categoryButton2.setOnClickListener(filterClickListener);
@@ -122,7 +122,6 @@ public class DashboardFragment extends Fragment {
         // 초기 화면을 공모전 리스트로 설정
         contestButton.setSelected(true);
         recyclerView.setAdapter(eventAdapter);
-        fetchEvents();
         updateFilterButtons("contest");
 
         allButton.performClick();
@@ -138,6 +137,25 @@ public class DashboardFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("title");
+                            if (title != null) {
+                                fetchFavoriteEventByTitle(title);
+                            }
+                        }
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void fetchFavoriteEventByTitle(String title) {
+        db.collection("contests")
+                .whereEqualTo("title", title)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
                             eventList.add(event);
@@ -158,6 +176,31 @@ public class DashboardFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventList.clear();
+                        List<String> titles = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("title");
+                            if (title != null) {
+                                titles.add(title);
+                            }
+                        }
+                        if (!titles.isEmpty()) {
+                            fetchFavoriteEventsByTitlesAndCategory(titles, category);
+                        } else {
+                            eventAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    private void fetchFavoriteEventsByTitlesAndCategory(List<String> titles, String category) {
+        db.collection("contests")
+                .whereIn("title", titles)
+                .whereArrayContains("contest_field", category)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
                             eventList.add(event);
@@ -178,6 +221,24 @@ public class DashboardFragment extends Fragment {
                     if (task.isSuccessful()) {
                         activityList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("title");
+                            if (title != null) {
+                                fetchActivityByTitle(title);
+                            }
+                        }
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    private void fetchActivityByTitle(String title) {
+        db.collection("activities")
+                .whereEqualTo("title", title)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
                             activityList.add(activity);
                         }
@@ -197,6 +258,31 @@ public class DashboardFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         activityList.clear();
+                        List<String> titles = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("title");
+                            if (title != null) {
+                                titles.add(title);
+                            }
+                        }
+                        if (!titles.isEmpty()) {
+                            fetchActivitiesByTitlesAndCategory(titles, category);
+                        } else {
+                            activityAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        // 오류 처리
+                    }
+                });
+    }
+
+    private void fetchActivitiesByTitlesAndCategory(List<String> titles, String category) {
+        db.collection("activities")
+                .whereIn("title", titles)
+                .whereArrayContains("interest_field", category)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
                             activityList.add(activity);

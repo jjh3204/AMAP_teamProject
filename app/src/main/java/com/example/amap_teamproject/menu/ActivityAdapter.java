@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,7 +60,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             holder.itemView.getContext().startActivity(intent);
         });
 
-        holder.favButton.setOnClickListener(v -> toggleFavorite(activity));
+        initializeButton(activity, holder.favButton);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         TextView organization;
         TextView subPeriod;
         ImageView imageView;
-        Button favButton;
+        ImageButton favButton;
 
         ViewHolder(View view) {
             super(view);
@@ -85,7 +85,30 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 
-    private void toggleFavorite(Activity activity) {
+    private void initializeButton(Activity activity, ImageButton button) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+
+        String userId = user.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("users").document(userId).collection("favorites_activity").whereEqualTo("title", activity.getTitle());
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().isEmpty()) {
+                    button.setImageResource(R.drawable.empty_heart);
+                } else {
+                    button.setImageResource(R.drawable.full_heart);
+                }
+            }
+
+            button.setOnClickListener(v -> toggleFavorite(activity, button));
+        });
+    }
+
+    private void toggleFavorite(Activity activity, ImageButton button) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
@@ -101,26 +124,27 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     // 데이터가 존재하지 않으면 추가
                     Map<String, Object> favoriteData = new HashMap<>();
                     favoriteData.put("title", activity.getTitle());
-                    favoriteData.put("interst_field", activity.getInterestField());
+                    favoriteData.put("interest_field", activity.getInterestField());
 
                     db.collection("users").document(userId).collection("favorites_activity")
                             .add(favoriteData)
-                            .addOnSuccessListener(documentReference -> {
-                            })
+                            .addOnSuccessListener(documentReference -> button.setImageResource(R.drawable.full_heart))
                             .addOnFailureListener(e -> {
+                                // 실패 시 처리
                             });
                 } else {
                     // 데이터가 존재하면 삭제
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference docRef = document.getReference();
                         docRef.delete()
-                                .addOnSuccessListener(aVoid -> {
-                                })
+                                .addOnSuccessListener(aVoid -> button.setImageResource(R.drawable.empty_heart))
                                 .addOnFailureListener(e -> {
+                                    // 실패 시 처리
                                 });
                     }
                 }
             } else {
+                // 쿼리 실패 시 처리
             }
         });
     }

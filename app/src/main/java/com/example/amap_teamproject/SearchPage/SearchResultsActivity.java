@@ -2,9 +2,12 @@ package com.example.amap_teamproject.SearchPage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,19 +48,38 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String searchText = editTextSearch.getText().toString();
-
-                // Fragment에 검색 텍스트를 전달합니다.
-                Bundle bundle = new Bundle();
-                bundle.putString("searchText", searchText);
-                Fragment fragment = new SR_Fragment();
-                fragment.setArguments(bundle);
-
-                // Fragment를 추가합니다.
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.commit();
+                searchInFragment(searchText);
             }
         });
+
+        // Enter key press listener using setOnEditorActionListener
+        editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE ||
+                        event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    if (event == null || !event.isShiftPressed()) {
+                        String searchText = editTextSearch.getText().toString();
+                        searchInFragment(searchText);
+                        return true; // consume the event
+                    }
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+    }
+
+    private void searchInFragment(String searchText) {
+        // Fragment에 검색 텍스트를 전달합니다.
+        Bundle bundle = new Bundle();
+        bundle.putString("searchText", searchText);
+        Fragment fragment = new SR_Fragment();
+        fragment.setArguments(bundle);
+
+        // Fragment를 추가합니다.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }
