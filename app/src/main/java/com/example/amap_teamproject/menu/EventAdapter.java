@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,8 +58,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             intent.putExtra(EventDetailActivity.EXTRA_EVENT, event);
             holder.itemView.getContext().startActivity(intent);
         });
-        holder.favButton.setOnClickListener(v -> toggleFavorite(event));
 
+        initializeButton(event, holder.favButton);
     }
 
     @Override
@@ -72,8 +72,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         TextView organization;
         TextView subPeriod;
         ImageView imageView;
-
-        Button favButton;
+        ImageButton favButton;
 
         ViewHolder(View view) {
             super(view);
@@ -85,7 +84,30 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
     }
 
-    private void toggleFavorite(Event event) {
+    private void initializeButton(Event event, ImageButton button) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+
+        String userId = user.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("users").document(userId).collection("favorites_event").whereEqualTo("title", event.getTitle());
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().isEmpty()) {
+                    button.setImageResource(R.drawable.empty_heart);
+                } else {
+                    button.setImageResource(R.drawable.full_heart);
+                }
+            }
+
+            button.setOnClickListener(v -> toggleFavorite(event, button));
+        });
+    }
+
+    private void toggleFavorite(Event event, ImageButton button) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
@@ -103,25 +125,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     favoriteData.put("title", event.getTitle());
                     favoriteData.put("contest_field", event.getContestField());
 
-
                     db.collection("users").document(userId).collection("favorites_event")
                             .add(favoriteData)
-                            .addOnSuccessListener(documentReference -> {
-                            })
+                            .addOnSuccessListener(documentReference -> button.setImageResource(R.drawable.full_heart))
                             .addOnFailureListener(e -> {
+                                // 실패 시 처리
                             });
                 } else {
                     // 데이터가 존재하면 삭제
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference docRef = document.getReference();
                         docRef.delete()
-                                .addOnSuccessListener(aVoid -> {
-                                })
+                                .addOnSuccessListener(aVoid -> button.setImageResource(R.drawable.empty_heart))
                                 .addOnFailureListener(e -> {
+                                    // 실패 시 처리
                                 });
                     }
                 }
             } else {
+                // 쿼리 실패 시 처리
             }
         });
     }

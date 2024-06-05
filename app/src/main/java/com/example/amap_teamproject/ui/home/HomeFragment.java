@@ -3,9 +3,11 @@ package com.example.amap_teamproject.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,19 +48,40 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         handler = new Handler();
 
+        // Search button click listener
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String query = searchEditText.getText().toString();
-                Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                intent.putExtra("query", query);
-                startActivity(intent);
+                startSearchActivity(query);
+            }
+        });
+
+        // Enter key press listener using setOnEditorActionListener
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE ||
+                        event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    if (event == null || !event.isShiftPressed()) {
+                        String query = searchEditText.getText().toString();
+                        startSearchActivity(query);
+                        return true; // consume the event
+                    }
+                }
+                return false; // pass on to other listeners.
             }
         });
 
         fetchLatestImages();
 
         return root;
+    }
+
+    private void startSearchActivity(String query) {
+        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+        intent.putExtra("searchText", query);
+        startActivity(intent);
     }
 
     private void fetchLatestImages() {

@@ -103,6 +103,8 @@ public class SR_Fragment extends Fragment {
             recyclerView.setAdapter(eventAdapter);
             fetchEvents(searchText);
             updateFilterButtons("contest");
+            // allButton 클릭 상태로 설정
+            allButton.performClick();
         });
 
         activityButton.setOnClickListener(v -> {
@@ -111,6 +113,8 @@ public class SR_Fragment extends Fragment {
             recyclerView.setAdapter(activityAdapter);
             fetchActivities(searchText);
             updateFilterButtons("activity");
+            // allButton 클릭 상태로 설정
+            allButton.performClick();
         });
 
         allButton.setOnClickListener(filterClickListener);
