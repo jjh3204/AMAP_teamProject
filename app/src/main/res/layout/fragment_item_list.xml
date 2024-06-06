@@ -49,60 +49,132 @@
             <Button
                 android:id="@+id/allButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:layout_marginEnd="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="전체"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background_rounded"
                 android:textColor="@android:color/black"
                 android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/categoryButton1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:layout_marginEnd="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="사진/영상/UCC"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background_rounded"
                 android:textColor="@android:color/black"
                 android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/categoryButton2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:layout_marginEnd="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="디자인/순수미술/공예"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background_rounded"
                 android:textColor="@android:color/black"
                 android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/categoryButton3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:layout_marginEnd="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="분야 3"
-                android:background="@drawable/button_background"
+                android:text="기획/아이디어"
+                android:background="@drawable/button_background_rounded"
                 android:textColor="@android:color/black"
                 android:stateListAnimator="@null" />
 
             <Button
                 android:id="@+id/categoryButton4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:layout_marginEnd="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="분야 4"
-                android:background="@drawable/button_background"
+                android:text="기타"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 5"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton6"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 6"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 7"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton8"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 8"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton9"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 9"
+                android:background="@drawable/button_background_rounded"
+                android:textColor="@android:color/black"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/categoryButton10"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="카테고리 10"
+                android:background="@drawable/button_background_rounded"
                 android:textColor="@android:color/black"
                 android:stateListAnimator="@null" />
 
@@ -117,4 +189,3 @@
         android:padding="16dp" />
 
 </RelativeLayout>
-

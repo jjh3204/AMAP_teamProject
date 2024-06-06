@@ -3,7 +3,6 @@ package com.example.amap_teamproject.menu;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.firebase.firestore.PropertyName;
-
 import java.util.List;
 
 public class Activity implements Parcelable {
@@ -26,6 +25,7 @@ public class Activity implements Parcelable {
     @PropertyName("notice_url")
     private String noticeUrl;
     private List<String> homepage;
+    private int hits; // 조회수 필드 추가
 
     public Activity() {
         // Firestore는 빈 생성자가 필요합니다.
@@ -44,6 +44,7 @@ public class Activity implements Parcelable {
         interestField = in.createStringArrayList();
         noticeUrl = in.readString();
         homepage = in.createStringArrayList();
+        hits = in.readInt(); // 조회수 읽기
     }
 
     public static final Creator<Activity> CREATOR = new Creator<Activity>() {
@@ -77,6 +78,7 @@ public class Activity implements Parcelable {
         dest.writeStringList(interestField);
         dest.writeString(noticeUrl);
         dest.writeStringList(homepage);
+        dest.writeInt(hits); // 조회수 쓰기
     }
 
     // Getter methods
@@ -135,4 +137,11 @@ public class Activity implements Parcelable {
         return homepage;
     }
 
+    public int getHits() {
+        return hits;
+    }
+
+    public void setHits(int hits) {
+        this.hits = hits;
+    }
 }

@@ -12,12 +12,28 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/detail_dday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:paddingBottom="4dp" />
+
+        <TextView
             android:id="@+id/detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold"
             android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/detail_hit_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="8dp" />
 
         <ImageView
             android:id="@+id/detail_image"
@@ -36,6 +52,12 @@
 
         <TextView
             android:id="@+id/detail_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/detail_act_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp" />
