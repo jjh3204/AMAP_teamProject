@@ -31,7 +31,7 @@ public class ItemFragment extends Fragment {
     private ActivityAdapter activityAdapter;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
-    private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4;
+    private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private LinearLayout filterButtonsContainer;
 
     public ItemFragment() {
@@ -72,6 +72,12 @@ public class ItemFragment extends Fragment {
         categoryButton2 = view.findViewById(R.id.categoryButton2);
         categoryButton3 = view.findViewById(R.id.categoryButton3);
         categoryButton4 = view.findViewById(R.id.categoryButton4);
+        categoryButton5 = view.findViewById(R.id.categoryButton5);
+        categoryButton6 = view.findViewById(R.id.categoryButton6);
+        categoryButton7 = view.findViewById(R.id.categoryButton7);
+        categoryButton8 = view.findViewById(R.id.categoryButton8);
+        categoryButton9 = view.findViewById(R.id.categoryButton9);
+        categoryButton10 = view.findViewById(R.id.categoryButton10);
 
         View.OnClickListener filterClickListener = v -> {
             resetFilterButtonColors();
@@ -113,6 +119,12 @@ public class ItemFragment extends Fragment {
         categoryButton2.setOnClickListener(filterClickListener);
         categoryButton3.setOnClickListener(filterClickListener);
         categoryButton4.setOnClickListener(filterClickListener);
+        categoryButton5.setOnClickListener(filterClickListener);
+        categoryButton6.setOnClickListener(filterClickListener);
+        categoryButton7.setOnClickListener(filterClickListener);
+        categoryButton8.setOnClickListener(filterClickListener);
+        categoryButton9.setOnClickListener(filterClickListener);
+        categoryButton10.setOnClickListener(filterClickListener);
 
         // 초기 화면을 공모전 리스트로 설정
         contestButton.setSelected(true);
@@ -201,14 +213,26 @@ public class ItemFragment extends Fragment {
             allButton.setText("전체");
             categoryButton1.setText("사진/영상/UCC");
             categoryButton2.setText("디자인/순수미술/공예");
-            categoryButton3.setText("분야 3");
-            categoryButton4.setText("분야 4");
+            categoryButton3.setText("기획/아이디어");
+            categoryButton4.setText("과학/공학");
+            categoryButton5.setText("학술");
+            categoryButton6.setText("문학/시나리오");
+            categoryButton7.setText("건축/건설/인테리어");
+            categoryButton8.setText("창업");
+            categoryButton9.setText("캐릭터/만화/게임");
+            categoryButton10.setText("기타");
         } else {
             allButton.setText("전체");
-            categoryButton1.setText("경영/경제");
-            categoryButton2.setText("사회과학");
-            categoryButton3.setText("자연과학");
-            categoryButton4.setText("공학");
+            categoryButton1.setText("체육/헬스");
+            categoryButton2.setText("경영/컨설팅/마케팅");
+            categoryButton3.setText("과학/공학/기술/IT");
+            categoryButton4.setText("환경/에너지");
+            categoryButton5.setText("여행/호텔/항공");
+            categoryButton6.setText("콘텐츠");
+            categoryButton7.setText("사회공헌/교류");
+            categoryButton8.setText("교육");
+            categoryButton9.setText("행사/페스티벌");
+            categoryButton10.setText("기타");
         }
     }
 
@@ -218,6 +242,11 @@ public class ItemFragment extends Fragment {
         categoryButton2.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
         categoryButton3.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
         categoryButton4.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton5.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton6.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton7.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton8.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton9.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton10.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
     }
 }
-

@@ -6,16 +6,14 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/background_item"> <!-- 배경색 설정 -->
+    android:background="@drawable/background_item">
 
-    <!-- 텍스트 정보를 담는 레이아웃 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- 제목 -->
         <TextView
             android:id="@+id/event_title"
             android:layout_width="wrap_content"
@@ -23,27 +21,36 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <!-- 조직 이름 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="8dp" /> <!-- 제목과 주최기관 간의 공백 -->
+
         <TextView
             android:id="@+id/event_organization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
-        <!-- 공백 줄 -->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="8dp" />
+            android:layout_height="4dp" /> <!-- 주최기관과 D-day 상태 간의 공백 -->
 
-        <!-- 기간 -->
         <TextView
-            android:id="@+id/event_sub_period"
+            android:id="@+id/event_dday_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" /> <!-- 텍스트 색상을 회색으로 설정 -->
+
+        <TextView
+            android:id="@+id/event_hit_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
 
-    <!-- 이미지 -->
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="100dp"

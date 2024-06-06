@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.amap_teamproject.Login.LoginActivity;
 import com.example.amap_teamproject.databinding.ActivityMainBinding;
+import com.example.amap_teamproject.menu.UpdateFirestoreData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        // Firestore 데이터 업데이트 호출
+        UpdateFirestoreData updateFirestoreData = new UpdateFirestoreData();
+        updateFirestoreData.updateAllDocuments();
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_items, R.id.navigation_dashboard, R.id.navigation_my_page)
@@ -58,3 +63,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 }
+
