@@ -94,13 +94,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     private void incrementHitCount(Event event) {
-        DocumentReference docRef = db.collection("contests").document(event.getTitle());
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                long hits = documentSnapshot.getLong("hits") != null ? documentSnapshot.getLong("hits") : 0;
-                hits++;
-                docRef.update("hits", hits);
-                event.setHits((int) hits); // 업데이트된 조회수 설정
+        Query query = db.collection("contests").whereEqualTo("title", event.getTitle());
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    DocumentReference docRef = document.getReference();
+                    long hits = document.getLong("hits") != null ? document.getLong("hits") : 0;
+                    hits++;
+                    docRef.update("hits", hits);
+                    event.setHits((int) hits); // 업데이트된 조회수 설정
+                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                }
             }
         });
     }

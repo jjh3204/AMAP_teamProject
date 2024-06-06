@@ -94,13 +94,17 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     private void incrementHitCount(Activity activity) {
-        DocumentReference docRef = db.collection("activities").document(activity.getTitle());
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                long hits = documentSnapshot.getLong("hits") != null ? documentSnapshot.getLong("hits") : 0;
-                hits++;
-                docRef.update("hits", hits);
-                activity.setHits((int) hits); // 업데이트된 조회수 설정
+        Query query = db.collection("activities").whereEqualTo("title", activity.getTitle());
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    DocumentReference docRef = document.getReference();
+                    long hits = document.getLong("hits") != null ? document.getLong("hits") : 0;
+                    hits++;
+                    docRef.update("hits", hits);
+                    activity.setHits((int) hits); // 업데이트된 조회수 설정
+                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                }
             }
         });
     }
@@ -117,11 +121,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
             if (currentDate.before(startDate)) {
                 long diff = startDate.getTime() - currentDate.getTime();
-                long daysLeft = (diff / (1000 * 60 * 60 * 24))+1;
+                long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
                 ddayStatusView.setText("D-" + daysLeft);
             } else if (currentDate.after(startDate) && currentDate.before(endDate)) {
                 long diff = endDate.getTime() - currentDate.getTime();
-                long daysLeft = (diff / (1000 * 60 * 60 * 24))+1;
+                long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
                 ddayStatusView.setText("마감일까지 " + daysLeft + "일");
             } else {
                 ddayStatusView.setText("마감됨");
