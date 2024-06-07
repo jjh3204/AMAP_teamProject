@@ -46,6 +46,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         TextView interestField = findViewById(R.id.detail_interest_field);
         TextView ddayStatus = findViewById(R.id.detail_dday); // D-day 텍스트뷰 추가
         TextView hitCount = findViewById(R.id.detail_hit_count); // 조회수 텍스트뷰 추가
+        TextView likeCount = findViewById(R.id.detail_like_count); // 좋아요 텍스트뷰 추가
 
         if (getIntent().hasExtra(EXTRA_ACTIVITY)) {
             Activity activity = getIntent().getParcelableExtra(EXTRA_ACTIVITY);
@@ -99,6 +100,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                 // 조회수 표시 및 증가
                 incrementHitCount(activity, hitCount);
+
+                // 좋아요 수 설정
+                updateLikeCount(activity, likeCount);
             }
         }
     }
@@ -110,6 +114,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     }
 
     private void setDdayStatus(TextView ddayStatusView, String subPeriod) {
+        if (subPeriod == null) return;
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy.MM.dd", Locale.getDefault());
         String[] dates = subPeriod.split(" ~ ");
         if (dates.length < 2) return;
@@ -122,11 +128,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             if (currentDate.before(startDate)) {
                 long diff = startDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("D-" + daysLeft);
+                ddayStatusView.setText("접수시작까지 " + daysLeft + "일");
             } else if (currentDate.after(startDate) && currentDate.before(endDate)) {
                 long diff = endDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("마감일까지 " + daysLeft + "일");
+                ddayStatusView.setText("마감까지 " + daysLeft + "일");
             } else {
                 ddayStatusView.setText("마감됨");
             }
@@ -149,6 +155,22 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     docRef.update("hits", hits);
                     hitCountView.setText("조회수: " + hits);
                     activity.setHits((int) hits); // 업데이트된 조회수 설정
+                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                }
+            }
+        });
+    }
+
+    private void updateLikeCount(Activity activity, TextView likeCountView) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("activities").whereEqualTo("title", activity.getTitle());
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
+                    likeCountView.setText("찜: " + likes);
+                    activity.setLikes((int) likes); // 업데이트된 좋아요 수 설정
                     break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
                 }
             }

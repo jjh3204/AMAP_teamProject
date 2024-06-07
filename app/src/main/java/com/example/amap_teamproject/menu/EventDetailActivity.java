@@ -44,6 +44,7 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView contestField = findViewById(R.id.detail_contest_field);
         TextView ddayStatus = findViewById(R.id.detail_dday); // D-day 텍스트뷰
         TextView hitCount = findViewById(R.id.detail_hit_count); // 조회수 텍스트뷰 추가
+        TextView likeCount = findViewById(R.id.detail_like_count); // 좋아요 텍스트뷰 추가
 
         if (getIntent().hasExtra(EXTRA_EVENT)) {
             Event event = getIntent().getParcelableExtra(EXTRA_EVENT);
@@ -83,7 +84,13 @@ public class EventDetailActivity extends AppCompatActivity {
                 // D-day 계산 및 설정
                 setDdayStatus(ddayStatus, event.getSubPeriod());
 
-                // 조회수 표시 및 증가
+                // 조회수 표시
+                hitCount.setText("조회수: " + event.getHits());
+
+                // 좋아요 수 표시
+                likeCount.setText("찜: " + event.getLikes());
+
+                // 조회수 증가
                 incrementHitCount(event, hitCount);
             }
         }
@@ -110,11 +117,11 @@ public class EventDetailActivity extends AppCompatActivity {
             if (currentDate.before(startDate)) {
                 long diff = startDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("D-" + daysLeft);
+                ddayStatusView.setText("접수시작까지 " + daysLeft + "일");
             } else if (currentDate.after(startDate) && currentDate.before(endDate)) {
                 long diff = endDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("마감일까지 " + daysLeft + "일");
+                ddayStatusView.setText("마감까지 " + daysLeft + "일");
             } else {
                 ddayStatusView.setText("마감됨");
             }
@@ -143,3 +150,4 @@ public class EventDetailActivity extends AppCompatActivity {
         });
     }
 }
+

@@ -111,11 +111,12 @@
     <string name="tab_text_4">기타</string>
     <string name="event_image">Event Image</string>
     <string name="notice_image">Notice Image</string>
-
-    <string-array name="filter_array">
-        <item>전체</item>
-        <item>사진/영상/UCC</item>
-        <item>디자인/순수미술/공예</item>
-        <!-- Add more filter options as needed -->
+    <string-array name="sort_options">
+        <item>등록순</item>
+        <item>최신순</item>
+        <item>조회수 높은 순</item>
+        <item>조회수 낮은 순</item>
+        <item>좋아요 많은 순</item>
+        <item>좋아요 적은 순</item>
     </string-array>
 </resources>

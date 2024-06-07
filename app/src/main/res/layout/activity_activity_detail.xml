@@ -27,13 +27,27 @@
             android:textStyle="bold"
             android:paddingBottom="8dp" />
 
-        <TextView
-            android:id="@+id/detail_hit_count"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/detail_hit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:id="@+id/detail_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/detail_image"
