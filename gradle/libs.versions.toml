@@ -18,6 +18,7 @@ firebaseDatabase = "21.0.0"
 googleGmsGoogleServices = "4.4.1"
 firebaseAuth = "23.0.0"
 annotation = "1.6.0"
+activity = "1.8.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -37,6 +38,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
