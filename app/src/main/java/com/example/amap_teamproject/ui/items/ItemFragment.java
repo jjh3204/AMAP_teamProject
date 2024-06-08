@@ -2,21 +2,27 @@ package com.example.amap_teamproject.ui.items;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
+
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.menu.Activity;
 import com.example.amap_teamproject.menu.ActivityAdapter;
 import com.example.amap_teamproject.menu.Event;
 import com.example.amap_teamproject.menu.EventAdapter;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -33,6 +39,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private LinearLayout filterButtonsContainer;
+    private Spinner sortSpinner;
 
     public ItemFragment() {
     }
@@ -78,6 +85,7 @@ public class ItemFragment extends Fragment {
         categoryButton8 = view.findViewById(R.id.categoryButton8);
         categoryButton9 = view.findViewById(R.id.categoryButton9);
         categoryButton10 = view.findViewById(R.id.categoryButton10);
+        sortSpinner = view.findViewById(R.id.sort_spinner);
 
         View.OnClickListener filterClickListener = v -> {
             resetFilterButtonColors();
@@ -135,7 +143,81 @@ public class ItemFragment extends Fragment {
         // 초기 필터링 버튼 상태 설정
         allButton.performClick();
 
+        setupSortSpinner();
+
         return view;
+    }
+
+    private void setupSortSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.sort_options, R.layout.spinner_item); // 커스텀 레이아웃 사용
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSort = parent.getItemAtPosition(position).toString();
+                if (contestButton.isSelected()) {
+                    sortEvents(selectedSort);
+                } else {
+                    sortActivities(selectedSort);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무것도 선택되지 않았을 때의 동작을 정의하지 않음
+            }
+        });
+    }
+
+    private void sortEvents(String sortOption) {
+        switch (sortOption) {
+            case "조회수 높은 순":
+                eventList.sort((e1, e2) -> Integer.compare(e2.getHits(), e1.getHits()));
+                break;
+            case "조회수 낮은 순":
+                eventList.sort((e1, e2) -> Integer.compare(e1.getHits(), e2.getHits()));
+                break;
+            case "좋아요 많은 순":
+                eventList.sort((e1, e2) -> Integer.compare(e2.getLikes(), e1.getLikes()));
+                break;
+            case "좋아요 적은 순":
+                eventList.sort((e1, e2) -> Integer.compare(e1.getLikes(), e2.getLikes()));
+                break;
+            case "최신순":
+                eventList.sort((e1, e2) -> Long.compare(e2.getTimestamp().toDate().getTime(), e1.getTimestamp().toDate().getTime()));
+                break;
+            case "등록순":
+                eventList.sort((e1, e2) -> Long.compare(e1.getTimestamp().toDate().getTime(), e2.getTimestamp().toDate().getTime()));
+                break;
+        }
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    private void sortActivities(String sortOption) {
+        switch (sortOption) {
+            case "조회수 높은 순":
+                activityList.sort((a1, a2) -> Integer.compare(a2.getHits(), a1.getHits()));
+                break;
+            case "조회수 낮은 순":
+                activityList.sort((a1, a2) -> Integer.compare(a1.getHits(), a2.getHits()));
+                break;
+            case "좋아요 많은 순":
+                activityList.sort((a1, a2) -> Integer.compare(a2.getLikes(), a1.getLikes()));
+                break;
+            case "좋아요 적은 순":
+                activityList.sort((a1, a2) -> Integer.compare(a1.getLikes(), a2.getLikes()));
+                break;
+            case "최신순":
+                activityList.sort((a1, a2) -> Long.compare(a2.getTimestamp().toDate().getTime(), a1.getTimestamp().toDate().getTime()));
+                break;
+            case "등록순":
+                activityList.sort((a1, a2) -> Long.compare(a1.getTimestamp().toDate().getTime(), a2.getTimestamp().toDate().getTime()));
+                break;
+        }
+        activityAdapter.notifyDataSetChanged();
     }
 
     private void fetchEvents() {
@@ -146,9 +228,13 @@ public class ItemFragment extends Fragment {
                         eventList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
+                            if (document.contains("timestamp")) {
+                                event.setTimestamp(document.getTimestamp("timestamp"));
+                            }
                             eventList.add(event);
                         }
-                        eventAdapter.notifyDataSetChanged();
+                        // 데이터 로드 후 등록순으로 정렬
+                        sortEvents("등록순");
                     } else {
                         // 오류 처리
                     }
@@ -164,9 +250,13 @@ public class ItemFragment extends Fragment {
                         eventList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
+                            if (document.contains("timestamp")) {
+                                event.setTimestamp(document.getTimestamp("timestamp"));
+                            }
                             eventList.add(event);
                         }
-                        eventAdapter.notifyDataSetChanged();
+                        // 데이터 로드 후 등록순으로 정렬
+                        sortEvents("등록순");
                     } else {
                         // 오류 처리
                     }
@@ -181,9 +271,13 @@ public class ItemFragment extends Fragment {
                         activityList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
+                            if (document.contains("timestamp")) {
+                                activity.setTimestamp(document.getTimestamp("timestamp"));
+                            }
                             activityList.add(activity);
                         }
-                        activityAdapter.notifyDataSetChanged();
+                        // 데이터 로드 후 등록순으로 정렬
+                        sortActivities("등록순");
                     } else {
                         // 오류 처리
                     }
@@ -199,9 +293,13 @@ public class ItemFragment extends Fragment {
                         activityList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
+                            if (document.contains("timestamp")) {
+                                activity.setTimestamp(document.getTimestamp("timestamp"));
+                            }
                             activityList.add(activity);
                         }
-                        activityAdapter.notifyDataSetChanged();
+                        // 데이터 로드 후 등록순으로 정렬
+                        sortActivities("등록순");
                     } else {
                         // 오류 처리
                     }

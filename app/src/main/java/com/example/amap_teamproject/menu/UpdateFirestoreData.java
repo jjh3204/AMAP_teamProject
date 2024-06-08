@@ -27,6 +27,16 @@ public class UpdateFirestoreData {
                                             // Handle the error
                                         });
                             }
+                            if (!document.contains("likes")) {
+                                db.collection("contests").document(document.getId())
+                                        .update("likes", 0)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Successfully updated document
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Handle the error
+                                        });
+                            }
                         }
                     } else {
                         // Handle the error
@@ -42,6 +52,16 @@ public class UpdateFirestoreData {
                             if (!document.contains("hits")) {
                                 db.collection("activities").document(document.getId())
                                         .update("hits", 0)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Successfully updated document
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Handle the error
+                                        });
+                            }
+                            if (!document.contains("likes")) {
+                                db.collection("activities").document(document.getId())
+                                        .update("likes", 0)
                                         .addOnSuccessListener(aVoid -> {
                                             // Successfully updated document
                                         })

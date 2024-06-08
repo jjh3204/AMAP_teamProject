@@ -27,13 +27,30 @@
             android:textStyle="bold"
             android:paddingBottom="8dp" />
 
-        <TextView
-            android:id="@+id/detail_hit_count"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/detail_hit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" /> <!-- 조회수와 찜 수 사이의 공백 -->
+
+            <TextView
+                android:id="@+id/detail_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/detail_image"
