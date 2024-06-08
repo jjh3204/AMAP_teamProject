@@ -2,6 +2,7 @@ package com.example.amap_teamproject.menu;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class Event implements Parcelable {
     private String noticeUrl;
     private String participants;
     private int hits; // 조회수 필드 추가
+    private int likes; // 좋아요 수 필드 추가
+    private Timestamp timestamp; // 타임스탬프 필드 추가
 
     public Event() {
         // Firestore는 빈 생성자가 필요합니다.
@@ -39,6 +42,8 @@ public class Event implements Parcelable {
         noticeUrl = in.readString();
         participants = in.readString();
         hits = in.readInt();
+        likes = in.readInt();
+        timestamp = in.readParcelable(Timestamp.class.getClassLoader());
     }
 
     @Override
@@ -54,6 +59,8 @@ public class Event implements Parcelable {
         dest.writeString(noticeUrl);
         dest.writeString(participants);
         dest.writeInt(hits);
+        dest.writeInt(likes);
+        dest.writeParcelable(timestamp, flags);
     }
 
     @Override
@@ -85,17 +92,9 @@ public class Event implements Parcelable {
         return organization;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-
     @PropertyName("sub_period")
     public String getSubPeriod() {
         return subPeriod;
-    }
-
-    public void setSubPeriod(String subPeriod) {
-        this.subPeriod = subPeriod;
     }
 
     @PropertyName("detail")
@@ -103,17 +102,9 @@ public class Event implements Parcelable {
         return detail;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
     @PropertyName("award_scale")
     public String getAwardScale() {
         return awardScale;
-    }
-
-    public void setAwardScale(String awardScale) {
-        this.awardScale = awardScale;
     }
 
     @PropertyName("contest_field")
@@ -121,17 +112,9 @@ public class Event implements Parcelable {
         return contestField;
     }
 
-    public void setContestField(List<String> contestField) {
-        this.contestField = contestField;
-    }
-
     @PropertyName("homepage")
     public List<String> getHomepage() {
         return homepage;
-    }
-
-    public void setHomepage(List<String> homepage) {
-        this.homepage = homepage;
     }
 
     @PropertyName("img_src")
@@ -139,26 +122,14 @@ public class Event implements Parcelable {
         return imgSrc;
     }
 
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
-    }
-
     @PropertyName("notice_url")
     public String getNoticeUrl() {
         return noticeUrl;
     }
 
-    public void setNoticeUrl(String noticeUrl) {
-        this.noticeUrl = noticeUrl;
-    }
-
     @PropertyName("participants")
     public String getParticipants() {
         return participants;
-    }
-
-    public void setParticipants(String participants) {
-        this.participants = participants;
     }
 
     @PropertyName("hits")
@@ -168,5 +139,23 @@ public class Event implements Parcelable {
 
     public void setHits(int hits) {
         this.hits = hits;
+    }
+
+    @PropertyName("likes")
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    @PropertyName("timestamp")
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

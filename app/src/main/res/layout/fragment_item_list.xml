@@ -181,11 +181,23 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <!-- Include the sort bar layout here -->
+    <include
+        android:id="@+id/sortBar"
+        layout="@layout/sort_bar"
+        android:layout_width="380dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/filterScrollView"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="7dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/filterScrollView"
+        android:layout_below="@id/sortBar"
         android:padding="16dp" />
 
 </RelativeLayout>

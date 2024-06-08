@@ -2,6 +2,7 @@ package com.example.amap_teamproject.menu;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.PropertyName;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Activity implements Parcelable {
     private String noticeUrl;
     private List<String> homepage;
     private int hits; // 조회수 필드 추가
+    private int likes; // 좋아요 필드 추가
+    private Timestamp timestamp; // 타임스탬프 필드 추가
 
     public Activity() {
         // Firestore는 빈 생성자가 필요합니다.
@@ -45,6 +48,8 @@ public class Activity implements Parcelable {
         noticeUrl = in.readString();
         homepage = in.createStringArrayList();
         hits = in.readInt(); // 조회수 읽기
+        likes = in.readInt(); // 좋아요 읽기
+        timestamp = in.readParcelable(Timestamp.class.getClassLoader());
     }
 
     public static final Creator<Activity> CREATOR = new Creator<Activity>() {
@@ -79,6 +84,8 @@ public class Activity implements Parcelable {
         dest.writeString(noticeUrl);
         dest.writeStringList(homepage);
         dest.writeInt(hits); // 조회수 쓰기
+        dest.writeInt(likes); // 좋아요 쓰기
+        dest.writeParcelable(timestamp, flags);
     }
 
     // Getter methods
@@ -144,4 +151,22 @@ public class Activity implements Parcelable {
     public void setHits(int hits) {
         this.hits = hits;
     }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    @PropertyName("timestamp")
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 }
+

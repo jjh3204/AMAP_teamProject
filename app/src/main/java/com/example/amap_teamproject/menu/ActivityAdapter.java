@@ -58,15 +58,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
-            incrementHitCount(activity);
             Intent intent = new Intent(holder.itemView.getContext(), ActivityDetailActivity.class);
             intent.putExtra(ActivityDetailActivity.EXTRA_ACTIVITY, activity);
             holder.itemView.getContext().startActivity(intent);
         });
 
-        initializeButton(activity, holder.favButton);
+        initializeButton(activity, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, activity.getSubPeriod());
         holder.hitCount.setText("조회수: " + activity.getHits()); // 조회수 설정
+        holder.likeCount.setText("찜: " + activity.getLikes()); // 좋아요 수 설정
     }
 
     @Override
@@ -79,6 +79,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         TextView organization;
         TextView ddayStatus; // 추가된 D-day 상태를 위한 TextView
         TextView hitCount; // 조회수 표시를 위한 TextView 추가
+        TextView likeCount; // 좋아요 수를 표시하기 위한 TextView 추가
         ImageView imageView;
         ImageButton favButton;
 
@@ -88,25 +89,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             organization = view.findViewById(R.id.activity_organization);
             ddayStatus = view.findViewById(R.id.activity_dday_status); // 추가된 부분
             hitCount = view.findViewById(R.id.activity_hit_count); // 추가된 부분
+            likeCount = view.findViewById(R.id.activity_like_count); // 추가된 부분
             imageView = view.findViewById(R.id.activity_image);
             favButton = view.findViewById(R.id.action_button);
         }
-    }
-
-    private void incrementHitCount(Activity activity) {
-        Query query = db.collection("activities").whereEqualTo("title", activity.getTitle());
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                    DocumentReference docRef = document.getReference();
-                    long hits = document.getLong("hits") != null ? document.getLong("hits") : 0;
-                    hits++;
-                    docRef.update("hits", hits);
-                    activity.setHits((int) hits); // 업데이트된 조회수 설정
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
-                }
-            }
-        });
     }
 
     private void setDdayStatus(TextView ddayStatusView, String subPeriod) {
@@ -122,11 +108,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             if (currentDate.before(startDate)) {
                 long diff = startDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("D-" + daysLeft);
+                ddayStatusView.setText("접수시작까지 " + daysLeft + "일");
             } else if (currentDate.after(startDate) && currentDate.before(endDate)) {
                 long diff = endDate.getTime() - currentDate.getTime();
                 long daysLeft = (diff / (1000 * 60 * 60 * 24)) + 1;
-                ddayStatusView.setText("마감일까지 " + daysLeft + "일");
+                ddayStatusView.setText("마감까지 " + daysLeft + "일");
             } else {
                 ddayStatusView.setText("마감됨");
             }
@@ -135,7 +121,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 
-    private void initializeButton(Activity activity, ImageButton button) {
+    private void initializeButton(Activity activity, ImageButton button, TextView likeCount) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
@@ -154,11 +140,24 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 }
             }
 
-            button.setOnClickListener(v -> toggleFavorite(activity, button));
+            button.setOnClickListener(v -> toggleFavorite(activity, button, likeCount));
+        });
+
+        // 좋아요 수를 설정
+        Query activityQuery = db.collection("activities").whereEqualTo("title", activity.getTitle());
+        activityQuery.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
+                    likeCount.setText("찜: " + likes);
+                    activity.setLikes((int) likes);
+                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                }
+            }
         });
     }
 
-    private void toggleFavorite(Activity activity, ImageButton button) {
+    private void toggleFavorite(Activity activity, ImageButton button, TextView likeCount) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
@@ -178,7 +177,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
                     db.collection("users").document(userId).collection("favorites_activity")
                             .add(favoriteData)
-                            .addOnSuccessListener(documentReference -> button.setImageResource(R.drawable.full_heart))
+                            .addOnSuccessListener(documentReference -> {
+                                button.setImageResource(R.drawable.full_heart);
+                                updateLikeCount(activity, 1, likeCount); // 좋아요 수 증가
+                            })
                             .addOnFailureListener(e -> {
                                 // 실패 시 처리
                             });
@@ -187,7 +189,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference docRef = document.getReference();
                         docRef.delete()
-                                .addOnSuccessListener(aVoid -> button.setImageResource(R.drawable.empty_heart))
+                                .addOnSuccessListener(aVoid -> {
+                                    button.setImageResource(R.drawable.empty_heart);
+                                    updateLikeCount(activity, -1, likeCount); // 좋아요 수 감소
+                                })
                                 .addOnFailureListener(e -> {
                                     // 실패 시 처리
                                 });
@@ -195,6 +200,23 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 }
             } else {
                 // 쿼리 실패 시 처리
+            }
+        });
+    }
+
+    private void updateLikeCount(Activity activity, int delta, TextView likeCount) {
+        Query query = db.collection("activities").whereEqualTo("title", activity.getTitle());
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    DocumentReference docRef = document.getReference();
+                    long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
+                    likes += delta;
+                    docRef.update("likes", likes);
+                    activity.setLikes((int) likes); // 업데이트된 좋아요 수 설정
+                    likeCount.setText("찜: " + likes); // 좋아요 수 업데이트
+                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                }
             }
         });
     }
