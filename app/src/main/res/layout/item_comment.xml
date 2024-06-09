@@ -4,66 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
-
-    <TextView
-        android:id="@+id/comment_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Author"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/comment_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comment content"/>
-
-    <TextView
-        android:id="@+id/comment_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timestamp"
-        android:textSize="12sp"/>
-
-    <TextView
-        android:id="@+id/comment_author_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="글쓴이"
-        android:textStyle="italic"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:visibility="gone"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/replies_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        tools:listitem="@layout/item_reply"/>
+    android:padding="8dp"
+    android:background="@drawable/item_bottom_border">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
-            android:id="@+id/reply_edit_text"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:hint="Write a reply"/>
 
-        <Button
-            android:id="@+id/reply_button"
+        <TextView
+            android:id="@+id/comment_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Reply"/>
+            android:paddingStart="@dimen/text_side_margin"
+            android:text="Author"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/comment_author_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="(글쓴이)"/>
+
+        <Button
+            android:id="@+id/open_reply_button"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="@drawable/outline_add_comment_24"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="@drawable/outline_delete_24"
+            android:visibility="gone"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/text_side_margin"
+        android:text="댓글"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/comment_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:paddingStart="@dimen/text_side_margin"
+        android:text="Timestamp"
+        android:textSize="10sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/replies_recycler_view"
+        android:paddingStart="@dimen/text_side_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/item_reply"/>
+
 
 </LinearLayout>

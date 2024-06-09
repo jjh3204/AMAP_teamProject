@@ -29,7 +29,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_teampage, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         return holder;
@@ -53,8 +53,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.post_title = itemView.findViewById(R.id.post_title);
-            this.post_timestamp = itemView.findViewById(R.id.post_timestamp);
+            post_title = itemView.findViewById(R.id.post_title);
+            post_timestamp = itemView.findViewById(R.id.post_timestamp);
 
             itemView.setOnClickListener(v ->{
                 int position = getAdapterPosition();

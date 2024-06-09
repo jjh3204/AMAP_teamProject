@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
-//import com.example.amap_teamproject.TeamPageActivity; // 추가
+import com.example.amap_teamproject.TeamPage.TeamPageActivity; // 추가
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -69,14 +69,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         setDdayStatus(holder.ddayStatus, activity.getSubPeriod());
         holder.hitCount.setText("조회수: " + activity.getHits()); // 조회수 설정
         holder.likeCount.setText("찜: " + activity.getLikes()); // 좋아요 수 설정
-/*
+
         holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
-            intent.putExtra("type", "activity");
-            intent.putExtra("documentId", activity.getTitle());
+            intent.putExtra("type", "activities");
+            intent.putExtra("DOCUMENT_ID", activity.getTitle());
             holder.itemView.getContext().startActivity(intent);
         });
-        */
+
     }
 
     @Override

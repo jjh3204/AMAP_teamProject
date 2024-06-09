@@ -23,7 +23,8 @@ public class AddPostActivity extends AppCompatActivity {
     private EditText contentEditText;
     private Button postButton;
     private FirebaseFirestore db;
-    private String teamId;
+    private String type;
+    private String documentId;
     private String authorId;
     private ActivityAddPostBinding binding;
 
@@ -44,7 +45,9 @@ public class AddPostActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         authorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        teamId = getIntent().getStringExtra("TEAM_ID");
+
+        type = getIntent().getStringExtra("type");
+        documentId = getIntent().getStringExtra("DOCUMENT_ID");
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +74,20 @@ public class AddPostActivity extends AppCompatActivity {
         newPost.put("authorId", authorId);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("activities").document(teamId).collection("posts")
+        db.collection(type).document(documentId).collection("posts")
                 .add(newPost)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(AddPostActivity.this, "글을 작성하였습니다", Toast.LENGTH_SHORT).show();
-                    finish(); // Post 생성 후 액티비티 종료
+                    String postId = documentReference.getId();
+                    newPost.put("id", postId); // Post ID 추가
+
+                    documentReference.update(newPost)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(AddPostActivity.this, "글을 작성하였습니다", Toast.LENGTH_SHORT).show();
+                                finish(); // Post 생성 후 액티비티 종료
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(AddPostActivity.this, "오류가 발생하였습니다", Toast.LENGTH_SHORT).show();
+                            });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(AddPostActivity.this, "오류가 발생하였습니다", Toast.LENGTH_SHORT).show();

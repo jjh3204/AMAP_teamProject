@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
-    private String id;
+    private String type;
     private String content;
     private long timestamp;
     private String authorId;
@@ -12,9 +12,16 @@ public class Comment {
     private boolean isAuthor;
     private String postId;
     private String parentCommentId;
+    private String commentId;
+    private String authorName;
     private List<Comment> replies;
 
-    public Comment(String content, long timestamp, String authorId, boolean isSecret, boolean isAuthor, String postId, String parentCommentId) {
+    public Comment(){
+
+    }
+
+    public Comment(String type, String content, long timestamp, String authorId, boolean isSecret, boolean isAuthor, String postId, String parentCommentId, String commentId, String authorName) {
+        this.type = type;
         this.content = content;
         this.timestamp = timestamp;
         this.authorId = authorId;
@@ -22,15 +29,25 @@ public class Comment {
         this.isAuthor = isAuthor;
         this.postId = postId;
         this.parentCommentId = parentCommentId;
+        this.commentId = commentId;
+        this.authorName = authorName;
         this.replies = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
+    public String getType() {
+        return type;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 
     public String getContent() {
@@ -87,6 +104,14 @@ public class Comment {
 
     public void setParentCommentId(String parentCommentId) {
         this.parentCommentId = parentCommentId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public List<Comment> getReplies() {

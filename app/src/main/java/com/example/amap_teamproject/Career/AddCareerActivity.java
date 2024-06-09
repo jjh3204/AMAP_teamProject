@@ -115,6 +115,7 @@ public class AddCareerActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(this, "저장되었습니다", Toast.LENGTH_SHORT).show();
                     setEditable(false);
+                    finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "저장에 실패했습니다", Toast.LENGTH_SHORT).show());
     }
@@ -157,6 +158,7 @@ public class AddCareerActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "수정되었습니다", Toast.LENGTH_SHORT).show();
                     setEditable(false);
+                    finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error updating career item", Toast.LENGTH_SHORT).show());
     }

@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-//import com.example.amap_teamproject.TeamPageActivity; // 추가
+import com.example.amap_teamproject.TeamPage.TeamPageActivity;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -69,12 +69,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         setDdayStatus(holder.ddayStatus, event.getSubPeriod());
         holder.hitCount.setText("조회수: " + event.getHits()); // 조회수 설정
 
-        /*holder.teamRecruitButton.setOnClickListener(v -> {
+        holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
-            intent.putExtra("eventTitle", event.getTitle());
-            intent.putExtra("eventType", "contest");
+            intent.putExtra("DOCUMENT_ID", event.getTitle());
+            intent.putExtra("type", "contests");
             holder.itemView.getContext().startActivity(intent);
-        });*/
+        });
     }
 
     @Override
