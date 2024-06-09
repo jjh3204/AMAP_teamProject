@@ -52,7 +52,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             }
         });
 
-        // Enter key press listener using setOnEditorActionListener
+        // Enter 키를 눌렀을 때 검색을 실행합니다.
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -61,10 +61,10 @@ public class SearchResultsActivity extends AppCompatActivity {
                     if (event == null || !event.isShiftPressed()) {
                         String searchText = editTextSearch.getText().toString();
                         searchInFragment(searchText);
-                        return true; // consume the event
+                        return true; // 이벤트를 소비합니다.
                     }
                 }
-                return false; // pass on to other listeners.
+                return false; // 다른 리스너에게 이벤트를 전달합니다.
             }
         });
     }
