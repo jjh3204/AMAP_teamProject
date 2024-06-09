@@ -41,6 +41,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private Spinner sortSpinner;
+    private String currentSortOption = "등록순"; // 현재 정렬 옵션을 저장하는 변수
 
     public ItemFragment() {
     }
@@ -155,14 +156,17 @@ public class ItemFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
 
+        // 초기 정렬 옵션을 등록순으로 설정
+        sortSpinner.setSelection(adapter.getPosition("등록순"));
+
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSort = parent.getItemAtPosition(position).toString();
+                currentSortOption = parent.getItemAtPosition(position).toString();
                 if (contestButton.isSelected()) {
-                    sortEvents(selectedSort);
+                    sortEvents(currentSortOption);
                 } else {
-                    sortActivities(selectedSort);
+                    sortActivities(currentSortOption);
                 }
             }
 
@@ -340,8 +344,8 @@ public class ItemFragment extends Fragment {
                             }
                             eventList.add(event);
                         }
-                        // 데이터 로드 후 등록순으로 정렬
-                        sortEvents("등록순");
+                        // 데이터 로드 후 현재 정렬 옵션으로 정렬
+                        sortEvents(currentSortOption);
                     } else {
                         // 오류 처리
                     }
@@ -362,8 +366,8 @@ public class ItemFragment extends Fragment {
                             }
                             eventList.add(event);
                         }
-                        // 데이터 로드 후 등록순으로 정렬
-                        sortEvents("등록순");
+                        // 데이터 로드 후 현재 정렬 옵션으로 정렬
+                        sortEvents(currentSortOption);
                     } else {
                         // 오류 처리
                     }
@@ -383,8 +387,8 @@ public class ItemFragment extends Fragment {
                             }
                             activityList.add(activity);
                         }
-                        // 데이터 로드 후 등록순으로 정렬
-                        sortActivities("등록순");
+                        // 데이터 로드 후 현재 정렬 옵션으로 정렬
+                        sortActivities(currentSortOption);
                     } else {
                         // 오류 처리
                     }
@@ -405,8 +409,8 @@ public class ItemFragment extends Fragment {
                             }
                             activityList.add(activity);
                         }
-                        // 데이터 로드 후 등록순으로 정렬
-                        sortActivities("등록순");
+                        // 데이터 로드 후 현재 정렬 옵션으로 정렬
+                        sortActivities(currentSortOption);
                     } else {
                         // 오류 처리
                     }
@@ -416,7 +420,6 @@ public class ItemFragment extends Fragment {
     private <T> void moveEndedEventsToBottom(List<T> list) {
         List<T> endedEvents = new ArrayList<>();
         List<T> specialCases = new ArrayList<>();
-        Date currentDate = new Date();
 
         list.removeIf(item -> {
             boolean isEnded = false;
@@ -425,21 +428,23 @@ public class ItemFragment extends Fragment {
             if (item instanceof Activity) {
                 Activity activity = (Activity) item;
                 String endDateStr = activity.getSubPeriod().split(" ~ ")[1];
-                Date endDate = parseDate(endDateStr);
-
-                if (endDate != null && currentDate.after(endDate)) {
-                    isEnded = true;
-                } else if (endDate == null) {
+                if (isDate(endDateStr)) {
+                    Date endDate = parseDate(endDateStr);
+                    if (endDate.before(new Date())) {
+                        isEnded = true;
+                    }
+                } else {
                     isSpecialCase = true;
                 }
             } else if (item instanceof Event) {
                 Event event = (Event) item;
                 String endDateStr = event.getSubPeriod().split(" ~ ")[1];
-                Date endDate = parseDate(endDateStr);
-
-                if (endDate != null && currentDate.after(endDate)) {
-                    isEnded = true;
-                } else if (endDate == null) {
+                if (isDate(endDateStr)) {
+                    Date endDate = parseDate(endDateStr);
+                    if (endDate.before(new Date())) {
+                        isEnded = true;
+                    }
+                } else {
                     isSpecialCase = true;
                 }
             }
@@ -458,4 +463,3 @@ public class ItemFragment extends Fragment {
         list.addAll(endedEvents);
     }
 }
-
