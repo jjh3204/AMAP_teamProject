@@ -168,5 +168,6 @@ public class Activity implements Parcelable {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
 }
 

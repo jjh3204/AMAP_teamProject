@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+//import com.example.amap_teamproject.TeamPageActivity; // 추가
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -66,6 +68,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         initializeButton(event, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, event.getSubPeriod());
         holder.hitCount.setText("조회수: " + event.getHits()); // 조회수 설정
+
+        /*holder.teamRecruitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
+            intent.putExtra("eventTitle", event.getTitle());
+            intent.putExtra("eventType", "contest");
+            holder.itemView.getContext().startActivity(intent);
+        });*/
     }
 
     @Override
@@ -81,6 +90,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         TextView likeCount; // 좋아요 수를 표시하기 위한 TextView 추가
         ImageView imageView;
         ImageButton favButton;
+        Button teamRecruitButton; // 팀원 모집 버튼
 
         ViewHolder(View view) {
             super(view);
@@ -91,6 +101,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             likeCount = view.findViewById(R.id.event_like_count); // 추가된 부분
             imageView = view.findViewById(R.id.event_image);
             favButton = view.findViewById(R.id.action_button);
+            teamRecruitButton = view.findViewById(R.id.team_recruit_button); // 추가된 부분
         }
     }
 
@@ -220,4 +231,3 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         });
     }
 }
-

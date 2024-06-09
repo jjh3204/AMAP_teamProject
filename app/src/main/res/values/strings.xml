@@ -114,6 +114,7 @@
     <string-array name="sort_options">
         <item>등록순</item>
         <item>최신순</item>
+        <item>마감순</item>
         <item>조회수 높은 순</item>
         <item>조회수 낮은 순</item>
         <item>좋아요 많은 순</item>

@@ -19,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,16 +76,31 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
-        android:contentDescription="그냥 출력값"
+        android:contentDescription="공모전 이미지"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true" />
 
-    <android.widget.ImageButton
-        android:id="@+id/action_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/empty_heart"
-        android:background="@android:color/transparent"
-        android:padding="0dp"
-        android:scaleType="centerInside"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/team_recruit_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="팀원 모집"
+            android:textSize="12sp"
+            android:background="@drawable/button_background" />
+
+        <ImageButton
+            android:id="@+id/action_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/empty_heart"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:scaleType="centerInside" />
+    </LinearLayout>
 </LinearLayout>

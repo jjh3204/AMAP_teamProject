@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -22,12 +21,15 @@ import com.example.amap_teamproject.menu.Activity;
 import com.example.amap_teamproject.menu.ActivityAdapter;
 import com.example.amap_teamproject.menu.Event;
 import com.example.amap_teamproject.menu.EventAdapter;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemFragment extends Fragment {
 
@@ -38,7 +40,6 @@ public class ItemFragment extends Fragment {
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
-    private LinearLayout filterButtonsContainer;
     private Spinner sortSpinner;
 
     public ItemFragment() {
@@ -192,7 +193,29 @@ public class ItemFragment extends Fragment {
             case "등록순":
                 eventList.sort((e1, e2) -> Long.compare(e1.getTimestamp().toDate().getTime(), e2.getTimestamp().toDate().getTime()));
                 break;
+            case "마감순":
+                eventList.sort((e1, e2) -> {
+                    String endDateStr1 = e1.getSubPeriod().split(" ~ ")[1];
+                    String endDateStr2 = e2.getSubPeriod().split(" ~ ")[1];
+
+                    boolean isDate1 = isDate(endDateStr1);
+                    boolean isDate2 = isDate(endDateStr2);
+
+                    if (isDate1 && isDate2) {
+                        Date endDate1 = parseDate(endDateStr1);
+                        Date endDate2 = parseDate(endDateStr2);
+                        return endDate1.compareTo(endDate2);
+                    } else if (isDate1) {
+                        return -1; // endDateStr1이 날짜이고 endDateStr2가 특수한 경우
+                    } else if (isDate2) {
+                        return 1; // endDateStr2가 날짜이고 endDateStr1이 특수한 경우
+                    } else {
+                        return 0; // 둘 다 특수한 경우
+                    }
+                });
+                break;
         }
+        moveEndedEventsToBottom(eventList);
         eventAdapter.notifyDataSetChanged();
     }
 
@@ -216,8 +239,92 @@ public class ItemFragment extends Fragment {
             case "등록순":
                 activityList.sort((a1, a2) -> Long.compare(a1.getTimestamp().toDate().getTime(), a2.getTimestamp().toDate().getTime()));
                 break;
+            case "마감순":
+                activityList.sort((a1, a2) -> {
+                    String endDateStr1 = a1.getSubPeriod().split(" ~ ")[1];
+                    String endDateStr2 = a2.getSubPeriod().split(" ~ ")[1];
+
+                    boolean isDate1 = isDate(endDateStr1);
+                    boolean isDate2 = isDate(endDateStr2);
+
+                    if (isDate1 && isDate2) {
+                        Date endDate1 = parseDate(endDateStr1);
+                        Date endDate2 = parseDate(endDateStr2);
+                        return endDate1.compareTo(endDate2);
+                    } else if (isDate1) {
+                        return -1; // endDateStr1이 날짜이고 endDateStr2가 특수한 경우
+                    } else if (isDate2) {
+                        return 1; // endDateStr2가 날짜이고 endDateStr1이 특수한 경우
+                    } else {
+                        return 0; // 둘 다 특수한 경우
+                    }
+                });
+                break;
         }
+        moveEndedEventsToBottom(activityList);
         activityAdapter.notifyDataSetChanged();
+    }
+
+    private void resetFilterButtonColors() {
+        allButton.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton1.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton2.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton3.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton4.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton5.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton6.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton7.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton8.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton9.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        categoryButton10.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+    }
+
+    private void updateFilterButtons(String type) {
+        if (type.equals("contest")) {
+            allButton.setText("전체");
+            categoryButton1.setText("사진/영상/UCC");
+            categoryButton2.setText("디자인/순수미술/공예");
+            categoryButton3.setText("기획/아이디어");
+            categoryButton4.setText("과학/공학");
+            categoryButton5.setText("학술");
+            categoryButton6.setText("문학/시나리오");
+            categoryButton7.setText("건축/건설/인테리어");
+            categoryButton8.setText("창업");
+            categoryButton9.setText("캐릭터/만화/게임");
+            categoryButton10.setText("기타");
+        } else {
+            allButton.setText("전체");
+            categoryButton1.setText("체육/헬스");
+            categoryButton2.setText("경영/컨설팅/마케팅");
+            categoryButton3.setText("과학/공학/기술/IT");
+            categoryButton4.setText("환경/에너지");
+            categoryButton5.setText("여행/호텔/항공");
+            categoryButton6.setText("콘텐츠");
+            categoryButton7.setText("사회공헌/교류");
+            categoryButton8.setText("교육");
+            categoryButton9.setText("행사/페스티벌");
+            categoryButton10.setText("기타");
+        }
+    }
+
+    private boolean isDate(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy.MM.dd", Locale.getDefault());
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private Date parseDate(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy.MM.dd", Locale.getDefault());
+        try {
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     private void fetchEvents() {
@@ -306,45 +413,49 @@ public class ItemFragment extends Fragment {
                 });
     }
 
-    private void updateFilterButtons(String type) {
-        if (type.equals("contest")) {
-            allButton.setText("전체");
-            categoryButton1.setText("사진/영상/UCC");
-            categoryButton2.setText("디자인/순수미술/공예");
-            categoryButton3.setText("기획/아이디어");
-            categoryButton4.setText("과학/공학");
-            categoryButton5.setText("학술");
-            categoryButton6.setText("문학/시나리오");
-            categoryButton7.setText("건축/건설/인테리어");
-            categoryButton8.setText("창업");
-            categoryButton9.setText("캐릭터/만화/게임");
-            categoryButton10.setText("기타");
-        } else {
-            allButton.setText("전체");
-            categoryButton1.setText("체육/헬스");
-            categoryButton2.setText("경영/컨설팅/마케팅");
-            categoryButton3.setText("과학/공학/기술/IT");
-            categoryButton4.setText("환경/에너지");
-            categoryButton5.setText("여행/호텔/항공");
-            categoryButton6.setText("콘텐츠");
-            categoryButton7.setText("사회공헌/교류");
-            categoryButton8.setText("교육");
-            categoryButton9.setText("행사/페스티벌");
-            categoryButton10.setText("기타");
-        }
-    }
+    private <T> void moveEndedEventsToBottom(List<T> list) {
+        List<T> endedEvents = new ArrayList<>();
+        List<T> specialCases = new ArrayList<>();
+        Date currentDate = new Date();
 
-    private void resetFilterButtonColors() {
-        allButton.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton1.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton2.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton3.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton4.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton5.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton6.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton7.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton8.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton9.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton10.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        list.removeIf(item -> {
+            boolean isEnded = false;
+            boolean isSpecialCase = false;
+
+            if (item instanceof Activity) {
+                Activity activity = (Activity) item;
+                String endDateStr = activity.getSubPeriod().split(" ~ ")[1];
+                Date endDate = parseDate(endDateStr);
+
+                if (endDate != null && currentDate.after(endDate)) {
+                    isEnded = true;
+                } else if (endDate == null) {
+                    isSpecialCase = true;
+                }
+            } else if (item instanceof Event) {
+                Event event = (Event) item;
+                String endDateStr = event.getSubPeriod().split(" ~ ")[1];
+                Date endDate = parseDate(endDateStr);
+
+                if (endDate != null && currentDate.after(endDate)) {
+                    isEnded = true;
+                } else if (endDate == null) {
+                    isSpecialCase = true;
+                }
+            }
+
+            if (isEnded) {
+                endedEvents.add(item);
+                return true;
+            } else if (isSpecialCase) {
+                specialCases.add(item);
+                return true;
+            }
+            return false;
+        });
+
+        list.addAll(specialCases);
+        list.addAll(endedEvents);
     }
 }
+
