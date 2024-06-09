@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
+//import com.example.amap_teamproject.TeamPageActivity; // 추가
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -67,6 +69,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         setDdayStatus(holder.ddayStatus, activity.getSubPeriod());
         holder.hitCount.setText("조회수: " + activity.getHits()); // 조회수 설정
         holder.likeCount.setText("찜: " + activity.getLikes()); // 좋아요 수 설정
+/*
+        holder.teamRecruitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
+            intent.putExtra("type", "activity");
+            intent.putExtra("documentId", activity.getTitle());
+            holder.itemView.getContext().startActivity(intent);
+        });
+        */
     }
 
     @Override
@@ -82,6 +92,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         TextView likeCount; // 좋아요 수를 표시하기 위한 TextView 추가
         ImageView imageView;
         ImageButton favButton;
+        Button teamRecruitButton; // 팀원 모집 버튼 추가
 
         ViewHolder(View view) {
             super(view);
@@ -92,6 +103,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             likeCount = view.findViewById(R.id.activity_like_count); // 추가된 부분
             imageView = view.findViewById(R.id.activity_image);
             favButton = view.findViewById(R.id.action_button);
+            teamRecruitButton = view.findViewById(R.id.team_recruit_button); // 팀원 모집 버튼 추가
         }
     }
 
