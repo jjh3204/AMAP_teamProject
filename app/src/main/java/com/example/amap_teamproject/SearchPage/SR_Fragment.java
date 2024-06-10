@@ -42,7 +42,7 @@ public class SR_Fragment extends Fragment {
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private Spinner sortSpinner;
     private String currentSortOption = "등록순"; // 현재 정렬 옵션을 저장하는 변수
-
+    private String searchText;
     public SR_Fragment() {
     }
 
@@ -50,6 +50,9 @@ public class SR_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
+        if (getArguments() != null) {
+            searchText = getArguments().getString("searchText");
+        }
     }
 
     @Override
@@ -94,16 +97,16 @@ public class SR_Fragment extends Fragment {
             v.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue_dark));
             if (v == allButton) {
                 if (contestButton.isSelected()) {
-                    fetchEvents();
+                    fetchEvents(searchText);
                 } else {
-                    fetchActivities();
+                    fetchActivities(searchText);
                 }
             } else {
                 String category = ((Button) v).getText().toString();
                 if (contestButton.isSelected()) {
-                    fetchEventsByCategory(category);
+                    fetchEventsByCategory(category,searchText);
                 } else {
-                    fetchActivitiesByCategory(category);
+                    fetchActivitiesByCategory(category,searchText);
                 }
             }
         };
@@ -112,7 +115,7 @@ public class SR_Fragment extends Fragment {
             contestButton.setSelected(true);
             activityButton.setSelected(false);
             recyclerView.setAdapter(eventAdapter);
-            fetchEvents();
+            fetchEvents(searchText);
             updateFilterButtons("contest");
             allButton.performClick(); // 공모전 버튼 클릭 시 allButton 클릭
         });
@@ -121,7 +124,7 @@ public class SR_Fragment extends Fragment {
             contestButton.setSelected(false);
             activityButton.setSelected(true);
             recyclerView.setAdapter(activityAdapter);
-            fetchActivities();
+            fetchActivities(searchText);
             updateFilterButtons("activity");
             allButton.performClick(); // 대외활동 버튼 클릭 시 allButton 클릭
         });
@@ -141,7 +144,7 @@ public class SR_Fragment extends Fragment {
         // 초기 화면을 공모전 리스트로 설정
         contestButton.setSelected(true);
         recyclerView.setAdapter(eventAdapter);
-        fetchEvents();
+        fetchEvents(searchText);
         updateFilterButtons("contest");
 
         // 초기 필터링 버튼 상태 설정
@@ -178,6 +181,8 @@ public class SR_Fragment extends Fragment {
             }
         });
     }
+
+
 
     private void sortEvents(String sortOption) {
         switch (sortOption) {
@@ -333,18 +338,21 @@ public class SR_Fragment extends Fragment {
         }
     }
 
-    private void fetchEvents() {
+    private void fetchEvents(String searchText) {
         db.collection("contests")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventList.clear();
+                        String finalSearchText = searchText.toLowerCase(); // 검색어를 소문자로 변환
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
-                            if (document.contains("timestamp")) {
-                                event.setTimestamp(document.getTimestamp("timestamp"));
+                            if (event.getTitle() != null && event.getTitle().toLowerCase().contains(finalSearchText)) {
+                                if (document.contains("timestamp")) {
+                                    event.setTimestamp(document.getTimestamp("timestamp"));
+                                }
+                                eventList.add(event);
                             }
-                            eventList.add(event);
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortEvents(currentSortOption);
@@ -354,19 +362,22 @@ public class SR_Fragment extends Fragment {
                 });
     }
 
-    private void fetchEventsByCategory(String category) {
+    private void fetchEventsByCategory(String category, String searchText) {
         db.collection("contests")
                 .whereArrayContains("contest_field", category)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventList.clear();
+                        String finalSearchText = searchText.toLowerCase(); // 검색어를 소문자로 변환
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Event event = document.toObject(Event.class);
-                            if (document.contains("timestamp")) {
-                                event.setTimestamp(document.getTimestamp("timestamp"));
+                            if (event.getTitle() != null && event.getTitle().toLowerCase().contains(finalSearchText)) {
+                                if (document.contains("timestamp")) {
+                                    event.setTimestamp(document.getTimestamp("timestamp"));
+                                }
+                                eventList.add(event);
                             }
-                            eventList.add(event);
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortEvents(currentSortOption);
@@ -376,18 +387,21 @@ public class SR_Fragment extends Fragment {
                 });
     }
 
-    private void fetchActivities() {
+    private void fetchActivities(String searchText) {
         db.collection("activities")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         activityList.clear();
+                        String finalSearchText = searchText.toLowerCase(); // 검색어를 소문자로 변환
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
-                            if (document.contains("timestamp")) {
-                                activity.setTimestamp(document.getTimestamp("timestamp"));
+                            if (activity.getTitle() != null && activity.getTitle().toLowerCase().contains(finalSearchText)) {
+                                if (document.contains("timestamp")) {
+                                    activity.setTimestamp(document.getTimestamp("timestamp"));
+                                }
+                                activityList.add(activity);
                             }
-                            activityList.add(activity);
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortActivities(currentSortOption);
@@ -397,19 +411,22 @@ public class SR_Fragment extends Fragment {
                 });
     }
 
-    private void fetchActivitiesByCategory(String category) {
+    private void fetchActivitiesByCategory(String category, String searchText) {
         db.collection("activities")
                 .whereArrayContains("interest_field", category)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         activityList.clear();
+                        String finalSearchText = searchText.toLowerCase(); // 검색어를 소문자로 변환
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Activity activity = document.toObject(Activity.class);
-                            if (document.contains("timestamp")) {
-                                activity.setTimestamp(document.getTimestamp("timestamp"));
+                            if (activity.getTitle() != null && activity.getTitle().toLowerCase().contains(finalSearchText)) {
+                                if (document.contains("timestamp")) {
+                                    activity.setTimestamp(document.getTimestamp("timestamp"));
+                                }
+                                activityList.add(activity);
                             }
-                            activityList.add(activity);
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortActivities(currentSortOption);
