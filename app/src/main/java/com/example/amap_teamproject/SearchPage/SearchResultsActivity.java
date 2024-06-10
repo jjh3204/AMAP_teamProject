@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,12 +18,24 @@ import com.example.amap_teamproject.R;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private EditText editTextSearch;
-    private Button buttonSearch;
+    private ImageButton buttonSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("모바오");
+        }
 
         editTextSearch = findViewById(R.id.search_edit_text_again);
         buttonSearch = findViewById(R.id.search_button_again);

@@ -1,6 +1,7 @@
 package com.example.amap_teamproject.ui.home;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,7 +44,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         final EditText searchEditText = binding.searchId;
-        Button searchButton = binding.searchButtonId;
+        ImageButton searchButton = binding.searchButtonId;
         viewPager = binding.viewPager;
 
         db = FirebaseFirestore.getInstance();
