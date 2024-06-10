@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.amap_teamproject.databinding.ActivityPostItemBinding;
 import com.example.amap_teamproject.R;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostItemActivity extends AppCompatActivity {
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView postTitle;
     private TextView postContent;
     private TextView postTimestamp;
@@ -69,6 +70,7 @@ public class PostItemActivity extends AppCompatActivity {
         postCommentButton = binding.postCommentButton;
         deleteButton = binding.deleteButton;
         scrollView = binding.scrollview;
+        swipeRefreshLayout = binding.swipeRefreshLayout;
 
         db = FirebaseFirestore.getInstance();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -92,6 +94,10 @@ public class PostItemActivity extends AppCompatActivity {
 
         deleteButton.setOnClickListener(v -> postDelete());
         postCommentButton.setOnClickListener(v -> postComment());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadPostDetails();
+            loadComments();
+        });
     }
 
     private void loadPostDetails() {
@@ -160,6 +166,7 @@ public class PostItemActivity extends AppCompatActivity {
                             }
                             commentAdapter.notifyDataSetChanged();
                             scrollView.scrollTo(0, 0);
+                            swipeRefreshLayout.setRefreshing(false);
                         });
                     }
                 });

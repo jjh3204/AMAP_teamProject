@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.amap_teamproject.databinding.ActivityTeampageBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +35,7 @@ public class TeamPageActivity extends AppCompatActivity {
     private String type;
     private TextView emptyMessageTextView;
     private ListenerRegistration postListListener;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class TeamPageActivity extends AppCompatActivity {
 
         postRecyclerView = binding.postRecycler;
         emptyMessageTextView = binding.emptyMessageTextView;
+        swipeRefreshLayout = binding.swipeRefreshLayout;
         FloatingActionButton fab = binding.fab;
 
         postRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +67,6 @@ public class TeamPageActivity extends AppCompatActivity {
         query.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (!task.getResult().isEmpty()) {
-                            // 첫 번째 매칭된 문서를 가져옵니다.
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             documentId = document.getId();
                             loadPosts();
@@ -78,9 +80,11 @@ public class TeamPageActivity extends AppCompatActivity {
             intent.putExtra("DOCUMENT_ID", documentId);
             startActivity(intent);
         });
+        swipeRefreshLayout.setOnRefreshListener(this::loadPosts);
     }
 
     private void loadPosts() {
+        swipeRefreshLayout.setRefreshing(true);
         db.collection(type).document(documentId).collection("posts")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
@@ -91,6 +95,9 @@ public class TeamPageActivity extends AppCompatActivity {
                         postList.addAll(snapshot.toObjects(Post.class));
                         postAdapter.notifyDataSetChanged();
                         emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                    } else {
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }

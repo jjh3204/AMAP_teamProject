@@ -4,27 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
-import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityMyCareerBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MyCareerActivity extends AppCompatActivity {
 
@@ -45,7 +34,6 @@ public class MyCareerActivity extends AppCompatActivity {
         if (user != null) {
             userId = user.getUid();
         } else {
-            // Handle the case where the user is not logged in
             finish();
             return;
         }

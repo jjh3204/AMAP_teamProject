@@ -21,107 +21,112 @@
             android:textColor="@color/black"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="30dp">
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/post_author"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/text_side_margin"
-                    android:text="글쓴이"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toTopOf="@id/post_timestamp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:layout_marginTop="10dp">
 
-                <Button
-                    android:id="@+id/delete_button"
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/outline_delete_24"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@id/post_author"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/post_timestamp"
-                    android:layout_marginEnd="10dp"/>
+                    <TextView
+                        android:id="@+id/post_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/text_side_margin"
+                        android:text="글쓴이"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toTopOf="@id/post_timestamp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"/>
 
-                <TextView
-                    android:id="@+id/post_timestamp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/text_side_margin"
-                    android:text="시간"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toTopOf="@id/post_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/post_author" />
+                    <Button
+                        android:id="@+id/delete_button"
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/outline_delete_24"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="@id/post_author"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/post_timestamp"
+                        android:layout_marginEnd="10dp"/>
 
-                <TextView
-                    android:id="@+id/post_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/text_side_margin"
-                    android:layout_marginTop="@dimen/text_view_margin"
-                    android:text="제목"
-                    android:textSize="23sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintTop_toBottomOf="@id/post_timestamp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/post_content" />
+                    <TextView
+                        android:id="@+id/post_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/text_side_margin"
+                        android:text="시간"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@id/post_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/post_author" />
 
-                <TextView
-                    android:id="@+id/post_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_view_margin"
-                    android:paddingStart="@dimen/text_side_margin"
-                    android:text="내용"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintTop_toBottomOf="@id/post_timestamp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"/>
+                    <TextView
+                        android:id="@+id/post_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/text_side_margin"
+                        android:layout_marginTop="@dimen/text_view_margin"
+                        android:text="제목"
+                        android:textSize="23sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintTop_toBottomOf="@id/post_timestamp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/post_content" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/light_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/post_content"
-                    app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"/>
+                    <TextView
+                        android:id="@+id/post_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_view_margin"
+                        android:paddingStart="@dimen/text_side_margin"
+                        android:text="내용"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintTop_toBottomOf="@id/post_timestamp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/comment_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@android:color/white"
-                    app:layout_constraintTop_toBottomOf="@id/post_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:listitem="@layout/item_comment" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/light_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/post_content"
+                        app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"/>
 
-    </androidx.core.widget.NestedScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/comment_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@android:color/white"
+                        app:layout_constraintTop_toBottomOf="@id/post_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:listitem="@layout/item_comment" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
