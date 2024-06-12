@@ -42,6 +42,7 @@ public class ItemFragment extends Fragment {
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private Spinner sortSpinner;
     private String currentSortOption = "등록순"; // 현재 정렬 옵션을 저장하는 변수
+    private Button selectedFilterButton; // 현재 선택된 필터 버튼을 저장하는 변수
 
     public ItemFragment() {
     }
@@ -90,8 +91,14 @@ public class ItemFragment extends Fragment {
         sortSpinner = view.findViewById(R.id.sort_spinner);
 
         View.OnClickListener filterClickListener = v -> {
-            resetFilterButtonColors();
-            v.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue_dark));
+            if (selectedFilterButton != null) {
+                selectedFilterButton.setBackgroundResource(R.drawable.button_background_rounded);
+                selectedFilterButton.setSelected(false);
+            }
+            selectedFilterButton = (Button) v;
+            selectedFilterButton.setBackgroundResource(R.drawable.button_background_rounded_selected);
+            selectedFilterButton.setSelected(true);
+
             if (v == allButton) {
                 if (contestButton.isSelected()) {
                     fetchEvents();
@@ -114,6 +121,7 @@ public class ItemFragment extends Fragment {
             recyclerView.setAdapter(eventAdapter);
             fetchEvents();
             updateFilterButtons("contest");
+            allButton.performClick(); // 공모전 버튼 클릭 시 allButton 클릭
         });
 
         activityButton.setOnClickListener(v -> {
@@ -122,6 +130,7 @@ public class ItemFragment extends Fragment {
             recyclerView.setAdapter(activityAdapter);
             fetchActivities();
             updateFilterButtons("activity");
+            allButton.performClick(); // 대외활동 버튼 클릭 시 allButton 클릭
         });
 
         allButton.setOnClickListener(filterClickListener);
@@ -270,17 +279,17 @@ public class ItemFragment extends Fragment {
     }
 
     private void resetFilterButtonColors() {
-        allButton.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton1.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton2.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton3.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton4.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton5.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton6.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton7.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton8.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton9.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
-        categoryButton10.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue));
+        allButton.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton1.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton2.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton3.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton4.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton5.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton6.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton7.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton8.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton9.setBackgroundResource(R.drawable.button_background_rounded);
+        categoryButton10.setBackgroundResource(R.drawable.button_background_rounded);
     }
 
     private void updateFilterButtons(String type) {
