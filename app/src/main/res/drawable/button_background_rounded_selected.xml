@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 상태 -->
+    <item android:state_selected="true">
+        <shape>
+            <solid android:color="@color/transparent_sky_blue_dark" />
+            <corners android:radius="15dp" />
+        </shape>
+    </item>
     <!-- 기본 상태 -->
     <item>
         <shape>
@@ -8,4 +15,3 @@
         </shape>
     </item>
 </selector>
-
