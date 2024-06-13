@@ -8,21 +8,22 @@ import java.util.List;
 
 public class ImagePagerAdapter extends FragmentStateAdapter {
 
-    private List<String> imageUrls;
+    private List<ImageItem> imageItems;
 
-    public ImagePagerAdapter(@NonNull FragmentActivity fragmentActivity, List<String> imageUrls) {
+    public ImagePagerAdapter(@NonNull FragmentActivity fragmentActivity, List<ImageItem> imageItems) {
         super(fragmentActivity);
-        this.imageUrls = imageUrls;
+        this.imageItems = imageItems;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return ImageFragment.newInstance(imageUrls.get(position));
+        ImageItem item = imageItems.get(position);
+        return ImageFragment.newInstance(item.getPosterUrl(), item.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return imageUrls.size();
+        return imageItems.size();
     }
 }

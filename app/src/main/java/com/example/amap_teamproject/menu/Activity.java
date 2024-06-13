@@ -34,7 +34,7 @@ public class Activity implements Parcelable {
         // Firestore는 빈 생성자가 필요합니다.
     }
 
-    protected Activity(Parcel in) {
+    public Activity(Parcel in) {
         title = in.readString();
         organization = in.readString();
         actPeriod = in.readString();
@@ -47,8 +47,8 @@ public class Activity implements Parcelable {
         interestField = in.createStringArrayList();
         noticeUrl = in.readString();
         homepage = in.createStringArrayList();
-        hits = in.readInt(); // 조회수 읽기
-        likes = in.readInt(); // 좋아요 읽기
+        hits = in.readInt();
+        likes = in.readInt();
         timestamp = in.readParcelable(Timestamp.class.getClassLoader());
     }
 
@@ -83,8 +83,8 @@ public class Activity implements Parcelable {
         dest.writeStringList(interestField);
         dest.writeString(noticeUrl);
         dest.writeStringList(homepage);
-        dest.writeInt(hits); // 조회수 쓰기
-        dest.writeInt(likes); // 좋아요 쓰기
+        dest.writeInt(hits);
+        dest.writeInt(likes);
         dest.writeParcelable(timestamp, flags);
     }
 
@@ -168,6 +168,5 @@ public class Activity implements Parcelable {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-
 }
 
