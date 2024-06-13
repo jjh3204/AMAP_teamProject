@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest; // 회원가입창에 name을 추가하면서 추가한 코드
 import com.google.firebase.firestore.DocumentReference;
@@ -127,6 +128,15 @@ public class RegisterActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+                            }
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Log.e("RegisterActivity", "등록된 이메일입니다"); // 등록된 이메일 문구 출력
+                                Toast.makeText(RegisterActivity.this, "이미 등록된 이메일입니다", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
+                                Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 로그 출력
+                                Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

@@ -57,6 +57,7 @@
             android:name=".TeamPage.PostItemActivity"
             android:theme="@style/Theme.AMAP_teamProject.NoActionBar"
             android:label="@string/title_activity_post_item"/>
+        <activity android:name=".ui.MyPage.UpdateUserInfoActivity"/>
     </application>
 
 </manifest>

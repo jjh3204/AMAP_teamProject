@@ -31,11 +31,10 @@
         app:layout_constraintStart_toStartOf="@id/profileImageView"
         app:layout_constraintEnd_toEndOf="@id/profileImageView"
         app:layout_constraintHorizontal_bias="0.5" />
-    <!--android:layout_width="34dp"-->
 
     <!-- 회원정보 수정 버튼 -->
     <Button
-        android:id="@+id/updateInfoButton"
+        android:id="@+id/updateUserInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -52,10 +51,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="로그아웃"
-        app:layout_constraintEnd_toEndOf="@+id/updateInfoButton"
+        app:layout_constraintEnd_toEndOf="@+id/updateUserInfoButton"
         app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="@+id/updateInfoButton"
-        app:layout_constraintTop_toBottomOf="@id/updateInfoButton" />
+        app:layout_constraintStart_toStartOf="@+id/updateUserInfoButton"
+        app:layout_constraintTop_toBottomOf="@id/updateUserInfoButton" />
+
+    <!-- 회원탈퇴 버튼 -->
+    <Button
+        android:id="@+id/deleteUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="회원탈퇴"
+        app:layout_constraintEnd_toEndOf="@id/logoutButton"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="@id/logoutButton"
+        app:layout_constraintTop_toBottomOf="@id/logoutButton" />
 
     <!-- 나의 커리어 관리 화면 -->
     <FrameLayout

@@ -68,10 +68,10 @@ public class HomeFragment extends Fragment {
                     if (event == null || !event.isShiftPressed()) {
                         String query = searchEditText.getText().toString();
                         startSearchActivity(query);
-                        return true; // consume the event
+                        return true;
                     }
                 }
-                return false; // pass on to other listeners.
+                return false;
             }
         });
 
