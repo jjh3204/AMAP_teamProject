@@ -1,18 +1,19 @@
 package com.example.amap_teamproject.ui.home;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -33,13 +34,11 @@ public class HomeFragment extends Fragment {
     private Runnable runnable;
     private ViewPager2 viewPager;
     private ImagePagerAdapter adapter;
-    private List<String> imageUrls = new ArrayList<>();
+    private List<ImageItem> imageItems = new ArrayList<>();
     private final int delay = 7000;
-    private boolean isAutoSlideActive = true; //자동 슬라이드 활성 상태
+    private boolean isAutoSlideActive = true;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -93,21 +92,23 @@ public class HomeFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        imageUrls.clear();
+                        imageItems.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String imgSrc = document.getString("poster_url");
-                            if (imgSrc != null) {
-                                imageUrls.add(imgSrc);
+                            String title = document.getString("title");
+                            if (imgSrc != null && title != null) {
+                                imageItems.add(new ImageItem(imgSrc, title));
                             }
                         }
                         // Update the ViewPager adapter
-                        if (!imageUrls.isEmpty()) {
-                            adapter = new ImagePagerAdapter(getActivity(), imageUrls);
+                        if (!imageItems.isEmpty()) {
+                            adapter = new ImagePagerAdapter(getActivity(), imageItems);
                             viewPager.setAdapter(adapter);
                             startAutoSlide();
                         }
                     } else {
-                        // 실패 처리
+                        Log.e("HomeFragment", "Error fetching images", task.getException());
+                        Toast.makeText(getContext(), "Failed to load images", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
