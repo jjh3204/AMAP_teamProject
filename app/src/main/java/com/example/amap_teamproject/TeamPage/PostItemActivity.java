@@ -1,5 +1,6 @@
 package com.example.amap_teamproject.TeamPage;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class PostItemActivity extends AppCompatActivity {
         postId = getIntent().getStringExtra("POST_ID");
         documentId = getIntent().getStringExtra("DOCUMENT_ID");
         if (type == null || type.isEmpty()) {
-            Toast.makeText(this, "Invalid type", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "정보를 불러오는데 실패했습니다", Toast.LENGTH_SHORT).show();
             finish(); // 종료 액티비티
             return;
         }
@@ -92,7 +93,7 @@ public class PostItemActivity extends AppCompatActivity {
         loadPostDetails();
         loadComments();
 
-        deleteButton.setOnClickListener(v -> postDelete());
+        deleteButton.setOnClickListener(v -> showDeleteConfirmationDialog());
         postCommentButton.setOnClickListener(v -> postComment());
         swipeRefreshLayout.setOnRefreshListener(() -> {
             loadPostDetails();
@@ -190,8 +191,8 @@ public class PostItemActivity extends AppCompatActivity {
                                     .collection("comments").document();
 
                             String commentId = newCommentRef.getId();
-                            Comment comment = new Comment(Type, content, timestamp, currentUserId, false, isAuthor,
-                                    postId, null, commentId, authorName);
+                            Comment comment = new Comment(Type, content, timestamp, currentUserId, isAuthor,
+                                    postId, null, commentId, authorName, postAuthorId);
 
                             newCommentRef.set(comment)
                                     .addOnSuccessListener(aVoid -> {
@@ -210,10 +211,17 @@ public class PostItemActivity extends AppCompatActivity {
         }
     }
 
+    private void showDeleteConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("게시글을 삭제하시겠습니까?")
+                .setPositiveButton("삭제", (dialog, which) -> postDelete())
+                .setNegativeButton("취소", null)
+                .show();
+    }
+
     private void postDelete() {
         if (postId != null && !postId.isEmpty() && type != null && documentId != null) {
-            db.collection(type).document(documentId).collection("posts").document(postId)
-                    .delete()
+            new FirestoreUtils().deletePostWithCommentsAndReplies(type, documentId, postId)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "게시글이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                         finish();

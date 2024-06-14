@@ -8,29 +8,29 @@ public class Comment {
     private String content;
     private long timestamp;
     private String authorId;
-    private boolean isSecret;
     private boolean isAuthor;
     private String postId;
     private String parentCommentId;
     private String commentId;
     private String authorName;
+    private String postAuthorId;
     private List<Comment> replies;
 
     public Comment(){
 
     }
 
-    public Comment(String type, String content, long timestamp, String authorId, boolean isSecret, boolean isAuthor, String postId, String parentCommentId, String commentId, String authorName) {
+    public Comment(String type, String content, long timestamp, String authorId, boolean isAuthor, String postId, String parentCommentId, String commentId, String authorName, String postAuthorId) {
         this.type = type;
         this.content = content;
         this.timestamp = timestamp;
         this.authorId = authorId;
-        this.isSecret = isSecret;
         this.isAuthor = isAuthor;
         this.postId = postId;
         this.parentCommentId = parentCommentId;
         this.commentId = commentId;
         this.authorName = authorName;
+        this.postAuthorId = postAuthorId;
         this.replies = new ArrayList<>();
     }
 
@@ -74,14 +74,6 @@ public class Comment {
         this.authorId = authorId;
     }
 
-    public boolean isSecret() {
-        return isSecret;
-    }
-
-    public void setSecret(boolean secret) {
-        isSecret = secret;
-    }
-
     public boolean isAuthor() {
         return isAuthor;
     }
@@ -112,6 +104,14 @@ public class Comment {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    public String getPostAuthorId() {
+        return postAuthorId;
+    }
+
+    public void setPostAuthorId(String postAuthorId) {
+        this.postAuthorId = postAuthorId;
     }
 
     public List<Comment> getReplies() {

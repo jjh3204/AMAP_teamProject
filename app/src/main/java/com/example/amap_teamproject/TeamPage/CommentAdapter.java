@@ -158,7 +158,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private void postReply(Comment parentComment, String content) {
             String authorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             long timestamp = System.currentTimeMillis();
-            boolean isAuthor = authorId.equals(parentComment.getAuthorId());
+            boolean isAuthor = authorId.equals(parentComment.getPostAuthorId());
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -173,8 +173,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             String replyId = newCommentRef.getId();
 
-                            Comment reply = new Comment(parentComment.getType(), content, timestamp, authorId, false, isAuthor,
-                                    parentComment.getPostId(), parentComment.getCommentId(), replyId, authorName);
+                            Comment reply = new Comment(parentComment.getType(), content, timestamp, authorId, isAuthor,
+                                    parentComment.getPostId(), parentComment.getCommentId(), replyId, authorName, parentComment.getPostAuthorId());
 
                             newCommentRef.set(reply)
                                     .addOnSuccessListener(aVoid -> {
@@ -189,11 +189,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         private void deleteComment(Comment comment) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection(comment.getType()).document(documentId).collection("posts")
-                    .document(comment.getPostId()).collection("comments")
-                    .document(comment.getCommentId())
-                    .delete()
+            new FirestoreUtils().deleteCommentWithReplies(comment.getType(), documentId, comment.getPostId(), comment.getCommentId())
                     .addOnSuccessListener(aVoid -> {
                         int position = getAdapterPosition();
                         comments.remove(position);

@@ -53,9 +53,9 @@
 
                     <Button
                         android:id="@+id/delete_button"
-                        android:layout_width="35dp"
+                        android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/outline_delete_24"
+                        android:background="@drawable/baseline_clear_24"
                         android:visibility="gone"
                         app:layout_constraintTop_toTopOf="@id/post_author"
                         app:layout_constraintEnd_toEndOf="parent"
