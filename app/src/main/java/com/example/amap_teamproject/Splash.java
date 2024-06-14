@@ -10,7 +10,7 @@ import com.example.amap_teamproject.Login.RegisterActivity;
 
 public class Splash extends AppCompatActivity {
 
-    private static final long SPLASH_DELAY = 800; // 1.5초
+    private static final long SPLASH_DELAY = 800;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

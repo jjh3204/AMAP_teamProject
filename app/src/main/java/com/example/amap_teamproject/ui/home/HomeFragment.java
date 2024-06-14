@@ -132,7 +132,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((TextView) getActivity().findViewById(R.id.toolbar_title)).setText("홈");
         isAutoSlideActive = true;
         handler.postDelayed(runnable, delay); // Resume auto-slide when returning to the fragment
     }

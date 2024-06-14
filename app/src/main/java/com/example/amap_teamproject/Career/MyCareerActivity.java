@@ -3,6 +3,7 @@ package com.example.amap_teamproject.Career;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.amap_teamproject.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -27,8 +28,10 @@ public class MyCareerActivity extends AppCompatActivity {
         binding = ActivityMyCareerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            binding.toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
+        }
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

@@ -8,60 +8,67 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:theme="@style/Theme.AMAP_teamProject.AppBarOverlay" >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            app:titleTextColor="@color/black" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingTop="?attr/actionBarSize">
-
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/light_gray">
 
         <EditText
             android:id="@+id/post_title_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:hint="제목"
-            android:layout_marginTop="@dimen/text_view_margin"
+            android:layout_marginTop="5dp"
+            android:paddingStart="@dimen/text_side_margin"
+            android:paddingEnd="@dimen/text_side_margin"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:singleLine="true"
-            app:layout_constraintBottom_toTopOf="@id/post_content_edit_text"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/post_content_edit_text"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/item_bottom_border" />
+            android:background="@drawable/item_bottom_border_white" />
 
         <EditText
             android:id="@+id/post_content_edit_text"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:hint="내용을 입력하세요"
-            android:background="@drawable/item_bottom_border"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="@dimen/text_side_margin"
+            android:paddingEnd="@dimen/text_side_margin"
+            android:background="@drawable/item_bottom_border_white"
             android:gravity="start|top"
-            app:layout_constraintBottom_toTopOf="@id/postButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_title_edit_text" />
 
-            <Button
-                android:id="@+id/postButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="글쓰기"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/post_content_edit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp"
-                android:background="@drawable/rectangle_aquamarin" />
+        <Button
+            android:id="@+id/postButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rectangle_aquamarin"
+            android:text="글쓰기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_content_edit_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

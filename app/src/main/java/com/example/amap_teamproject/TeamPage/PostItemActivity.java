@@ -3,13 +3,13 @@ package com.example.amap_teamproject.TeamPage;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
@@ -60,7 +60,8 @@ public class PostItemActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            binding.toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
         }
 
         postTitle = binding.postTitle;
@@ -99,6 +100,15 @@ public class PostItemActivity extends AppCompatActivity {
             loadPostDetails();
             loadComments();
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // 뒤로 가기 버튼을 누르면 현재 액티비티를 종료
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadPostDetails() {

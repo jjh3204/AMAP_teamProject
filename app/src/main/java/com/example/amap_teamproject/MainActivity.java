@@ -2,6 +2,8 @@ package com.example.amap_teamproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
 
         // 사용자 인증 체크

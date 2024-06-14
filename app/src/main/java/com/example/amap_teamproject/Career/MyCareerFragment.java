@@ -50,7 +50,6 @@ public class MyCareerFragment extends Fragment {
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-        // pageViewModel.setIndex(index);
     }
 
     @Override

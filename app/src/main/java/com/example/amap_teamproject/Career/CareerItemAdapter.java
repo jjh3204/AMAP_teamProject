@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amap_teamproject.R;
+import com.example.amap_teamproject.utils.DateUtils;
 
 import java.util.List;
 public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.ViewHolder> {
@@ -21,10 +22,12 @@ public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView careerTitle;
+        public TextView careerTimestamp;
 
         public ViewHolder(View view){
             super(view);
             careerTitle = view.findViewById(R.id.career_title);
+            careerTimestamp = view.findViewById(R.id.career_timestamp);
         }
     }
 
@@ -44,6 +47,7 @@ public class CareerItemAdapter extends RecyclerView.Adapter<CareerItemAdapter.Vi
         CareerItem careerItem = careerList.get(position);
         holder.careerTitle.setText(careerItem.getTitle());
         holder.itemView.setOnClickListener(v -> listener.onItemClick(careerItem));
+        holder.careerTimestamp.setText(DateUtils.formatTimestamp(careerItem.getTimestamp()));
     }
 
     public void updateData(List<CareerItem> newCareerList) {

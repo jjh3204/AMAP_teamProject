@@ -34,6 +34,7 @@ public class AddCareerActivity extends AppCompatActivity {
     private ActivityAddCareerBinding binding;
     private String userId;
     private String documentId;
+    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,8 +42,10 @@ public class AddCareerActivity extends AppCompatActivity {
         binding = ActivityAddCareerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            binding.toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
+        }
 
         titleEditText = binding.titleEditText;
         contentEditText = binding.contentEditText;
@@ -103,13 +106,14 @@ public class AddCareerActivity extends AppCompatActivity {
         String title = titleEditText.getText().toString().trim();
         String content = contentEditText.getText().toString().trim();
         String category = radioCompetition.isChecked() ? "공모전" : "대외활동";
+        long timestamp = System.currentTimeMillis();
 
         if (title.isEmpty() || content.isEmpty() || radioGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this, "모든 항목을 기입해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        CareerItem careerItem = new CareerItem(title, content, category);
+        CareerItem careerItem = new CareerItem(title, content, category, timestamp);
         db.collection("users").document(userId).collection("career")
                 .add(careerItem)
                 .addOnSuccessListener(documentReference -> {
@@ -146,13 +150,14 @@ public class AddCareerActivity extends AppCompatActivity {
         String title = titleEditText.getText().toString().trim();
         String content = contentEditText.getText().toString().trim();
         String category = radioCompetition.isChecked() ? "공모전" : "대외활동";
+        long timestamp = System.currentTimeMillis();
 
         if (title.isEmpty() || content.isEmpty() || radioGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this, "모든 항목을 기입해야합니다", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        CareerItem careerItem = new CareerItem(title, content, category);
+        CareerItem careerItem = new CareerItem(title, content, category, timestamp);
         db.collection("users").document(userId).collection("career").document(documentId)
                 .set(careerItem)
                 .addOnSuccessListener(aVoid -> {
@@ -161,6 +166,16 @@ public class AddCareerActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error updating career item", Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        MenuItem deleteItem = menu.findItem(R.id.action_delete);
+        deleteItem.setVisible(documentId != null);
+
+        return true;
     }
 
     @Override

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/career_item"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
@@ -31,15 +30,25 @@
             android:layout_height="36dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="50dp"
-            android:text="AI와 함께하는 세상"
+            android:text="제목"
             android:gravity="center|start"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:singleLine="true"
             android:ellipsize="end"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintBottom_toTopOf="@id/career_timestamp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2"
             app:layout_constraintVertical_bias="0.058" />
+
+        <TextView
+            android:id="@+id/career_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="timestamp"
+            app:layout_constraintTop_toBottomOf="@id/career_title"
+            app:layout_constraintStart_toStartOf="@id/career_title"
+            app:layout_constraintBottom_toBottomOf="@id/imageView2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

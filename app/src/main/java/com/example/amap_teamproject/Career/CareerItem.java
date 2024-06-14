@@ -5,15 +5,17 @@ public class CareerItem {
     private String content;
     private String category;
     private String documentId;
+    private long timestamp;
 
     public CareerItem() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public CareerItem(String title, String content, String category) {
+    public CareerItem(String title, String content, String category, long timestamp) {
         this.title = title;
         this.content = content;
         this.category = category;
+        this.timestamp = timestamp;
     }
 
     public String getTitle() {
@@ -46,5 +48,13 @@ public class CareerItem {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

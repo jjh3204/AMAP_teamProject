@@ -1,18 +1,17 @@
 package com.example.amap_teamproject.TeamPage;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityTeampageBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,7 +44,8 @@ public class TeamPageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            binding.toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
         }
 
         type = getIntent().getStringExtra("type");
@@ -83,6 +83,15 @@ public class TeamPageActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(this::loadPosts);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // 뒤로 가기 버튼을 누르면 현재 액티비티를 종료
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void loadPosts() {
         swipeRefreshLayout.setRefreshing(true);
         db.collection(type).document(documentId).collection("posts")
@@ -109,7 +118,6 @@ public class TeamPageActivity extends AppCompatActivity {
         intent.putExtra("DOCUMENT_ID", documentId);
         startActivity(intent);
     }
-
 
     @Override
     protected void onResume() {

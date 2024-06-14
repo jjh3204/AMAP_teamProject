@@ -9,6 +9,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -31,8 +32,10 @@ public class PageViewModel extends ViewModel {
             registration.remove();
         }
 
-        registration = db.collection("users").document(userId).collection("career")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        Query query = db.collection("users").document(userId).collection("career")
+                .orderBy("timestamp", Query.Direction.DESCENDING);
+
+        registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
                         if (e != null) {
@@ -53,7 +56,6 @@ public class PageViewModel extends ViewModel {
                                             careerList.add(careerItem);
                                             break;
                                         case MODIFIED:
-                                            // Handle item modifications
                                             for (int i = 0; i < careerList.size(); i++) {
                                                 if (careerList.get(i).getDocumentId().equals(careerItem.getDocumentId())) {
                                                     careerList.set(i, careerItem);
@@ -62,7 +64,6 @@ public class PageViewModel extends ViewModel {
                                             }
                                             break;
                                         case REMOVED:
-                                            // Handle item removals
                                             careerList.removeIf(item -> item.getDocumentId().equals(careerItem.getDocumentId()));
                                             break;
                                     }

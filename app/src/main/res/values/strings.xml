@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">AMAP_teamProject</string>
     <string name="title_home">홈</string>
-    <string name="title_dashboard">스크랩</string>
-    <string name="title_my_page">My</string>
-    <string name="title_items">Items</string>
+    <string name="title_dashboard">좋아요</string>
+    <string name="title_my_page">마이페이지</string>
+    <string name="title_items">목록</string>
     <string name="title_my_career">내 활동</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -105,7 +105,7 @@
     </string>
     <string name="title_activity_my_career">내 커리어</string>
     <string name="title_activity_add_career">글쓰기</string>
-    <string name="title_activity_team_page">팀원 모집</string>
+    <string name="title_activity_team_page">게시판</string>
     <string name="title_activity_add_post">글쓰기</string>
     <string name="title_activity_post_item">모집 글</string>
     <string name="tab_text_1">전체</string>

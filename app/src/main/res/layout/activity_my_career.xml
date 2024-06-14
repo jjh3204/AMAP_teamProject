@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#72DD75"
+        android:background="@color/white"
         android:theme="@style/Theme.AMAP_teamProject.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:textColor="@color/white"/>
+            app:titleTextColor="@color/black"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabTextColor="@color/black"
+            app:tabIndicatorColor="@color/transparent_sky_blue_dark"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -39,5 +41,6 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
+        app:backgroundTint="#2196F3"
         app:srcCompat="@drawable/outline_create_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

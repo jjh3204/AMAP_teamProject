@@ -1,6 +1,7 @@
 package com.example.amap_teamproject.TeamPage;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.EditText;
@@ -8,12 +9,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityAddPostBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +36,8 @@ public class AddPostActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            binding.toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
         }
 
         titleEditText = binding.postTitleEditText;
@@ -65,6 +66,14 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void createPost(String title, String content, long timestamp) {
         Map<String, Object> newPost = new HashMap<>();
 
