@@ -34,7 +34,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("모바오");
+            getSupportActionBar().setTitle("검색");
         }
 
         editTextSearch = findViewById(R.id.search_edit_text_again);

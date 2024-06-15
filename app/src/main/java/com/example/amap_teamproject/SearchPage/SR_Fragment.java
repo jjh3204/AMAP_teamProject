@@ -9,9 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,10 +38,14 @@ public class SR_Fragment extends Fragment {
     private ActivityAdapter activityAdapter;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
+    private TextView emptyView;
     private Button contestButton, activityButton, allButton, categoryButton1, categoryButton2, categoryButton3, categoryButton4, categoryButton5, categoryButton6, categoryButton7, categoryButton8, categoryButton9, categoryButton10;
     private Spinner sortSpinner;
     private String currentSortOption = "등록순"; // 현재 정렬 옵션을 저장하는 변수
     private String searchText;
+
+    private Button selectedFilterButton;
+
     public SR_Fragment() {
     }
 
@@ -60,6 +63,7 @@ public class SR_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        emptyView = view.findViewById(R.id.empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Add padding to the bottom of the RecyclerView
@@ -93,8 +97,14 @@ public class SR_Fragment extends Fragment {
         sortSpinner = view.findViewById(R.id.sort_spinner);
 
         View.OnClickListener filterClickListener = v -> {
-            resetFilterButtonColors();
-            v.setBackgroundColor(getResources().getColor(R.color.transparent_sky_blue_dark));
+            if (selectedFilterButton != null) {
+                selectedFilterButton.setBackgroundResource(R.drawable.button_background_rounded);
+                selectedFilterButton.setSelected(false);
+            }
+            selectedFilterButton = (Button) v;
+            selectedFilterButton.setBackgroundResource(R.drawable.button_background_rounded_selected);
+            selectedFilterButton.setSelected(true);
+
             if (v == allButton) {
                 if (contestButton.isSelected()) {
                     fetchEvents(searchText);
@@ -181,8 +191,6 @@ public class SR_Fragment extends Fragment {
             }
         });
     }
-
-
 
     private void sortEvents(String sortOption) {
         switch (sortOption) {
@@ -356,6 +364,7 @@ public class SR_Fragment extends Fragment {
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortEvents(currentSortOption);
+                        toggleEmptyViewVisibility(eventList.isEmpty());
                     } else {
                         // 오류 처리
                     }
@@ -381,6 +390,7 @@ public class SR_Fragment extends Fragment {
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortEvents(currentSortOption);
+                        toggleEmptyViewVisibility(eventList.isEmpty());
                     } else {
                         // 오류 처리
                     }
@@ -405,6 +415,7 @@ public class SR_Fragment extends Fragment {
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortActivities(currentSortOption);
+                        toggleEmptyViewVisibility(activityList.isEmpty());
                     } else {
                         // 오류 처리
                     }
@@ -430,6 +441,7 @@ public class SR_Fragment extends Fragment {
                         }
                         // 데이터 로드 후 현재 정렬 옵션으로 정렬
                         sortActivities(currentSortOption);
+                        toggleEmptyViewVisibility(activityList.isEmpty());
                     } else {
                         // 오류 처리
                     }
@@ -480,5 +492,15 @@ public class SR_Fragment extends Fragment {
 
         list.addAll(specialCases);
         list.addAll(endedEvents);
+    }
+
+    private void toggleEmptyViewVisibility(boolean isEmpty) {
+        if (isEmpty) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 }
