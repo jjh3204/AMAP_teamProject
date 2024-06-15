@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.amap_teamproject.Notice.NoticeActivity;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.SearchPage.SearchResultsActivity;
 import com.example.amap_teamproject.databinding.FragmentHomeBinding;
@@ -37,6 +40,7 @@ public class HomeFragment extends Fragment {
     private List<ImageItem> imageItems = new ArrayList<>();
     private final int delay = 7000;
     private boolean isAutoSlideActive = true;
+    private LinearLayout indicatorLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -45,6 +49,7 @@ public class HomeFragment extends Fragment {
         final EditText searchEditText = binding.searchId;
         ImageButton searchButton = binding.searchButtonId;
         viewPager = binding.viewPager;
+        indicatorLayout = root.findViewById(R.id.indicatorLayout);
 
         db = FirebaseFirestore.getInstance();
         handler = new Handler();
@@ -58,7 +63,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Enter key press listener using setOnEditorActionListener
+        LinearLayout noticeLayout = binding.noticeLayout;
+        noticeLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), NoticeActivity.class);
+            startActivity(intent);
+        });
+
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -75,6 +85,20 @@ public class HomeFragment extends Fragment {
         });
 
         fetchLatestImages();
+
+        // ViewPager 페이지 변경 리스너 추가
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (position == 0) {
+                    viewPager.postDelayed(() -> viewPager.setCurrentItem(adapter.getItemCount() - 2, false), 300);
+                } else if (position == adapter.getItemCount() - 1) {
+                    viewPager.postDelayed(() -> viewPager.setCurrentItem(1, false), 300);
+                }
+                updateIndicator(position - 1);
+            }
+        });
 
         return root;
     }
@@ -104,6 +128,8 @@ public class HomeFragment extends Fragment {
                         if (!imageItems.isEmpty()) {
                             adapter = new ImagePagerAdapter(getActivity(), imageItems);
                             viewPager.setAdapter(adapter);
+                            viewPager.setCurrentItem(1, false); // 처음에 실제 첫 번째 아이템을 표시하도록 설정
+                            setupIndicators(imageItems.size());
                             startAutoSlide();
                         }
                     } else {
@@ -113,6 +139,40 @@ public class HomeFragment extends Fragment {
                 });
     }
 
+    private void setupIndicators(int count) {
+        indicatorLayout.removeAllViews();
+        for (int i = 0; i < count; i++) {
+            final int index = i; // final 또는 effectively final 변수로 저장
+            View indicator = new View(getContext());
+            indicator.setBackgroundResource(R.drawable.indicator_inactive); // 비활성화된 점의 배경
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    16, // 너비
+                    16  // 높이
+            );
+            params.setMargins(8, 0, 8, 0); // 점 사이의 간격 조정
+            indicator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewPager.setCurrentItem(index + 1); // 해당 페이지로 이동
+                }
+            });
+            indicatorLayout.addView(indicator, params);
+        }
+        updateIndicator(0); // 첫 번째 아이템을 선택된 상태로 초기화
+    }
+
+    private void updateIndicator(int position) {
+        int childCount = indicatorLayout.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View indicator = indicatorLayout.getChildAt(i);
+            if (i == position) {
+                indicator.setBackgroundResource(R.drawable.indicator_active); // 활성화된 점의 배경
+            } else {
+                indicator.setBackgroundResource(R.drawable.indicator_inactive); // 비활성화된 점의 배경
+            }
+        }
+    }
+
     private void startAutoSlide() {
         runnable = new Runnable() {
             @Override
@@ -120,8 +180,13 @@ public class HomeFragment extends Fragment {
                 if (adapter != null && adapter.getItemCount() > 0 && isAutoSlideActive) {
                     int currentItem = viewPager.getCurrentItem();
                     int nextItem = (currentItem + 1) % adapter.getItemCount();
-                    viewPager.setCurrentItem(nextItem, true);
-                    handler.postDelayed(this, delay);
+                    if (nextItem == adapter.getItemCount() - 1) {
+                        viewPager.setCurrentItem(nextItem, true);
+                        handler.postDelayed(() -> viewPager.setCurrentItem(1, false), delay);
+                    } else {
+                        viewPager.setCurrentItem(nextItem, true);
+                        handler.postDelayed(this, delay);
+                    }
                 }
             }
         };
@@ -133,14 +198,14 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         isAutoSlideActive = true;
-        handler.postDelayed(runnable, delay); // Resume auto-slide when returning to the fragment
+        handler.postDelayed(runnable, delay);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         isAutoSlideActive = false;
-        handler.removeCallbacks(runnable); // Stop auto-slide when leaving the fragment
+        handler.removeCallbacks(runnable);
     }
 
     @Override
