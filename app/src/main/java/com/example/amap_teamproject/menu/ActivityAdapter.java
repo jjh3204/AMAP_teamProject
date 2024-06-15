@@ -68,7 +68,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         initializeButton(activity, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, activity.getSubPeriod());
         holder.hitCount.setText("조회수: " + activity.getHits()); // 조회수 설정
-        holder.likeCount.setText("찜: " + activity.getLikes()); // 좋아요 수 설정
+        holder.likeCount.setText("좋아요: " + activity.getLikes()); // 좋아요 수 설정
 
         holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);

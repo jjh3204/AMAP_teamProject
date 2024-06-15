@@ -159,7 +159,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
-                    likeCount.setText("찜: " + likes);
+                    likeCount.setText("좋아요: " + likes);
                     event.setLikes((int) likes);
                     break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
                 }
