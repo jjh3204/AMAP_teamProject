@@ -14,9 +14,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.amap_teamproject.Notice.NoticeActivity;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.SearchPage.SearchResultsActivity;
 import com.example.amap_teamproject.databinding.FragmentHomeBinding;
@@ -60,7 +63,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Enter key press listener using setOnEditorActionListener
+        LinearLayout noticeLayout = binding.noticeLayout;
+        noticeLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), NoticeActivity.class);
+            startActivity(intent);
+        });
+
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -190,14 +198,14 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         isAutoSlideActive = true;
-        handler.postDelayed(runnable, delay); // Resume auto-slide when returning to the fragment
+        handler.postDelayed(runnable, delay);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         isAutoSlideActive = false;
-        handler.removeCallbacks(runnable); // Stop auto-slide when leaving the fragment
+        handler.removeCallbacks(runnable);
     }
 
     @Override

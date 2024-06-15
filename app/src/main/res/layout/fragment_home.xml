@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp" >
 
         <FrameLayout
             android:id="@+id/FL"
@@ -53,7 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="16dp"/>
-
         <!-- 인디케이터 점들을 위한 LinearLayout 추가 -->
         <LinearLayout
             android:id="@+id/indicatorLayout"
@@ -62,6 +61,72 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_white">
+
+            <LinearLayout
+                android:id="@+id/notice_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="공지사항"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/baseline_arrow_forward_ios_24"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/notice1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="운영자입니다"
+                android:textSize="15sp"
+                android:singleLine="true"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/notice2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="두번째 공지사항"
+                android:textSize="15sp"
+                android:singleLine="true"
+                android:paddingBottom="5dp" />
+
+            <TextView
+                android:id="@+id/notice3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="세번째 공지사항"
+                android:textSize="15sp"
+                android:singleLine="true"
+                android:paddingBottom="5dp" />
+
+            <TextView
+                android:id="@+id/notice4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="네번째 공지사항"
+                android:textSize="15sp"
+                android:singleLine="true"
+                android:paddingBottom="5dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
