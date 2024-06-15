@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityAddNoticeBinding;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -51,13 +52,16 @@ public class AddNoticeActivity extends AppCompatActivity {
             return;
         }
 
+        DocumentReference newNoticeRef = db.collection("notices").document();
+        String documentId = newNoticeRef.getId();
+
         Map<String, Object> notice = new HashMap<>();
         notice.put("title", title);
         notice.put("content", content);
         notice.put("timestamp", System.currentTimeMillis());
+        notice.put("documentId", documentId);
 
-        db.collection("notices")
-                .add(notice)
+        newNoticeRef.set(notice)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(this, "공지사항이 등록되었습니다", Toast.LENGTH_SHORT).show();
                     finish();

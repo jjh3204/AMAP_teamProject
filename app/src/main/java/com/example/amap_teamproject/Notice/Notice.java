@@ -4,14 +4,16 @@ public class Notice {
     private String title;
     private String content;
     private long timestamp;
+    private String documentId;
 
     public Notice() {
     }
 
-    public Notice(String title, String content, long timestamp) {
+    public Notice(String title, String content, long timestamp, String documentId) {
         this.title = title;
         this.content = content;
         this.timestamp = timestamp;
+        this.documentId = documentId;
     }
 
     public String getTitle() {
@@ -36,5 +38,13 @@ public class Notice {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 }
