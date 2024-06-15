@@ -49,6 +49,14 @@
             </RelativeLayout>
         </FrameLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="최신 공고"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
@@ -60,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="8dp"
+
             android:orientation="horizontal"/>
 
         <LinearLayout
@@ -96,16 +104,14 @@
                 android:id="@+id/notice1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="운영자입니다"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:singleLine="true"
-                android:paddingBottom="5dp"/>
+                android:paddingBottom="6dp"/>
 
             <TextView
                 android:id="@+id/notice2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="두번째 공지사항"
                 android:textSize="15sp"
                 android:singleLine="true"
                 android:paddingBottom="5dp" />
@@ -114,7 +120,6 @@
                 android:id="@+id/notice3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="세번째 공지사항"
                 android:textSize="15sp"
                 android:singleLine="true"
                 android:paddingBottom="5dp" />
@@ -123,7 +128,6 @@
                 android:id="@+id/notice4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="네번째 공지사항"
                 android:textSize="15sp"
                 android:singleLine="true"
                 android:paddingBottom="5dp" />
