@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.menu.Activity;
@@ -40,6 +40,7 @@ public class DashboardFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyView;
     private Button contestButton, activityButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public DashboardFragment() {
     }
@@ -56,6 +57,7 @@ public class DashboardFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyView = view.findViewById(R.id.empty_view);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -95,6 +97,15 @@ public class DashboardFragment extends Fragment {
         recyclerView.setAdapter(eventAdapter);
         fetchEvents(); // 초기 데이터를 가져오기 위해 호출
 
+        // SwipeRefreshLayout 설정
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (contestButton.isSelected()) {
+                fetchEvents();
+            } else {
+                fetchActivities();
+            }
+        });
+
         return view;
     }
 
@@ -123,6 +134,7 @@ public class DashboardFragment extends Fragment {
                     } else {
                         // Handle error
                     }
+                    swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
                 });
     }
 
@@ -132,6 +144,7 @@ public class DashboardFragment extends Fragment {
             eventList.clear();
             eventAdapter.notifyDataSetChanged();
             toggleEmptyViewVisibility(eventList.isEmpty());
+            swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
             return;
         }
 
@@ -152,6 +165,7 @@ public class DashboardFragment extends Fragment {
                     } else {
                         // Handle error
                     }
+                    swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
                 });
     }
 
@@ -178,6 +192,7 @@ public class DashboardFragment extends Fragment {
                     } else {
                         // Handle error
                     }
+                    swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
                 });
     }
 
@@ -187,6 +202,7 @@ public class DashboardFragment extends Fragment {
             activityList.clear();
             activityAdapter.notifyDataSetChanged();
             toggleEmptyViewVisibility(activityList.isEmpty());
+            swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
             return;
         }
 
@@ -207,6 +223,7 @@ public class DashboardFragment extends Fragment {
                     } else {
                         // Handle error
                     }
+                    swipeRefreshLayout.setRefreshing(false); // 새로고침 중지
                 });
     }
 

@@ -3,4 +3,3 @@
     <solid android:color="#2034b9f2" /> <!-- 매우 투명한 하늘색 배경 -->
     <corners android:radius="15dp" /> <!-- 모서리 둥글게 설정 -->
 </shape>
-
