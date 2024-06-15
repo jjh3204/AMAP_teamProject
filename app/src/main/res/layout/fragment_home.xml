@@ -86,7 +86,7 @@
                     android:textSize="25sp"
                     android:textColor="@color/black"/>
 
-                <ImageButton
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/baseline_arrow_forward_ios_24"/>

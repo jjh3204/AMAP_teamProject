@@ -29,12 +29,10 @@ public class AddCareerActivity extends AppCompatActivity {
     private RadioButton radioActivity;
     private Button saveButton;
     private Button editButton;
-
     private FirebaseFirestore db;
     private ActivityAddCareerBinding binding;
     private String userId;
     private String documentId;
-    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -145,7 +143,6 @@ public class AddCareerActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(this, "정보를 불러오는데 실패했습니다", Toast.LENGTH_SHORT).show());
     }
 
-    // 수정 예정
     private void updateCareerItem() {
         String title = titleEditText.getText().toString().trim();
         String content = contentEditText.getText().toString().trim();
