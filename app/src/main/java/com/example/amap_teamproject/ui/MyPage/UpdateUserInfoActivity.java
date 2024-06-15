@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView; // 텍스트뷰로 변환
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UpdateUserInfoActivity extends AppCompatActivity {
 
-    private Button buttonUpdateName, buttonUpdateEmail, buttonUpdatePassword;
+    private TextView textViewUpdateName, textViewUpdateEmail, textViewUpdatePassword; // 텍스트뷰로 변환
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private String userId;
@@ -34,9 +34,9 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_user_info);
 
-        buttonUpdateName = findViewById(R.id.buttonUpdateName);
-        buttonUpdateEmail = findViewById(R.id.buttonUpdateEmail);
-        buttonUpdatePassword = findViewById(R.id.buttonUpdatePassword);
+        textViewUpdateName = findViewById(R.id.textViewUpdateName); // 텍스트뷰로 변환
+        textViewUpdateEmail = findViewById(R.id.textViewUpdateEmail); // 텍스트뷰로 변환
+        textViewUpdatePassword = findViewById(R.id.textViewUpdatePassword); // 텍스트뷰로 변환
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -46,21 +46,21 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
             userId = user.getUid();
         }
 
-        buttonUpdateName.setOnClickListener(new View.OnClickListener() {
+        textViewUpdateName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUpdateNameDialog();
             }
         });
 
-        buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
+        textViewUpdateEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUpdateEmailDialog();
             }
         });
 
-        buttonUpdatePassword.setOnClickListener(new View.OnClickListener() {
+        textViewUpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUpdatePasswordDialog();
