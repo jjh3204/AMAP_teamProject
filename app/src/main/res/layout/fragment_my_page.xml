@@ -50,11 +50,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
         android:text="로그아웃"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/updateUserInfoButton" />
+    <!--
         app:layout_constraintEnd_toEndOf="@+id/updateUserInfoButton"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="@+id/updateUserInfoButton"
         app:layout_constraintTop_toBottomOf="@id/updateUserInfoButton" />
+    -->
 
     <!-- 회원탈퇴 버튼 -->
     <Button
@@ -73,7 +78,7 @@
     <FrameLayout
         android:id="@+id/careerManagementFrame"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="185dp"
         android:layout_marginTop="72dp"
         android:background="@color/light_gray"
         android:elevation="4dp"
@@ -82,7 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintWidth_default="spread">
-
         <TextView
             android:id="@+id/careerManagementText"
             android:layout_width="wrap_content"

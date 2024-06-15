@@ -42,6 +42,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.google.firebase:firebase-storage:20.0.1")
     implementation(libs.activity)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.appcompat)
@@ -59,3 +60,4 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+

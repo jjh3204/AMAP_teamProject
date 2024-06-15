@@ -58,32 +58,32 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createAccount(String name, String email, String password, String confirmPassword) {
         if (TextUtils.isEmpty(name)) { // 추가된 부분
-            nameEditText.setError("Name is required."); // 추가된 부분
+            nameEditText.setError("이름을 입력해야 합니다."); // 추가된 부분
             return; // 추가된 부분
         } // 추가된 부분
 
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Email is required.");
+            emailEditText.setError("이메일을 입력해야 합니다.");
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) { // 추가된 부분: 이메일 형식 검사
-            emailEditText.setError("Please enter a valid email address.");
+            emailEditText.setError("올바른 이메일 형식이 아닙니다.");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Password is required.");
+            passwordEditText.setError("비밀번호를 입력해야 합니다.");
             return;
         }
 
         if (password.length() < 6) {
-            passwordEditText.setError("Password must be at least 6 characters.");
+            passwordEditText.setError("비밀번호가 6글자 이상이어야 합니다.");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            confirmPasswordEditText.setError("Passwords do not match.");
+            confirmPasswordEditText.setError("비밀번호가 서로 일치하지 않습니다.");
             return;
         }
 
@@ -110,29 +110,29 @@ public class RegisterActivity extends AppCompatActivity {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if (task.isSuccessful()) {
-                                                                        Toast.makeText(RegisterActivity.this, "Registration Success.", Toast.LENGTH_LONG).show();
+                                                                        Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_LONG).show();
                                                                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                                                         startActivity(intent);
                                                                         finish();
                                                                     } else {
-                                                                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Profile update failed.";
-                                                                        Log.e("RegisterActivity", "Profile Update Failed: " + errorMessage);
-                                                                        Toast.makeText(RegisterActivity.this, "Profile Update Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
+                                                                        Log.e("RegisterActivity", "회원가입 실패: " + errorMessage);
+                                                                        Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 }
                                                             });
                                                 } else {
-                                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed.";
-                                                    Log.e("RegisterActivity", "Registration Failed: " + errorMessage); // 추가된 부분: 로그 출력
-                                                    Toast.makeText(RegisterActivity.this, "Registration Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
+                                                    Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 추가된 부분: 로그 출력
+                                                    Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
                             }
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Log.e("RegisterActivity", "등록된 이메일입니다"); // 등록된 이메일 문구 출력
-                                Toast.makeText(RegisterActivity.this, "이미 등록된 이메일입니다", Toast.LENGTH_SHORT).show();
+                                Log.e("RegisterActivity", "이미 등록된 이메일입니다."); // 등록된 이메일 문구 출력
+                                Toast.makeText(RegisterActivity.this, "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
                             } else {
                                 String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
                                 Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 로그 출력
