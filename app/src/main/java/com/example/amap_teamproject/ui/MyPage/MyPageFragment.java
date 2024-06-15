@@ -44,9 +44,9 @@ public class MyPageFragment extends Fragment {
     private static final int REQUEST_UPDATE_USER_INFO = 1;
     private static final int REQUEST_IMAGE_PICK = 2; // 갤러리 접근
 
-    private Button deleteUserButton;
-    private Button logoutButton;
-    private Button updateUserInfoButton;
+    private TextView deleteUserTextView;
+    private TextView logoutTextView;
+    private TextView updateUserInfoTextView;
     private FrameLayout careerManagementFrame;
     private TextView nameTextView;
     private ImageView profileImageView; // 갤러리 접근
@@ -60,9 +60,9 @@ public class MyPageFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_page, container, false);
 
-        deleteUserButton = root.findViewById(R.id.deleteUserButton);
-        logoutButton = root.findViewById(R.id.logoutButton);
-        updateUserInfoButton = root.findViewById(R.id.updateUserInfoButton);
+        deleteUserTextView = root.findViewById(R.id.deleteUserTextView); // 텍스트뷰로 변환
+        logoutTextView = root.findViewById(R.id.logoutTextView); // 텍스트뷰로 변환
+        updateUserInfoTextView = root.findViewById(R.id.updateUserInfoTextView); // 텍스트뷰로 변환
         careerManagementFrame = root.findViewById(R.id.careerManagementFrame);
         nameTextView = root.findViewById(R.id.nameTextView);
         profileImageView = root.findViewById(R.id.profileImageView); // 갤러리 접근
@@ -84,7 +84,7 @@ public class MyPageFragment extends Fragment {
             nameTextView.setText(userName);
         }
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        logoutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(getActivity())
@@ -117,14 +117,14 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-        deleteUserButton.setOnClickListener(new View.OnClickListener() {
+        deleteUserTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPasswordDialog();
             }
         });
 
-        updateUserInfoButton.setOnClickListener(new View.OnClickListener() {
+        updateUserInfoTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UpdateUserInfoActivity.class);
