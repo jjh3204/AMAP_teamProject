@@ -59,6 +59,15 @@
             android:theme="@style/Theme.AMAP_teamProject.NoActionBar"
             android:label="@string/title_activity_post_item"/>
         <activity android:name=".ui.MyPage.UpdateUserInfoActivity"/>
+        <activity
+            android:name=".Notice.NoticeActivity"
+            android:label="@string/title_activity_notice"/>
+        <activity
+            android:name=".Notice.NoticeDetailActivity"
+            android:label="@string/title_activity_notice_detail"/>
+        <activity
+            android:name=".Notice.AddNoticeActivity"
+            android:label="@string/title_activity_add_notice"/>
     </application>
 
 </manifest>

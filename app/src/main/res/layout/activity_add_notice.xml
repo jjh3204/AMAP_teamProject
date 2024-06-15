@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:theme="@style/Theme.AMAP_teamProject.AppBarOverlay" >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            app:titleTextColor="@color/black" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/light_gray">
+
+        <EditText
+            android:id="@+id/notice_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:layout_marginTop="5dp"
+            android:paddingStart="@dimen/text_side_margin"
+            android:paddingEnd="@dimen/text_side_margin"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/notice_content_edit_text"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/item_bottom_border_white" />
+
+        <EditText
+            android:id="@+id/notice_content_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:hint="내용을 입력하세요"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="@dimen/text_side_margin"
+            android:paddingEnd="@dimen/text_side_margin"
+            android:background="@drawable/item_bottom_border_white"
+            android:gravity="start|top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notice_title_edit_text" />
+
+        <Button
+            android:id="@+id/post_notice_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rectangle_aquamarin"
+            android:text="글쓰기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notice_content_edit_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
