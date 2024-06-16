@@ -51,7 +51,8 @@
         android:background="@drawable/background_item"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_item" />
 
     <!-- 추가된 부분: 회원가입 버튼 -->
     <Button
@@ -65,5 +66,6 @@
         android:background="@drawable/background_item"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

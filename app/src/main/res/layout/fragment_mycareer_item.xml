@@ -30,7 +30,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="50dp"
             android:text="제목"
-            android:gravity="center|start"
+            android:gravity="start"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:singleLine="true"
@@ -50,4 +50,5 @@
             app:layout_constraintStart_toStartOf="@id/career_title"
             app:layout_constraintBottom_toBottomOf="@id/imageView2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
