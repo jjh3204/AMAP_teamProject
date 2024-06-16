@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.databinding.ActivityTeampageBinding;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -101,13 +102,61 @@ public class TeamPageActivity extends AppCompatActivity {
                     if (postsTask.isSuccessful()) {
                         QuerySnapshot snapshot = postsTask.getResult();
                         postList.clear();
-                        postList.addAll(snapshot.toObjects(Post.class));
-                        postAdapter.notifyDataSetChanged();
-                        emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
-                        swipeRefreshLayout.setRefreshing(false);
+                        List<Task<Void>> commentCountTasks = new ArrayList<>();
+
+                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            Post post = doc.toObject(Post.class);
+                            if (post != null) {
+                                Task<Void> commentCountTask = calculateCommentCount(post)
+                                        .continueWith(task -> {
+                                            postList.add(post);
+                                            return null;
+                                        });
+                                commentCountTasks.add(commentCountTask);
+                            }
+                        }
+
+                        Tasks.whenAllComplete(commentCountTasks).addOnCompleteListener(task -> {
+                            postAdapter.notifyDataSetChanged();
+                            emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
+                            swipeRefreshLayout.setRefreshing(false);
+                        });
                     } else {
                         swipeRefreshLayout.setRefreshing(false);
                     }
+                });
+    }
+
+    private Task<Void> calculateCommentCount(Post post) {
+        return db.collection(type).document(documentId)
+                .collection("posts").document(post.getId()).collection("comments")
+                .get()
+                .continueWithTask(commentTask -> {
+                    if (!commentTask.isSuccessful() || commentTask.getResult() == null) {
+                        return Tasks.forResult(null);
+                    }
+
+                    List<DocumentSnapshot> commentDocs = commentTask.getResult().getDocuments();
+                    final int[] commentCount = {commentDocs.size()};
+                    List<Task<QuerySnapshot>> replyTasks = new ArrayList<>();
+
+                    for (DocumentSnapshot commentDoc : commentDocs) {
+                        Task<QuerySnapshot> replyTask = db.collection(type).document(documentId)
+                                .collection("posts").document(post.getId()).collection("comments")
+                                .document(commentDoc.getId()).collection("replies")
+                                .get()
+                                .addOnCompleteListener(replySnapshotTask -> {
+                                    if (replySnapshotTask.isSuccessful()) {
+                                        commentCount[0] += replySnapshotTask.getResult().size();
+                                    }
+                                });
+                        replyTasks.add(replyTask);
+                    }
+
+                    return Tasks.whenAllComplete(replyTasks).continueWith(replyTask -> {
+                        post.setCommentCount(commentCount[0]);
+                        return null;
+                    });
                 });
     }
 
@@ -148,16 +197,27 @@ public class TeamPageActivity extends AppCompatActivity {
                         return;
                     }
 
-                    if (snapshots != null && !snapshots.isEmpty()) {
+                    if (snapshots != null) {
                         postList.clear();
+                        List<Task<Void>> tasks = new ArrayList<>();
+
                         for (DocumentSnapshot doc : snapshots.getDocuments()) {
                             Post post = doc.toObject(Post.class);
                             if (post != null) {
-                                postList.add(post);
+                                Task<Void> task = calculateCommentCount(post)
+                                        .addOnCompleteListener(t -> {
+                                            if (t.isSuccessful()) {
+                                                postList.add(post);
+                                            }
+                                        });
+                                tasks.add(task);
                             }
                         }
-                        postAdapter.notifyDataSetChanged();
-                        emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
+
+                        Tasks.whenAllComplete(tasks).addOnCompleteListener(task -> {
+                            postAdapter.notifyDataSetChanged();
+                            emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
+                        });
                     } else {
                         postList.clear();
                         postAdapter.notifyDataSetChanged();

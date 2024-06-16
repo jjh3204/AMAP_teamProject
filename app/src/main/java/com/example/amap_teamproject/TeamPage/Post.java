@@ -6,6 +6,7 @@ public class Post {
     private String content;
     private long timestamp;
     private String authorId;
+    private int commentCount;
 
     public Post(){
 
@@ -57,5 +58,13 @@ public class Post {
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 }

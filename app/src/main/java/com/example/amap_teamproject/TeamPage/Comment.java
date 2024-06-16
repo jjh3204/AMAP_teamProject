@@ -12,7 +12,6 @@ public class Comment {
     private String postId;
     private String parentCommentId;
     private String commentId;
-    private String authorName;
     private String postAuthorId;
     private List<Comment> replies;
 
@@ -20,7 +19,7 @@ public class Comment {
 
     }
 
-    public Comment(String type, String content, long timestamp, String authorId, boolean isAuthor, String postId, String parentCommentId, String commentId, String authorName, String postAuthorId) {
+    public Comment(String type, String content, long timestamp, String authorId, boolean isAuthor, String postId, String parentCommentId, String commentId, String postAuthorId) {
         this.type = type;
         this.content = content;
         this.timestamp = timestamp;
@@ -29,7 +28,6 @@ public class Comment {
         this.postId = postId;
         this.parentCommentId = parentCommentId;
         this.commentId = commentId;
-        this.authorName = authorName;
         this.postAuthorId = postAuthorId;
         this.replies = new ArrayList<>();
     }
@@ -96,14 +94,6 @@ public class Comment {
 
     public void setParentCommentId(String parentCommentId) {
         this.parentCommentId = parentCommentId;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
     }
 
     public String getPostAuthorId() {

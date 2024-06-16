@@ -42,5 +42,32 @@
             app:layout_constraintStart_toStartOf="@id/post_title"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/post_timestamp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/post_title"
+            android:background="@drawable/background_item">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="댓글"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/post_comment_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="0"
+            android:textSize="12sp"
+            android:gravity="center" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

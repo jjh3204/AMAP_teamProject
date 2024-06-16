@@ -96,9 +96,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bind(Comment comment) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(comment.getAuthorId()).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString("name");
+                            authorName.setText(name);
+                        }
+                    });
+
             contentTextView.setText(comment.getContent());
             timestampTextView.setText(DateUtils.formatTimestamp(comment.getTimestamp()));
-            authorName.setText(comment.getAuthorName());
             authorLabel.setVisibility(comment.isAuthor() ? View.VISIBLE : View.GONE);
             deleteButton.setVisibility(comment.getAuthorId().equals(currentUserId) ? View.VISIBLE : View.GONE);
 
@@ -165,7 +173,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             db.collection("users").document(currentUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            String authorName = documentSnapshot.getString("name");
                             DocumentReference newCommentRef = db.collection(parentComment.getType()).document(documentId)
                                     .collection("posts").document(parentComment.getPostId())
                                     .collection("comments").document(parentComment.getCommentId())
@@ -174,7 +181,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             String replyId = newCommentRef.getId();
 
                             Comment reply = new Comment(parentComment.getType(), content, timestamp, authorId, isAuthor,
-                                    parentComment.getPostId(), parentComment.getCommentId(), replyId, authorName, parentComment.getPostAuthorId());
+                                    parentComment.getPostId(), parentComment.getCommentId(), replyId, parentComment.getPostAuthorId());
 
                             newCommentRef.set(reply)
                                     .addOnSuccessListener(aVoid -> {
@@ -217,9 +224,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bind(Comment reply) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(reply.getAuthorId()).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString("name");
+                            authorName.setText(name);
+                        }
+                    });
             contentTextView.setText(reply.getContent());
             timestampTextView.setText(DateUtils.formatTimestamp(reply.getTimestamp()));
-            authorName.setText(reply.getAuthorName());
             authorLabel.setVisibility(reply.isAuthor() ? View.VISIBLE : View.GONE);
             replyArrow.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(reply.getAuthorId().equals(currentUserId) ? View.VISIBLE : View.GONE);
