@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.amap_teamproject.R;
-import com.example.amap_teamproject.TeamPage.TeamPageActivity; // 추가
+import com.example.amap_teamproject.TeamPage.TeamPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -54,7 +54,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.title.setText(activity.getTitle());
         holder.organization.setText(activity.getOrganization());
 
-        // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
                 .load(activity.getPosterUrl())
                 .into(holder.imageView);
@@ -67,8 +66,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         initializeButton(activity, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, activity.getSubPeriod());
-        holder.hitCount.setText("조회수: " + activity.getHits()); // 조회수 설정
-        holder.likeCount.setText("좋아요: " + activity.getLikes()); // 좋아요 수 설정
+        holder.hitCount.setText("조회수: " + activity.getHits());
+        holder.likeCount.setText("좋아요: " + activity.getLikes());
 
         holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
@@ -87,23 +86,23 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView organization;
-        TextView ddayStatus; // 추가된 D-day 상태를 위한 TextView
-        TextView hitCount; // 조회수 표시를 위한 TextView 추가
-        TextView likeCount; // 좋아요 수를 표시하기 위한 TextView 추가
+        TextView ddayStatus;
+        TextView hitCount;
+        TextView likeCount;
         ImageView imageView;
         ImageButton favButton;
-        Button teamRecruitButton; // 팀원 모집 버튼 추가
+        Button teamRecruitButton;
 
         ViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.activity_title);
             organization = view.findViewById(R.id.activity_organization);
-            ddayStatus = view.findViewById(R.id.activity_dday_status); // 추가된 부분
-            hitCount = view.findViewById(R.id.activity_hit_count); // 추가된 부분
-            likeCount = view.findViewById(R.id.activity_like_count); // 추가된 부분
+            ddayStatus = view.findViewById(R.id.activity_dday_status);
+            hitCount = view.findViewById(R.id.activity_hit_count);
+            likeCount = view.findViewById(R.id.activity_like_count);
             imageView = view.findViewById(R.id.activity_image);
             favButton = view.findViewById(R.id.action_button);
-            teamRecruitButton = view.findViewById(R.id.team_recruit_button); // 팀원 모집 버튼 추가
+            teamRecruitButton = view.findViewById(R.id.team_recruit_button);
         }
     }
 
@@ -155,7 +154,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             button.setOnClickListener(v -> toggleFavorite(activity, button, likeCount));
         });
 
-        // 좋아요 수를 설정
         Query activityQuery = db.collection("activities").whereEqualTo("title", activity.getTitle());
         activityQuery.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
@@ -163,7 +161,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
                     likeCount.setText("좋아요: " + likes);
                     activity.setLikes((int) likes);
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                    break;
                 }
             }
         });
@@ -182,7 +180,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().isEmpty()) {
-                    // 데이터가 존재하지 않으면 추가
                     Map<String, Object> favoriteData = new HashMap<>();
                     favoriteData.put("title", activity.getTitle());
                     favoriteData.put("time", activity.getTimestamp());
@@ -191,27 +188,23 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                             .add(favoriteData)
                             .addOnSuccessListener(documentReference -> {
                                 button.setImageResource(R.drawable.full_heart);
-                                updateLikeCount(activity, 1, likeCount); // 좋아요 수 증가
+                                updateLikeCount(activity, 1, likeCount);
                             })
                             .addOnFailureListener(e -> {
-                                // 실패 시 처리
                             });
                 } else {
-                    // 데이터가 존재하면 삭제
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference docRef = document.getReference();
                         docRef.delete()
                                 .addOnSuccessListener(aVoid -> {
                                     button.setImageResource(R.drawable.empty_heart);
-                                    updateLikeCount(activity, -1, likeCount); // 좋아요 수 감소
+                                    updateLikeCount(activity, -1, likeCount);
                                 })
                                 .addOnFailureListener(e -> {
-                                    // 실패 시 처리
                                 });
                     }
                 }
             } else {
-                // 쿼리 실패 시 처리
             }
         });
     }
@@ -225,9 +218,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
                     likes += delta;
                     docRef.update("likes", likes);
-                    activity.setLikes((int) likes); // 업데이트된 좋아요 수 설정
-                    likeCount.setText("좋아요: " + likes); // 좋아요 수 업데이트
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                    activity.setLikes((int) likes);
+                    likeCount.setText("좋아요: " + likes);
+                    break;
                 }
             }
         });

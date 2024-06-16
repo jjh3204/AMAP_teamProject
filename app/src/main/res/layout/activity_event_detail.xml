@@ -42,7 +42,7 @@
 
             <TextView
                 android:layout_width="8dp"
-                android:layout_height="wrap_content" /> <!-- 조회수와 찜 수 사이의 공백 -->
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/detail_like_count"

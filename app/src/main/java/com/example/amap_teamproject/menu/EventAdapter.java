@@ -54,7 +54,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.title.setText(event.getTitle());
         holder.organization.setText(event.getOrganization());
 
-        // Glide를 사용하여 이미지 로드
         Glide.with(holder.itemView.getContext())
                 .load(event.getImgSrc())
                 .into(holder.imageView);
@@ -67,8 +66,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         initializeButton(event, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, event.getSubPeriod());
-        holder.hitCount.setText("조회수: " + event.getHits()); // 조회수 설정
-        holder.likeCount.setText("좋아요: " + event.getLikes()); // 좋아요 수 설정
+        holder.hitCount.setText("조회수: " + event.getHits());
+        holder.likeCount.setText("좋아요: " + event.getLikes());
 
         holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
@@ -86,23 +85,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView organization;
-        TextView ddayStatus; // 추가된 D-day 상태를 위한 TextView
-        TextView hitCount; // 조회수 표시를 위한 TextView 추가
-        TextView likeCount; // 좋아요 수를 표시하기 위한 TextView 추가
+        TextView ddayStatus;
+        TextView hitCount;
+        TextView likeCount;
         ImageView imageView;
         ImageButton favButton;
-        Button teamRecruitButton; // 팀원 모집 버튼
+        Button teamRecruitButton;
 
         ViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.event_title);
             organization = view.findViewById(R.id.event_organization);
-            ddayStatus = view.findViewById(R.id.event_dday_status); // 추가된 부분
-            hitCount = view.findViewById(R.id.event_hit_count); // 추가된 부분
-            likeCount = view.findViewById(R.id.event_like_count); // 추가된 부분
+            ddayStatus = view.findViewById(R.id.event_dday_status);
+            hitCount = view.findViewById(R.id.event_hit_count);
+            likeCount = view.findViewById(R.id.event_like_count);
             imageView = view.findViewById(R.id.event_image);
             favButton = view.findViewById(R.id.action_button);
-            teamRecruitButton = view.findViewById(R.id.team_recruit_button); // 추가된 부분
+            teamRecruitButton = view.findViewById(R.id.team_recruit_button);
         }
     }
 
@@ -154,7 +153,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             button.setOnClickListener(v -> toggleFavorite(event, button, likeCount));
         });
 
-        // 좋아요 수를 설정
         Query eventQuery = db.collection("contests").whereEqualTo("title", event.getTitle());
         eventQuery.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
@@ -162,7 +160,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
                     likeCount.setText("좋아요: " + likes);
                     event.setLikes((int) likes);
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                    break;
                 }
             }
         });
@@ -181,7 +179,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().isEmpty()) {
-                    // 데이터가 존재하지 않으면 추가
                     Map<String, Object> favoriteData = new HashMap<>();
                     favoriteData.put("title", event.getTitle());
                     favoriteData.put("time", event.getTimestamp());
@@ -190,27 +187,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                             .add(favoriteData)
                             .addOnSuccessListener(documentReference -> {
                                 button.setImageResource(R.drawable.full_heart);
-                                updateLikeCount(event, 1, likeCount); // 좋아요 수 증가
+                                updateLikeCount(event, 1, likeCount);
                             })
                             .addOnFailureListener(e -> {
-                                // 실패 시 처리
                             });
                 } else {
-                    // 데이터가 존재하면 삭제
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference docRef = document.getReference();
                         docRef.delete()
                                 .addOnSuccessListener(aVoid -> {
                                     button.setImageResource(R.drawable.empty_heart);
-                                    updateLikeCount(event, -1, likeCount); // 좋아요 수 감소
+                                    updateLikeCount(event, -1, likeCount);
                                 })
                                 .addOnFailureListener(e -> {
-                                    // 실패 시 처리
                                 });
                     }
                 }
             } else {
-                // 쿼리 실패 시 처리
             }
         });
     }
@@ -224,9 +217,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
                     likes += delta;
                     docRef.update("likes", likes);
-                    event.setLikes((int) likes); // 업데이트된 좋아요 수 설정
-                    likeCount.setText("좋아요: " + likes); // 좋아요 수 업데이트
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                    event.setLikes((int) likes);
+                    likeCount.setText("좋아요: " + likes);
+                    break;
                 }
             }
         });
