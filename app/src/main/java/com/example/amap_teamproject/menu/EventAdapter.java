@@ -68,6 +68,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         initializeButton(event, holder.favButton, holder.likeCount);
         setDdayStatus(holder.ddayStatus, event.getSubPeriod());
         holder.hitCount.setText("조회수: " + event.getHits()); // 조회수 설정
+        holder.likeCount.setText("좋아요: " + event.getLikes()); // 좋아요 수 설정
 
         holder.teamRecruitButton.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), TeamPageActivity.class);
@@ -159,7 +160,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                     long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
-                    likeCount.setText("찜: " + likes);
+                    likeCount.setText("좋아요: " + likes);
                     event.setLikes((int) likes);
                     break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
                 }
@@ -224,7 +225,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     likes += delta;
                     docRef.update("likes", likes);
                     event.setLikes((int) likes); // 업데이트된 좋아요 수 설정
-                    likeCount.setText("찜: " + likes); // 좋아요 수 업데이트
+                    likeCount.setText("좋아요: " + likes); // 좋아요 수 업데이트
                     break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
                 }
             }

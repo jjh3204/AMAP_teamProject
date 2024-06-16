@@ -40,6 +40,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         Post post = postList.get(position);
         holder.post_title.setText(post.getTitle());
         holder.post_timestamp.setText(DateUtils.formatTimestamp(post.getTimestamp()));
+        holder.commentCountTextView.setText(post.getCommentCount() + "개");
     }
 
     @Override
@@ -50,11 +51,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView post_title;
         protected TextView post_timestamp;
+        private TextView commentCountTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             post_title = itemView.findViewById(R.id.post_title);
             post_timestamp = itemView.findViewById(R.id.post_timestamp);
+            commentCountTextView = itemView.findViewById(R.id.post_comment_count);
 
             itemView.setOnClickListener(v ->{
                 int position = getAdapterPosition();

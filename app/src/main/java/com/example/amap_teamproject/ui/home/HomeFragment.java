@@ -16,20 +16,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.amap_teamproject.Notice.Notice;
 import com.example.amap_teamproject.Notice.NoticeActivity;
+import com.example.amap_teamproject.Notice.NoticeDetailActivity;
 import com.example.amap_teamproject.R;
 import com.example.amap_teamproject.SearchPage.SearchResultsActivity;
 import com.example.amap_teamproject.databinding.FragmentHomeBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+    private TextView notice1;
+    private TextView notice2;
+    private TextView notice3;
+    private TextView notice4;
 
     private FragmentHomeBinding binding;
     private FirebaseFirestore db;
@@ -41,6 +54,7 @@ public class HomeFragment extends Fragment {
     private final int delay = 7000;
     private boolean isAutoSlideActive = true;
     private LinearLayout indicatorLayout;
+    private ListenerRegistration noticeListener;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -49,24 +63,30 @@ public class HomeFragment extends Fragment {
         final EditText searchEditText = binding.searchId;
         ImageButton searchButton = binding.searchButtonId;
         viewPager = binding.viewPager;
-        indicatorLayout = root.findViewById(R.id.indicatorLayout);
+        indicatorLayout = binding.indicatorLayout;
+
+        notice1 = binding.notice1;
+        notice2 = binding.notice2;
+        notice3 = binding.notice3;
+        notice4 = binding.notice4;
 
         db = FirebaseFirestore.getInstance();
         handler = new Handler();
 
-        // Search button click listener
+        loadLatestNotices();
+
+        LinearLayout noticeLayout = binding.noticeLayout;
+        noticeLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), NoticeActivity.class);
+            startActivity(intent);
+        });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String query = searchEditText.getText().toString();
                 startSearchActivity(query);
             }
-        });
-
-        LinearLayout noticeLayout = binding.noticeLayout;
-        noticeLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), NoticeActivity.class);
-            startActivity(intent);
         });
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -124,7 +144,7 @@ public class HomeFragment extends Fragment {
                                 imageItems.add(new ImageItem(imgSrc, title));
                             }
                         }
-                        // Update the ViewPager adapter
+
                         if (!imageItems.isEmpty()) {
                             adapter = new ImagePagerAdapter(getActivity(), imageItems);
                             viewPager.setAdapter(adapter);
@@ -142,7 +162,7 @@ public class HomeFragment extends Fragment {
     private void setupIndicators(int count) {
         indicatorLayout.removeAllViews();
         for (int i = 0; i < count; i++) {
-            final int index = i; // final 또는 effectively final 변수로 저장
+            final int index = i;
             View indicator = new View(getContext());
             indicator.setBackgroundResource(R.drawable.indicator_inactive); // 비활성화된 점의 배경
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -194,11 +214,103 @@ public class HomeFragment extends Fragment {
         handler.postDelayed(runnable, delay);
     }
 
+    private void loadLatestNotices() {
+        db.collection("notices")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(4) // 최신 공지 4개만 불러오기
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot snapshot = task.getResult();
+                        int count = 0;
+                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            Notice notice = doc.toObject(Notice.class);
+                            if (notice != null) {
+                                if (count == 0) {
+                                    notice1.setText(notice.getTitle());
+                                    setNoticeClickListener(notice1, notice);
+                                } else if (count == 1) {
+                                    notice2.setText(notice.getTitle());
+                                    setNoticeClickListener(notice2, notice);
+                                } else if (count == 2) {
+                                    notice3.setText(notice.getTitle());
+                                    setNoticeClickListener(notice3, notice);
+                                } else if (count == 3) {
+                                    notice4.setText(notice.getTitle());
+                                    setNoticeClickListener(notice4, notice);
+                                }
+                                count++;
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void attachNoticeListener() {
+        noticeListener = db.collection("notices")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(4)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;
+                        }
+                        if (snapshots != null) {
+                            int count = 0;
+                            for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                                Notice notice = doc.toObject(Notice.class);
+                                if (notice != null) {
+                                    if (count == 0) {
+                                        notice1.setText(notice.getTitle());
+                                        setNoticeClickListener(notice1, notice);
+                                    } else if (count == 1) {
+                                        notice2.setText(notice.getTitle());
+                                        setNoticeClickListener(notice2, notice);
+                                    } else if (count == 2) {
+                                        notice3.setText(notice.getTitle());
+                                        setNoticeClickListener(notice3, notice);
+                                    } else if (count == 3) {
+                                        notice4.setText(notice.getTitle());
+                                        setNoticeClickListener(notice4, notice);
+                                    }
+                                    count++;
+                                }
+                            }
+                            if (count < 4) {
+                                switch (count) {
+                                    case 0:
+                                        notice1.setText("");
+                                    case 1:
+                                        notice2.setText("");
+                                    case 2:
+                                        notice3.setText("");
+                                    case 3:
+                                        notice4.setText("");
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void setNoticeClickListener(TextView textView, Notice notice) {
+        textView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), NoticeDetailActivity.class);
+            intent.putExtra("title", notice.getTitle());
+            intent.putExtra("content", notice.getContent());
+            intent.putExtra("timestamp", notice.getTimestamp());
+            startActivity(intent);
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         isAutoSlideActive = true;
         handler.postDelayed(runnable, delay);
+        attachNoticeListener();
     }
 
     @Override
@@ -214,4 +326,5 @@ public class HomeFragment extends Fragment {
         handler.removeCallbacks(runnable);
         binding = null;
     }
+
 }

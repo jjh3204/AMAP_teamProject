@@ -20,7 +20,7 @@
     <string name="title_activity_add_notice">글쓰기</string>
     <string name="title_activity_my_career">내 커리어</string>
     <string name="title_activity_add_career">글쓰기</string>
-    <string name="title_activity_team_page">게시판</string>
+    <string name="title_activity_team_page">팀원 모집</string>
     <string name="title_activity_add_post">글쓰기</string>
     <string name="title_activity_post_item">모집 글</string>
     <string name="tab_text_1">전체</string>

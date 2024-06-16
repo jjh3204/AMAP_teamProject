@@ -41,6 +41,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
+        android:visibility="gone"
         app:backgroundTint="#2196F3"
         app:srcCompat="@drawable/outline_create_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

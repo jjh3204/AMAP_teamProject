@@ -87,57 +87,69 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(name) // 추가된 부분: 이름 설정
-                                        .build();
-                                user.updateProfile(profileUpdates)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Firestore에 사용자 정보 저장
-                                                    DocumentReference docRef = db.collection("users").document(user.getUid());
-                                                    docRef.set(new User(name, email))
+        db.collection("users")
+                .whereEqualTo("name", name)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().isEmpty()) {
+                            // 같은 이름의 사용자가 있을 경우
+                            Toast.makeText(this, "이미 같은 이름의 사용자가 있습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                // Sign in success
+                                                FirebaseUser user = mAuth.getCurrentUser();
+                                                if (user != null) {
+                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                            .setDisplayName(name) // 추가된 부분: 이름 설정
+                                                            .build();
+                                                    user.updateProfile(profileUpdates)
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if (task.isSuccessful()) {
-                                                                        Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_LONG).show();
-                                                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                                        startActivity(intent);
-                                                                        finish();
+                                                                        // Firestore에 사용자 정보 저장
+                                                                        DocumentReference docRef = db.collection("users").document(user.getUid());
+                                                                        docRef.set(new User(name, email))
+                                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                        if (task.isSuccessful()) {
+                                                                                            Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                                                                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                                                            startActivity(intent);
+                                                                                            finish();
+                                                                                        } else {
+                                                                                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
+                                                                                            Log.e("RegisterActivity", "회원가입 실패: " + errorMessage);
+                                                                                            Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                                                        }
+                                                                                    }
+                                                                                });
                                                                     } else {
                                                                         String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
-                                                                        Log.e("RegisterActivity", "회원가입 실패: " + errorMessage);
+                                                                        Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 추가된 부분: 로그 출력
                                                                         Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 }
                                                             });
+                                                }
+                                            } else {
+                                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                                    Log.e("RegisterActivity", "이미 등록된 이메일입니다."); // 등록된 이메일 문구 출력
+                                                    Toast.makeText(RegisterActivity.this, "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
-                                                    Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 추가된 부분: 로그 출력
+                                                    Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 로그 출력
                                                     Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             }
-                                        });
-                            }
-                        } else {
-                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Log.e("RegisterActivity", "이미 등록된 이메일입니다."); // 등록된 이메일 문구 출력
-                                Toast.makeText(RegisterActivity.this, "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                String errorMessage = task.getException() != null ? task.getException().getMessage() : "회원가입 실패";
-                                Log.e("RegisterActivity", "회원가입 실패: " + errorMessage); // 로그 출력
-                                Toast.makeText(RegisterActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
-                            }
+                                        }
+                                    });
                         }
                     }
                 });

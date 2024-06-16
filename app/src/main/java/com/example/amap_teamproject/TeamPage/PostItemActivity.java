@@ -194,7 +194,6 @@ public class PostItemActivity extends AppCompatActivity {
             db.collection("users").document(currentUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            String authorName = documentSnapshot.getString("name");
 
                             DocumentReference newCommentRef = db.collection(type).document(documentId)
                                     .collection("posts").document(postId)
@@ -202,7 +201,7 @@ public class PostItemActivity extends AppCompatActivity {
 
                             String commentId = newCommentRef.getId();
                             Comment comment = new Comment(Type, content, timestamp, currentUserId, isAuthor,
-                                    postId, null, commentId, authorName, postAuthorId);
+                                    postId, null, commentId, postAuthorId);
 
                             newCommentRef.set(comment)
                                     .addOnSuccessListener(aVoid -> {

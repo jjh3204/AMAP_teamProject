@@ -38,6 +38,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
             intent.putExtra("title", notice.getTitle());
             intent.putExtra("timestamp", notice.getTimestamp());
             intent.putExtra("content", notice.getContent());
+            intent.putExtra("documentId", notice.getDocumentId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
