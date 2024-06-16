@@ -98,7 +98,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 hitCount.setText("조회수: " + event.getHits());
 
                 // 좋아요 수 표시
-                likeCount.setText("찜: " + event.getLikes());
+                likeCount.setText("좋아요: " + event.getLikes());
 
                 // 조회수 증가
                 incrementHitCount(event, hitCount);

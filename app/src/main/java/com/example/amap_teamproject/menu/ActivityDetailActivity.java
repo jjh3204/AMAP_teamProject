@@ -151,7 +151,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             long likes = document.getLong("likes") != null ? document.getLong("likes") : 0;
-                            likeCountView.setText("찜: " + likes);
+                            likeCountView.setText("좋아요: " + likes);
                             activity.setLikes((int) likes);
                             break;
                         }
