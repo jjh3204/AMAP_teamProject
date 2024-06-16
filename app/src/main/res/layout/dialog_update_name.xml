@@ -9,7 +9,7 @@
         android:id="@+id/editTextNewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="새 이름" />
+        android:hint="새 닉네임" />
 
     <EditText
         android:id="@+id/editTextCurrentPasswordForName"

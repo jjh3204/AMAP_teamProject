@@ -9,13 +9,13 @@
         android:id="@+id/editTextNewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="새 아이디(이메일)" />
+        android:hint="새 이메일" />
 
     <EditText
         android:id="@+id/editTextNewEmailConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="새 아이디(이메일) 확인" />
+        android:hint="새 이메일 확인" />
 
     <EditText
         android:id="@+id/editTextCurrentPasswordForEmail"

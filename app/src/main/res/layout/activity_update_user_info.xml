@@ -10,24 +10,11 @@
         android:id="@+id/textViewUpdateName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이름 변경"
+        android:text="닉네임 변경"
         android:padding="12dp"
         android:gravity="center"
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/textViewUpdateEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디 변경"
-        android:padding="12dp"
-        android:gravity="center"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewUpdateName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
@@ -40,7 +27,7 @@
         android:padding="12dp"
         android:gravity="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewUpdateEmail"
+        app:layout_constraintTop_toBottomOf="@id/textViewUpdateName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
