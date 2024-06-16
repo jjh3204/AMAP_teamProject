@@ -45,8 +45,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchPage.SearchResultsActivity" /> <!-- 추가된 부분; 전우성 -->
-        <activity android:name=".menu.EventDetailActivity" />
-        <activity android:name=".menu.ActivityDetailActivity" />
+        <activity
+            android:name=".menu.EventDetailActivity"
+            android:label="@string/title_activity_event_detail"/>
+        <activity
+            android:name=".menu.ActivityDetailActivity"
+            android:label="@string/title_activity_activity_detail"/>
         <activity
             android:name=".TeamPage.AddPostActivity"
             android:label="@string/title_activity_add_post"/>
