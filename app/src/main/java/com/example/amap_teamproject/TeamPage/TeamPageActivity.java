@@ -107,16 +107,16 @@ public class TeamPageActivity extends AppCompatActivity {
                         for (DocumentSnapshot doc : snapshot.getDocuments()) {
                             Post post = doc.toObject(Post.class);
                             if (post != null) {
-                                Task<Void> commentCountTask = calculateCommentCount(post)
-                                        .continueWith(task -> {
-                                            postList.add(post);
-                                            return null;
-                                        });
+                                Task<Void> commentCountTask = calculateCommentCount(post).continueWith(task -> {
+                                    postList.add(post);
+                                    return null;
+                                });
                                 commentCountTasks.add(commentCountTask);
                             }
                         }
 
                         Tasks.whenAllComplete(commentCountTasks).addOnCompleteListener(task -> {
+                            postList.sort((p1, p2) -> Long.compare(p2.getTimestamp(), p1.getTimestamp())); // Sorting by timestamp
                             postAdapter.notifyDataSetChanged();
                             emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
                             swipeRefreshLayout.setRefreshing(false);
@@ -204,17 +204,16 @@ public class TeamPageActivity extends AppCompatActivity {
                         for (DocumentSnapshot doc : snapshots.getDocuments()) {
                             Post post = doc.toObject(Post.class);
                             if (post != null) {
-                                Task<Void> task = calculateCommentCount(post)
-                                        .addOnCompleteListener(t -> {
-                                            if (t.isSuccessful()) {
-                                                postList.add(post);
-                                            }
-                                        });
+                                Task<Void> task = calculateCommentCount(post).continueWith(t -> {
+                                    postList.add(post);
+                                    return null;
+                                });
                                 tasks.add(task);
                             }
                         }
 
                         Tasks.whenAllComplete(tasks).addOnCompleteListener(task -> {
+                            postList.sort((p1, p2) -> Long.compare(p2.getTimestamp(), p1.getTimestamp())); // Sorting by timestamp
                             postAdapter.notifyDataSetChanged();
                             emptyMessageTextView.setVisibility(postList.isEmpty() ? View.VISIBLE : View.GONE);
                         });
