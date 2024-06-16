@@ -6,9 +6,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,6 +35,13 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.getNavigationIcon().setTint(getResources().getColor(android.R.color.black));
+        }
 
         TextView title = findViewById(R.id.detail_title);
         ImageView image = findViewById(R.id.detail_image);
@@ -88,7 +98,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 hitCount.setText("조회수: " + event.getHits());
 
                 // 좋아요 수 표시
-                likeCount.setText("찜: " + event.getLikes());
+                likeCount.setText("좋아요: " + event.getLikes());
 
                 // 조회수 증가
                 incrementHitCount(event, hitCount);
@@ -148,6 +158,15 @@ public class EventDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -23,6 +23,8 @@
     <string name="title_activity_team_page">팀원 모집</string>
     <string name="title_activity_add_post">글쓰기</string>
     <string name="title_activity_post_item">모집 글</string>
+    <string name="title_activity_activity_detail">대외활동 정보</string>
+    <string name="title_activity_event_detail">공모전 정보</string>
     <string name="tab_text_1">전체</string>
     <string name="tab_text_2">대외활동</string>
     <string name="tab_text_3">공모전</string>
