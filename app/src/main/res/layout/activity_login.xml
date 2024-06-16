@@ -45,7 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_item" />
 
     <!-- 추가된 부분: 회원가입 버튼 -->
     <Button
@@ -58,5 +59,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
