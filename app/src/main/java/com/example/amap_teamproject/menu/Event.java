@@ -22,12 +22,11 @@ public class Event implements Parcelable {
     @PropertyName("notice_url")
     private String noticeUrl;
     private String participants;
-    private int hits; // 조회수 필드 추가
-    private int likes; // 좋아요 수 필드 추가
-    private Timestamp timestamp; // 타임스탬프 필드 추가
+    private int hits;
+    private int likes;
+    private Timestamp timestamp;
 
     public Event() {
-        // Firestore는 빈 생성자가 필요합니다.
     }
 
     protected Event(Parcel in) {

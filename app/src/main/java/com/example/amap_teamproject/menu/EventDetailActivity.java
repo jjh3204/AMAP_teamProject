@@ -52,9 +52,9 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView detail = findViewById(R.id.detail_detail);
         TextView awardScale = findViewById(R.id.detail_award_scale);
         TextView contestField = findViewById(R.id.detail_contest_field);
-        TextView ddayStatus = findViewById(R.id.detail_dday); // D-day 텍스트뷰
-        TextView hitCount = findViewById(R.id.detail_hit_count); // 조회수 텍스트뷰 추가
-        TextView likeCount = findViewById(R.id.detail_like_count); // 좋아요 텍스트뷰 추가
+        TextView ddayStatus = findViewById(R.id.detail_dday);
+        TextView hitCount = findViewById(R.id.detail_hit_count);
+        TextView likeCount = findViewById(R.id.detail_like_count);
 
         if (getIntent().hasExtra(EXTRA_EVENT)) {
             Event event = getIntent().getParcelableExtra(EXTRA_EVENT);
@@ -88,19 +88,15 @@ public class EventDetailActivity extends AppCompatActivity {
                             .apply(new RequestOptions().error(R.drawable.default_image).diskCacheStrategy(DiskCacheStrategy.ALL))
                             .into(image);
                 } else {
-                    image.setImageResource(R.drawable.default_image); // 기본 이미지 설정
+                    image.setImageResource(R.drawable.default_image);
                 }
 
-                // D-day 계산 및 설정
                 setDdayStatus(ddayStatus, event.getSubPeriod());
 
-                // 조회수 표시
                 hitCount.setText("조회수: " + event.getHits());
 
-                // 좋아요 수 표시
-                likeCount.setText("좋아요: " + event.getLikes());
+                likeCount.setText("찜: " + event.getLikes());
 
-                // 조회수 증가
                 incrementHitCount(event, hitCount);
             }
         }
@@ -135,7 +131,7 @@ public class EventDetailActivity extends AppCompatActivity {
             } else {
                 ddayStatusView.setText("마감됨");
             }
-            ddayStatusView.setTextColor(Color.GRAY); // D-day 텍스트 색상 회색으로 설정
+            ddayStatusView.setTextColor(Color.GRAY);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -153,8 +149,8 @@ public class EventDetailActivity extends AppCompatActivity {
                     hits++;
                     docRef.update("hits", hits);
                     hitCountView.setText("조회수: " + hits);
-                    event.setHits((int) hits); // 업데이트된 조회수 설정
-                    break; // 제목은 유니크하다고 가정하고 첫 번째 매치에서 종료
+                    event.setHits((int) hits);
+                    break;
                 }
             }
         });

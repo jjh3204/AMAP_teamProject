@@ -20,13 +20,11 @@ public class EventFragment extends Fragment {
     private FirebaseFirestore db;
 
     public EventFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_event);
@@ -52,7 +50,6 @@ public class EventFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    // Handle the error
                 });
     }
 }

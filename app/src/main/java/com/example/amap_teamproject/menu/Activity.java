@@ -31,7 +31,6 @@ public class Activity implements Parcelable {
     private Timestamp timestamp; // 타임스탬프 필드 추가
 
     public Activity() {
-        // Firestore는 빈 생성자가 필요합니다.
     }
 
     public Activity(Parcel in) {

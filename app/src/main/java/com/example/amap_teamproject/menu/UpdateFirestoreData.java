@@ -11,7 +11,6 @@ public class UpdateFirestoreData {
     }
 
     public void updateAllDocuments() {
-        // Update 'contests' collection
         db.collection("contests")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -21,29 +20,23 @@ public class UpdateFirestoreData {
                                 db.collection("contests").document(document.getId())
                                         .update("hits", 0)
                                         .addOnSuccessListener(aVoid -> {
-                                            // Successfully updated document
                                         })
                                         .addOnFailureListener(e -> {
-                                            // Handle the error
                                         });
                             }
                             if (!document.contains("likes")) {
                                 db.collection("contests").document(document.getId())
                                         .update("likes", 0)
                                         .addOnSuccessListener(aVoid -> {
-                                            // Successfully updated document
                                         })
                                         .addOnFailureListener(e -> {
-                                            // Handle the error
                                         });
                             }
                         }
                     } else {
-                        // Handle the error
                     }
                 });
 
-        // Update 'activities' collection
         db.collection("activities")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -53,25 +46,20 @@ public class UpdateFirestoreData {
                                 db.collection("activities").document(document.getId())
                                         .update("hits", 0)
                                         .addOnSuccessListener(aVoid -> {
-                                            // Successfully updated document
                                         })
                                         .addOnFailureListener(e -> {
-                                            // Handle the error
                                         });
                             }
                             if (!document.contains("likes")) {
                                 db.collection("activities").document(document.getId())
                                         .update("likes", 0)
                                         .addOnSuccessListener(aVoid -> {
-                                            // Successfully updated document
                                         })
                                         .addOnFailureListener(e -> {
-                                            // Handle the error
                                         });
                             }
                         }
                     } else {
-                        // Handle the error
                     }
                 });
     }
