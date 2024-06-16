@@ -176,7 +176,8 @@ public class MyPageFragment extends Fragment {
                     if (imageUrl != null) {
                         Glide.with(MyPageFragment.this).load(imageUrl).into(profileImageView); // 프로필 초기화
                     } else {
-                        Toast.makeText(getActivity(), "프로필 이미지를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                        profileImageView.setImageResource(R.drawable.ic_profile_placeholder); // R.drawable.default_profile_image는 기본 프로필 이미지 리소스
+                        //Toast.makeText(getActivity(), "프로필 이미지를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(getActivity(), "프로필 이미지를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
