@@ -1,4 +1,4 @@
-package com.example.amap_teamproject.ui.dashboard;
+package com.example.amap_teamproject.ui.favorite;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class DashboardFragment extends Fragment {
+public class FavoriteFragment extends Fragment {
 
     private List<Event> eventList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
@@ -42,7 +42,7 @@ public class DashboardFragment extends Fragment {
     private Button contestButton, activityButton;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public DashboardFragment() {
+    public FavoriteFragment() {
     }
 
     @Override

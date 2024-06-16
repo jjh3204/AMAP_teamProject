@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.amap_teamproject.ui.dashboard.DashboardFragment"
+        android:name="com.example.amap_teamproject.ui.favorite.FavoriteFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_favorite" />
 
     <fragment
         android:id="@+id/navigation_my_page"
