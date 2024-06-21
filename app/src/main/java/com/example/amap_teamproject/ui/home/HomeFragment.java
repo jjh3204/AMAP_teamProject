@@ -56,11 +56,13 @@ public class HomeFragment extends Fragment {
     private LinearLayout indicatorLayout;
     private ListenerRegistration noticeListener;
 
+    private EditText searchEditText;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final EditText searchEditText = binding.searchId;
+        searchEditText = binding.searchId;
         ImageButton searchButton = binding.searchButtonId;
         viewPager = binding.viewPager;
         indicatorLayout = binding.indicatorLayout;
@@ -311,6 +313,7 @@ public class HomeFragment extends Fragment {
         isAutoSlideActive = true;
         handler.postDelayed(runnable, delay);
         attachNoticeListener();
+        searchEditText.setText("");  // 홈 화면으로 돌아올 때 검색창의 텍스트를 지우기
     }
 
     @Override
