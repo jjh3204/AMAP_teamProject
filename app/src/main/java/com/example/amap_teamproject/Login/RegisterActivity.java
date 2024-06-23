@@ -93,8 +93,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (!task.getResult().isEmpty()) {
-                            // 같은 이름의 사용자가 있을 경우
-                            Toast.makeText(this, "이미 같은 이름의 사용자가 있습니다.", Toast.LENGTH_SHORT).show();
+                            // 같은 닉네임의 사용자가 있을 경우
+                            Toast.makeText(this, "이미 같은 닉네임의 사용자가 있습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

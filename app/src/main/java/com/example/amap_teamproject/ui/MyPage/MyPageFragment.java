@@ -161,7 +161,7 @@ public class MyPageFragment extends Fragment {
                         nameTextView.setText(name);
                     }
                 } else {
-                    Toast.makeText(getActivity(), "사용자 이름을 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "사용자 닉네임을 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -188,7 +188,7 @@ public class MyPageFragment extends Fragment {
 
     @Override // 바뀐 이름 바로 표시 및 갤러리 접근
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { // 바뀐 이름 바로 표시
-        super.onActivityResult(requestCode, resultCode, data); // 바뀐 이름 바로 표시
+        super.onActivityResult(requestCode, resultCode, data); // 바뀐 닉네임 바로 표시
         if (requestCode == REQUEST_UPDATE_USER_INFO && resultCode == getActivity().RESULT_OK && data != null) { // 바뀐 이름 바로 표시
             String newName = data.getStringExtra("newName"); // 바뀐 이름 바로 표시
             if (newName != null) { // 바뀐 이름 바로 표시
