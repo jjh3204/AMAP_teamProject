@@ -4,11 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri; // 갤러리 접근
 import android.os.Bundle;
-import android.util.Log; // 로그 출력, 어떤 오류가 발생하는지 출력
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView; // 갤러리 접근
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide; // 프로필 사진 저장
 import com.example.amap_teamproject.Career.MyCareerActivity;
